@@ -1,9 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navigation({ cartCount, favCount, categories }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-luxury-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden p-2 text-luxury-green"
+        >
+          {isMobileMenuOpen ? (
+            <span className="text-2xl">✕</span>
+          ) : (
+            <span className="text-2xl">☰</span>
+          )}
+        </button>
+
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <span className="text-3xl group-hover:rotate-12 transition-transform duration-300">
@@ -96,6 +111,64 @@ export default function Navigation({ cartCount, favCount, categories }) {
                 {cartCount}
               </span>
             )}
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 bg-white border-t border-luxury-light ${
+          isMobileMenuOpen
+            ? "max-h-[80vh] py-6 opacity-100"
+            : "max-h-0 py-0 opacity-0"
+        }`}
+      >
+        <div className="px-6 flex flex-col gap-6">
+          <Link
+            to="/"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-gray-700 font-bold uppercase text-sm tracking-widest"
+          >
+            Home
+          </Link>
+
+          <div className="space-y-4">
+            <Link
+              to="/products"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-luxury-green font-black uppercase text-sm tracking-widest block border-b border-luxury-light pb-2"
+            >
+              All Products ✨
+            </Link>
+            <div className="grid grid-cols-2 gap-4">
+              {categories &&
+                categories.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    to={`/products?category=${cat.id}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2 p-3 bg-luxury-light/30 rounded-xl text-gray-700 font-bold text-xs uppercase tracking-wider transition-active active:scale-95"
+                  >
+                    <span>{cat.icon}</span>
+                    {cat.name}
+                  </Link>
+                ))}
+            </div>
+          </div>
+
+          <Link
+            to="/about"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-gray-700 font-bold uppercase text-sm tracking-widest"
+          >
+            About
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-gray-700 font-bold uppercase text-sm tracking-widest"
+          >
+            Contact
           </Link>
         </div>
       </div>

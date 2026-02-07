@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   const slides = [
     {
@@ -66,7 +68,10 @@ export default function HeroCarousel() {
               <p className="text-xl md:text-2xl text-white/90 mb-8 font-light max-w-xl">
                 {slide.subtitle}
               </p>
-              <button className="bg-white text-luxury-dark px-10 py-4 rounded-full font-bold hover:bg-luxury-green hover:text-white transition-all transform hover:scale-110 shadow-xl">
+              <button
+                onClick={() => navigate("/products")}
+                className="bg-white text-luxury-dark px-10 py-4 rounded-full font-bold hover:bg-luxury-green hover:text-white transition-all transform hover:scale-110 shadow-xl"
+              >
                 Explore Now
               </button>
             </div>
