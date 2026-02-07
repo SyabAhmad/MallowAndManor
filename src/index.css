@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-luxury-green: #2d5016;
+  --color-luxury-light: #e8f3df;
+  --color-luxury-gold: #d4af37;
+  --color-luxury-dark: #1a1a1a;
+  --font-family-luxury: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--color-luxury-light);
+  color: var(--color-luxury-dark);
+  font-family: var(--font-family-luxury);
+}
+
+* {
+  font-family: var(--font-family-luxury);
+}
+
+a {
+  color: var(--color-luxury-green);
+  transition: color 0.2s;
+}
+a:hover {
+  opacity: 0.8;
+}
+
+button {
+  transition: all 0.3s;
+}

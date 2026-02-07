@@ -1,0 +1,74 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Royal Gold Bangle Set",
+      "price": 245,
+      "category": "bangles",
+      "mainImage": "https://tse2.mm.bing.net/th/id/OIP.0epZbT2RqZYDVinzPcHhqwHaHa?pid=ImgDet&w=173&h=173&c=7&dpr=1.1&o=7&rm=3?w=800&q=80",
+      "thumbnails": [
+        "https://tse2.mm.bing.net/th/id/OIP.0epZbT2RqZYDVinzPcHhqwHaHa?pid=ImgDet&w=173&h=173&c=7&dpr=1.1&o=7&rm=3?w=400&q=80",
+        "https://tse2.mm.bing.net/th/id/OIP.0epZbT2RqZYDVinzPcHhqwHaHa?pid=ImgDet&w=173&h=173&c=7&dpr=1.1&o=7&rm=3?w=400&q=80"
+      ],
+      "description": "Exquisite 24k gold-plated bangles with intricate engravings."
+    },
+    {
+      "id": 2,
+      "name": "Noir Velvet Abaya",
+      "price": 350,
+      "category": "abayas",
+      "mainImage": "https://images.unsplash.com/photo-1583267746897-2cf415888172?w=800&q=80",
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1583267746897-2cf415888172?w=400&q=80",
+        "https://images.unsplash.com/photo-1567113463300-1025de0d3356?w=400&q=80"
+      ],
+      "description": "Handcrafted velvet abaya featuring delicate silk embroidery."
+    },
+    {
+      "id": 3,
+      "name": "Diamond Encrusted Nails",
+      "price": 85,
+      "category": "nails",
+      "mainImage": "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=80",
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80",
+        "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80"
+      ],
+      "description": "Custom luxury press-on nails with genuine Swarovski crystals."
+    },
+    {
+      "id": 4,
+      "name": "Everesting Pearl Necklace",
+      "price": 420,
+      "category": "necklaces",
+      "mainImage": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80",
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80",
+        "https://images.unsplash.com/photo-1515562141505-71404106556e?w=400&q=80"
+      ],
+      "description": "Timeless freshwater pearl necklace with white gold clasp."
+    },
+    {
+      "id": 5,
+      "name": "Rose Gold Floral Bangle",
+      "price": 180,
+      "category": "bangles",
+      "mainImage": "https://images.unsplash.com/photo-1515562141505-71404106556e?w=800&q=80",
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1515562141505-71404106556e?w=400&q=80"
+      ],
+      "description": "Delicate rose gold bangle with hand-carved floral patterns."
+    },
+    {
+      "id": 6,
+      "name": "Midnight Silk Abaya",
+      "price": 290,
+      "category": "abayas",
+      "mainImage": "https://images.unsplash.com/photo-1567113463300-1025de0d3356?w=800&q=80",
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1567113463300-1025de0d3356?w=400&q=80"
+      ],
+      "description": "Premium silk abaya for evening elegance and comfort."
+    }
+  ]
+}
