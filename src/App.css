@@ -14,6 +14,28 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
+@keyframes floatMap {
+  0% {
+    transform: translate(30%, 85%);
+  }
+  25% {
+    transform: translate(65%, 55%);
+  }
+  50% {
+    transform: translate(62%, 40%);
+  }
+  75% {
+    transform: translate(50%, 38%);
+  }
+  100% {
+    transform: translate(30%, 85%);
+  }
+}
+
+.animate-float-map {
+  animation: floatMap 12s linear infinite;
+}
+
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;

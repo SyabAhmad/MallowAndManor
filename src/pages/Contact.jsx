@@ -2,7 +2,7 @@ export default function Contact() {
   const faqs = [
     {
       q: "Where do you deliver?",
-      a: "We deliver to all major cities globally. Delivery times vary between 3-7 business days depending on your location.",
+      a: "We provide nationwide delivery across Pakistan, covering all major cities and districts including Karachi, Lahore, Islamabad, and more.",
     },
     {
       q: "How can I track my order?",
@@ -10,7 +10,7 @@ export default function Contact() {
     },
     {
       q: "What are the shipping costs?",
-      a: "Shipping is calculated based on weight and destination. We offer free shipping on all orders over $100.",
+      a: "Shipping is calculated based on destination within Pakistan. We offer free delivery on all orders over Rs. 5,000.",
     },
     {
       q: "What is your return policy?",
@@ -47,7 +47,7 @@ export default function Contact() {
                     Phone
                   </p>
                   <p className="text-lg font-bold text-luxury-dark">
-                    +1 (000) 000-0000
+                    +92 344 4778119
                   </p>
                 </div>
               </div>
@@ -73,13 +73,20 @@ export default function Contact() {
                     Address
                   </p>
                   <p className="text-lg font-bold text-luxury-dark">
-                    Luxury Lane, City, Country
+                    DHA Phase 6, Karachi, Pakistan
                   </p>
                 </div>
               </div>
               <div
                 className="flex items-center gap-4 group cursor-pointer"
-                onClick={() => window.open("https://wa.me/YOUR_PHONE_NUMBER")}
+                onClick={() => {
+                  const number =
+                    import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
+                  const message = encodeURIComponent(
+                    import.meta.env.VITE_WHATSAPP_MESSAGE || "Hello!",
+                  );
+                  window.open(`https://wa.me/${number}?text=${message}`);
+                }}
               >
                 <div className="w-12 h-12 bg-[#25D366] text-white rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-all duration-300">
                   💬
@@ -146,21 +153,42 @@ export default function Contact() {
       </div>
 
       {/* Delivery Map / Places */}
-      <div className="bg-luxury-light/30 rounded-[3rem] p-12 text-center border-2 border-luxury-light border-dashed">
-        <h2 className="text-3xl font-black text-luxury-dark mb-6 italic">
+      <div className="bg-luxury-dark text-white rounded-[3rem] p-16 text-center border-4 border-luxury-gold/20 shadow-2xl relative overflow-hidden group">
+        <div className="absolute inset-0 bg-luxury-gold outline-offset-8 -z-0 opacity-5 group-hover:opacity-10 transition-opacity"></div>
+        <h2 className="text-4xl font-black mb-8 italic tracking-tighter relative z-10">
           Where We Deliver
         </h2>
-        <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-luxury-green font-bold text-lg">
-          <span className="flex items-center gap-2">🌍 United States</span>
-          <span className="flex items-center gap-2">🌏 United Kingdom</span>
-          <span className="flex items-center gap-2">🌎 Canada</span>
-          <span className="flex items-center gap-2">🌍 Europe</span>
-          <span className="flex items-center gap-2">🌏 Australia</span>
-          <span className="flex items-center gap-2">🌎 Middle East</span>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-luxury-gold font-bold text-xl relative z-10">
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Karachi
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Lahore
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Islamabad
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Faisalabad
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Multan
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Peshawar
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Quetta
+          </span>
+          <span className="flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+            📍 Sialkot
+          </span>
         </div>
-        <p className="mt-10 text-gray-400 text-sm max-w-md mx-auto italic border-t border-luxury-light pt-6">
-          Not in these locations? Send us a DM on WhatsApp, we might still be
-          able to reach you!
+        <p className="mt-12 text-gray-400 text-lg max-w-2xl mx-auto italic border-t border-white/10 pt-8 relative z-10">
+          Not in these cities? Send us a DM on WhatsApp, <br />
+          <span className="text-white font-bold">
+            We handle deliveries to all districts across Pakistan!
+          </span>
         </p>
       </div>
     </div>

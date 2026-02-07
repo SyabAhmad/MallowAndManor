@@ -60,7 +60,7 @@ export default function ProductCard({ product, onAddToCart }) {
               Price
             </span>
             <span className="text-2xl font-black text-luxury-green leading-none">
-              ${product.price}
+              Rs. {product.price}
             </span>
           </div>
 

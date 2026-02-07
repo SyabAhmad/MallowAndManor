@@ -24,15 +24,22 @@ export default function ProductDetail({ products, handleAddToCart }) {
     );
 
   const handleWhatsAppOrder = () => {
-    const message = `Hello Mallow & Manor! I'm interested in:
-Product: ${product.name}
-Price: $${product.price}
-Quantity: ${quantity}
-Link: ${window.location.href}`;
+    const message = `Hello Mallow & Manor! 👑
+
+I want to know more about this product:
+✨ Name: ${product.name}
+💰 Price: Rs. ${product.price}
+🔢 Quantity: ${quantity}
+
+🔗 Link: ${window.location.href}
+
+Looking forward to hearing from you!`;
 
     const encodedMessage = encodeURIComponent(message);
+    const whatsappNumber =
+      import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
     window.open(
-      `https://wa.me/YOUR_PHONE_NUMBER?text=${encodedMessage}`,
+      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
       "_blank",
     );
   };
@@ -90,7 +97,7 @@ Link: ${window.location.href}`;
             </h1>
             <div className="flex items-center gap-4 mb-6">
               <span className="text-3xl font-bold text-luxury-green">
-                $ {product.price}
+                Rs. {product.price}
               </span>
               <span className="bg-luxury-light text-luxury-green px-3 py-1 rounded-full text-sm font-semibold">
                 In Stock

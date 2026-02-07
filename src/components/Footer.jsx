@@ -1,138 +1,162 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
-    <footer className="bg-luxury-dark text-white mt-16 py-12">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-luxury-dark text-white mt-16 py-16">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
           {/* Brand */}
-          <div>
-            <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span>💚</span> Mallow & Manor
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Luxury meets affordability. Curated collection of premium products
-              delivered with care.
+          <div className="lg:col-span-2 space-y-6">
+            <Link
+              to="/"
+              className="text-3xl font-black flex items-center gap-2 tracking-tighter italic"
+            >
+              <span className="text-luxury-gold">👑</span> Mallow & Manor
+            </Link>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-md italic">
+              "Redefining elegance for the modern soul. Our curated anthology of
+              bangles, abayas, and accessories is designed to celebrate your
+              unique identity."
             </p>
+            <div className="flex gap-4">
+              <a
+                href="https://www.instagram.com/mallowandmanor/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-luxury-gold hover:border-luxury-gold transition-all group"
+                aria-label="Instagram"
+              >
+                <span className="text-xl group-hover:scale-110 transition-transform">
+                  📸
+                </span>
+              </a>
+              <a
+                href="https://www.tiktok.com/@mallowandmanor?lang=en"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-luxury-gold hover:border-luxury-gold transition-all group"
+                aria-label="TikTok"
+              >
+                <span className="text-xl group-hover:scale-110 transition-transform">
+                  ♪
+                </span>
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+            <h4 className="font-bold text-luxury-gold tracking-widest uppercase text-xs mb-6">
+              Collections
+            </h4>
+            <ul className="space-y-4 text-gray-400">
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="/"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="/products"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
                   Shop All
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="/about"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
-                  Collections
-                </a>
+                  Our Story
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="/contact"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
-                  About Us
-                </a>
+                  Contact Us
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Customer Service */}
           <div>
-            <h4 className="font-bold text-lg mb-4">Customer Service</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+            <h4 className="font-bold text-luxury-gold tracking-widest uppercase text-xs mb-6">
+              Support
+            </h4>
+            <ul className="space-y-4 text-gray-400">
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="#"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="#"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
                   Shipping Info
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="#"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
                   Returns
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-luxury-gold transition-colors"
+                <Link
+                  to="/favorites"
+                  className="hover:text-luxury-gold transition-colors block"
                 >
-                  Contact
-                </a>
+                  Wishlist
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-lg mb-4">Get In Touch</h4>
-            <div className="space-y-3 text-gray-400 text-sm">
-              <p>📞 +1 (000) 000-0000</p>
-              <p>📧 hello@mallowandmanor.com</p>
-              <p>📍 Luxury Lane, City, Country</p>
-              <div className="flex gap-3 mt-4">
-                <a
-                  href="#"
-                  className="text-luxury-gold hover:text-white transition-colors"
-                >
-                  💬
-                </a>
-                <a
-                  href="#"
-                  className="text-luxury-gold hover:text-white transition-colors"
-                >
-                  📱
-                </a>
-                <a
-                  href="#"
-                  className="text-luxury-gold hover:text-white transition-colors"
-                >
-                  ✉️
-                </a>
-              </div>
+            <h4 className="font-bold text-luxury-gold tracking-widest uppercase text-xs mb-6">
+              Connect
+            </h4>
+            <div className="space-y-4 text-gray-400">
+              <p className="flex items-center gap-3">
+                <span className="text-luxury-gold">📞</span> +92 344 4778119
+              </p>
+              <p className="flex items-center gap-3 break-all">
+                <span className="text-luxury-gold">📧</span>{" "}
+                hello@mallowandmanor.com
+              </p>
+              <p className="flex items-center gap-3">
+                <span className="text-luxury-gold">📍</span> Pakistan | Luxury
+                Headquarters
+              </p>
             </div>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-luxury-green/20 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-          <p>&copy; 2026 Mallow & Manor. All rights reserved.</p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-luxury-gold transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="hover:text-luxury-gold transition-colors">
-              Terms of Service
-            </a>
+        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
+          <p>&copy; 2026 Mallow & Manor. Royal Elegance Defined.</p>
+          <div className="flex gap-8 mt-4 md:mt-0 uppercase tracking-widest">
+            <Link to="#" className="hover:text-luxury-gold transition-colors">
+              Privacy
+            </Link>
+            <Link to="#" className="hover:text-luxury-gold transition-colors">
+              Terms
+            </Link>
           </div>
         </div>
       </div>

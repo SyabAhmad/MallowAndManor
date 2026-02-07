@@ -14,7 +14,7 @@ export default function HeroCarousel() {
       title: "Silk & Sobriety",
       subtitle: "Designer Abayas for Unmatched Grace",
       image:
-        "https://images.unsplash.com/photo-1583267746897-2cf415888172?q=80&w=1587&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1440&auto=format&fit=crop",
       accent: "text-luxury-gold",
     },
     {
