@@ -80,12 +80,22 @@ export default function Contact() {
               <div
                 className="flex items-center gap-4 group cursor-pointer"
                 onClick={() => {
-                  const number =
+                  const rawNumber =
                     import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
+                  const cleanNumber = rawNumber.replace(/\D/g, "");
                   const message = encodeURIComponent(
-                    import.meta.env.VITE_WHATSAPP_MESSAGE || "Hello!",
+                    import.meta.env.VITE_WHATSAPP_MESSAGE ||
+                      "Hello Mallow & Manor! 👑",
                   );
-                  window.open(`https://wa.me/${number}?text=${message}`);
+                  const whatsappUrl = `https://wa.me/${cleanNumber}?text=${message}`;
+                  const newWindow = window.open(whatsappUrl, "_blank");
+                  if (
+                    !newWindow ||
+                    newWindow.closed ||
+                    typeof newWindow.closed === "undefined"
+                  ) {
+                    window.location.href = whatsappUrl;
+                  }
                 }}
               >
                 <div className="w-12 h-12 bg-[#25D366] text-white rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-all duration-300">

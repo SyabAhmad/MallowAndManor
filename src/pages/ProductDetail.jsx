@@ -24,6 +24,10 @@ export default function ProductDetail({ products, handleAddToCart }) {
     );
 
   const handleWhatsAppOrder = () => {
+    // Sanitize phone number (remove any non-numeric characters)
+    const rawNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
+    const cleanNumber = rawNumber.replace(/\D/g, "");
+
     const message = `Hello Mallow & Manor! 👑
 
 I want to know more about this product:
@@ -36,12 +40,17 @@ I want to know more about this product:
 Looking forward to hearing from you!`;
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappNumber =
-      import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-      "_blank",
-    );
+    const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
+
+    // Use window.open with _blank and fallback to window.location if blocked
+    const newWindow = window.open(whatsappUrl, "_blank");
+    if (
+      !newWindow ||
+      newWindow.closed ||
+      typeof newWindow.closed === "undefined"
+    ) {
+      window.location.href = whatsappUrl;
+    }
   };
 
   return (
