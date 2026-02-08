@@ -10,8 +10,6 @@ export default defineConfig({
           vendor: ['react', 'react-dom', 'react-router-dom']
         }
       }
-    },
-    minify: 'terser',
-    cssMinify: true
+    }
   }
 })
