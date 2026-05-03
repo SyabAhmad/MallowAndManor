@@ -10,7 +10,7 @@ export default function Home({ products, categories, handleAddToCart }) {
   const navigate = useNavigate();
 
   return (
-    <div className="animate-fade-in space-y-24 pb-20">
+    <div className="animate-fade-in space-y-16 pb-12">
       {/* Hero Carousel */}
       <section>
         <HeroCarousel />
@@ -48,11 +48,11 @@ export default function Home({ products, categories, handleAddToCart }) {
             <span className="text-luxury-gold font-bold tracking-[0.4em] uppercase text-sm mb-6 block">
               Join the Elite
             </span>
-            <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
-              Mallow & Manor <br />
-              <span className="italic font-light text-gray-300">Privé</span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12 italic leading-relaxed">
+<h2 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
+               Mallow & Manor <br />
+               <span className="italic font-light text-gray-300">Privé</span>
+             </h2>
+             <p className="text-base text-gray-400 max-w-2xl mx-auto mb-6 italic leading-relaxed">
               Sign up for early access to our most exclusive drops and private
               seasonal events.
             </p>

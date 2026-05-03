@@ -33,127 +33,127 @@ export default function AllProducts({ products, categories, handleAddToCart }) {
     });
 
   return (
-    <div className="animate-fade-in py-10">
-      <div className="text-center mb-16">
-        <h1 className="text-5xl font-black text-luxury-dark mb-4 tracking-tight">
-          Our Collection
-        </h1>
-        <p className="text-gray-500 max-w-2xl mx-auto italic">
-          Discover our curated selection of luxury{" "}
-          {categories.map((c) => c.name.toLowerCase()).join(", ")}.
-        </p>
-      </div>
+<div className="animate-fade-in py-8">
+       <div className="text-center mb-10">
+         <h1 className="text-3xl font-black text-luxury-dark mb-2 tracking-tight">
+           Our Collection
+         </h1>
+         <p className="text-gray-500 text-sm italic">
+           Discover our curated selection of luxury{" "}
+           {categories.map((c) => c.name.toLowerCase()).join(", ")}.
+         </p>
+       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 mb-12">
-        {/* Filters Sidebar */}
-        <div className="lg:w-64 space-y-8">
-          <div>
-            <h3 className="font-bold text-luxury-dark mb-4 uppercase tracking-widest text-sm">
-              Search
-            </h3>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Find your style..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-4 pr-10 py-3 bg-white border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none transition-all shadow-sm"
-              />
-              <span className="absolute right-4 top-3.5 opacity-30">🔍</span>
-            </div>
-          </div>
+       <div className="flex flex-col lg:flex-row gap-6 mb-8">
+         {/* Filters Sidebar */}
+         <div className="lg:w-56 space-y-6">
+           <div>
+             <h3 className="font-bold text-luxury-dark mb-3 uppercase tracking-widest text-[11px]">
+               Search
+             </h3>
+             <div className="relative">
+               <input
+                 type="text"
+                 placeholder="Find your style..."
+                 value={searchTerm}
+                 onChange={(e) => setSearchTerm(e.target.value)}
+                 className="w-full pl-3 pr-8 py-2 bg-white border border-luxury-light rounded-lg focus:border-luxury-green focus:outline-none transition-all text-sm shadow-sm"
+               />
+               <span className="absolute right-3 top-2.5 opacity-30 text-sm">🔍</span>
+             </div>
+           </div>
 
-          <div>
-            <h3 className="font-bold text-luxury-dark mb-4 uppercase tracking-widest text-sm">
-              Categories
-            </h3>
-            <div className="flex flex-wrap lg:flex-col gap-2">
-              <button
-                onClick={() => setSelectedCategory("all")}
-                className={`px-4 py-3 rounded-xl text-left transition-all flex items-center gap-3 ${
-                  selectedCategory === "all"
-                    ? "bg-luxury-green text-white font-bold shadow-lg"
-                    : "bg-white text-gray-600 hover:bg-luxury-light border border-luxury-light"
-                }`}
-              >
-                <span>✨</span> All Items
-              </button>
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-3 rounded-xl text-left transition-all flex items-center gap-3 ${
-                    selectedCategory === cat.id
-                      ? "bg-luxury-green text-white font-bold shadow-lg"
-                      : "bg-white text-gray-600 hover:bg-luxury-light border border-luxury-light"
-                  }`}
-                >
-                  <span className="text-xl">{cat.icon}</span> {cat.name}
-                </button>
-              ))}
-            </div>
-          </div>
+           <div>
+             <h3 className="font-bold text-luxury-dark mb-3 uppercase tracking-widest text-[11px]">
+               Categories
+             </h3>
+             <div className="flex flex-wrap lg:flex-col gap-1.5">
+               <button
+                 onClick={() => setSelectedCategory("all")}
+                 className={`px-3 py-2 rounded-lg text-left transition-all flex items-center gap-2 text-sm ${
+                   selectedCategory === "all"
+                     ? "bg-luxury-green text-white font-bold shadow-md"
+                     : "bg-white text-gray-600 hover:bg-luxury-light border border-luxury-light"
+                 }`}
+               >
+                 <span className="text-sm">✨</span> All Items
+               </button>
+               {categories.map((cat) => (
+                 <button
+                   key={cat.id}
+                   onClick={() => setSelectedCategory(cat.id)}
+                   className={`px-3 py-2 rounded-lg text-left transition-all flex items-center gap-2 text-sm ${
+                     selectedCategory === cat.id
+                       ? "bg-luxury-green text-white font-bold shadow-md"
+                       : "bg-white text-gray-600 hover:bg-luxury-light border border-luxury-light"
+                   }`}
+                 >
+                   <span className="text-sm">{cat.icon}</span> {cat.name}
+                 </button>
+               ))}
+             </div>
+           </div>
 
-          <div>
-            <h3 className="font-bold text-luxury-dark mb-4 uppercase tracking-widest text-sm">
-              Sort By
-            </h3>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-4 py-3 bg-white border border-luxury-light rounded-xl focus:outline-none shadow-sm"
-            >
-              <option value="latest">Latest Items</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-            </select>
-          </div>
-        </div>
+           <div>
+             <h3 className="font-bold text-luxury-dark mb-3 uppercase tracking-widest text-[11px]">
+               Sort By
+             </h3>
+             <select
+               value={sortBy}
+               onChange={(e) => setSortBy(e.target.value)}
+               className="w-full px-3 py-2 bg-white border border-luxury-light rounded-lg focus:outline-none shadow-sm text-sm"
+             >
+               <option value="latest">Latest Items</option>
+               <option value="price-low">Price: Low to High</option>
+               <option value="price-high">Price: High to Low</option>
+             </select>
+           </div>
+         </div>
 
-        {/* Product Grid */}
-        <div className="flex-1">
-          <div className="flex justify-between items-center mb-6 px-2">
-            <p className="text-gray-500 text-sm">
-              Showing{" "}
-              <span className="text-luxury-dark font-bold">
-                {filteredProducts.length}
-              </span>{" "}
-              masterpieces
-            </p>
-          </div>
+         {/* Product Grid */}
+         <div className="flex-1">
+           <div className="flex justify-between items-center mb-4 px-2">
+             <p className="text-gray-500 text-xs">
+               Showing{" "}
+               <span className="text-luxury-dark font-bold">
+                 {filteredProducts.length}
+               </span>{" "}
+               items
+             </p>
+           </div>
 
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAddToCart={() => handleAddToCart(product)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-24 bg-white rounded-3xl border border-luxury-light shadow-sm">
-              <span className="text-6xl mb-4 block">🕯️</span>
-              <h3 className="text-xl font-bold text-luxury-dark mb-2">
-                No matching pieces found
-              </h3>
-              <p className="text-gray-500 mb-6 font-light italic">
-                Try adjusting your search or category filters.
-              </p>
-              <button
-                onClick={() => {
-                  setSelectedCategory("all");
-                  setSearchTerm("");
-                }}
-                className="mt-6 text-luxury-green font-bold underline"
-              >
-                Clear all filters
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+           {filteredProducts.length > 0 ? (
+             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+               {filteredProducts.map((product) => (
+                 <ProductCard
+                   key={product.id}
+                   product={product}
+                   onAddToCart={() => handleAddToCart(product)}
+                 />
+               ))}
+             </div>
+           ) : (
+             <div className="text-center py-16 bg-white rounded-2xl border border-luxury-light shadow-sm">
+               <span className="text-4xl mb-3 block">🕯️</span>
+               <h3 className="text-xl font-bold text-luxury-dark mb-2">
+                 No matching items found
+               </h3>
+               <p className="text-gray-500 mb-4 text-sm italic">
+                 Try adjusting your search or category filters.
+               </p>
+               <button
+                 onClick={() => {
+                   setSelectedCategory("all");
+                   setSearchTerm("");
+                 }}
+                 className="mt-4 text-luxury-green font-bold underline text-sm"
+               >
+                 Clear all filters
+               </button>
+             </div>
+           )}
+         </div>
+       </div>
+     </div>
   );
 }

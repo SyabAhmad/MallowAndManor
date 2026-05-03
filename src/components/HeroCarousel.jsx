@@ -36,7 +36,7 @@ export default function HeroCarousel() {
   }, [slides.length]);
 
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-[2.5rem] shadow-2xl mb-20 group">
+    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-[2rem] shadow-xl mb-12 group">
       {/* Slides */}
       {slides.map((slide, idx) => (
         <div
@@ -62,10 +62,10 @@ export default function HeroCarousel() {
               >
                 New Arrivals
               </span>
-              <h1 className="text-5xl md:text-7xl font-black text-white mb-2 max-w-2xl drop-shadow-2xl">
-                {slide.title}
-              </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-8 font-light max-w-xl">
+<h1 className="text-3xl md:text-5xl font-black text-white mb-2 max-w-2xl drop-shadow-2xl">
+                 {slide.title}
+               </h1>
+               <p className="text-base md:text-lg text-white/90 mb-4 font-light max-w-xl">
                 {slide.subtitle}
               </p>
               <button

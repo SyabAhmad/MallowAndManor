@@ -15,16 +15,16 @@ export default function ProductsSection({ products, categories, onAddToCart }) {
   });
 
   return (
-    <section id="products" className="py-20 border-t border-luxury-light">
+    <section id="products" className="py-12 border-t border-luxury-light">
       <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
         <div className="max-w-xl">
           <span className="text-luxury-green font-bold tracking-[0.4em] uppercase text-xs mb-3 block">
             Discovery
           </span>
-          <h2 className="text-5xl font-black text-luxury-dark uppercase tracking-tighter mb-4">
-            Curated <span className="text-luxury-green italic">Selection</span>
-          </h2>
-          <p className="text-gray-500 text-lg leading-relaxed">
+<h2 className="text-3xl font-black text-luxury-dark uppercase tracking-tighter mb-2">
+             Curated <span className="text-luxury-green italic">Selection</span>
+           </h2>
+           <p className="text-gray-500 text-sm leading-relaxed">
             Explore our handcrafted pieces designed for excellence and elegance.
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function ProductsSection({ products, categories, onAddToCart }) {
 
       {/* Products Grid */}
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
