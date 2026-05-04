@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { trackProductView } from "../lib/analytics";
 
 export default function ProductDetail({ products, handleAddToCart }) {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export default function ProductDetail({ products, handleAddToCart }) {
     if (foundProduct) {
       setProduct(foundProduct);
       setSelectedImage(foundProduct.mainImage || "");
+      trackProductView(foundProduct.id, foundProduct.name);
     }
   }, [id, products]);
 

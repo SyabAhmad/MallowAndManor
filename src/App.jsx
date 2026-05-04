@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import Navigation from "./components/Navigation";
-import Footer from "./components/Footer";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { supabase } from "./lib/supabase";
+import { trackPageView, trackAddToCart, trackRemoveFromCart } from "./lib/analytics";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import Home from "./pages/Home";
-import ProductDetail from "./pages/ProductDetail";
 import AllProducts from "./pages/AllProducts";
+import ProductDetail from "./pages/ProductDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Favorites from "./pages/Favorites";
-import Cart from "./pages/cart";
-import ScrollToTop from "./components/ScrollToTop";
-import BackToTop from "./components/BackToTop";
+import Cart from "./pages/Cart";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-import { supabase } from "./lib/supabase";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import BackToTop from "./components/BackToTop";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -28,11 +29,31 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // Track page views
+  const location = useLocation();
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location.pathname]);
+
   // Load products and categories from Supabase
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories
+        const cachedProducts = localStorage.getItem('mallow_products_cache');
+        const cachedCategories = localStorage.getItem('mallow_categories_cache');
+
+        if (cachedProducts && cachedCategories) {
+          const prodCache = JSON.parse(cachedProducts);
+          const catCache = JSON.parse(cachedCategories);
+          const now = Date.now();
+
+          if (now - prodCache.timestamp < 300000 && now - catCache.timestamp < 300000) {
+            setProducts(prodCache.data);
+            setCategories(catCache.data);
+            return;
+          }
+        }
+
         const { data: categoriesData, error: catError } = await supabase
           .from("categories")
           .select("*")
@@ -41,7 +62,11 @@ function App() {
         if (catError) throw catError;
         setCategories(categoriesData || []);
 
-        // Fetch products
+        localStorage.setItem('mallow_categories_cache', JSON.stringify({
+          data: categoriesData || [],
+          timestamp: Date.now()
+        }));
+
         const { data: productsData, error: prodError } = await supabase
           .from("products")
           .select("*")
@@ -49,7 +74,6 @@ function App() {
 
         if (prodError) throw prodError;
 
-        // Map Supabase snake_case to app's camelCase
         const mappedProducts = (productsData || []).map(p => ({
           id: p.id,
           name: p.name,
@@ -60,6 +84,11 @@ function App() {
           description: p.description
         }));
         setProducts(mappedProducts);
+
+        localStorage.setItem('mallow_products_cache', JSON.stringify({
+          data: mappedProducts,
+          timestamp: Date.now()
+        }));
       } catch (err) {
         console.error("Error loading data from Supabase:", err);
       }
@@ -68,25 +97,23 @@ function App() {
     fetchData();
   }, []);
 
-  // Sync cart to sessionStorage
   useEffect(() => {
     sessionStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Sync favorites to sessionStorage
   useEffect(() => {
     sessionStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // Add to cart
   const handleAddToCart = (product, quantity = 1) => {
+    trackAddToCart(product.id, product.name, quantity);
     const existingItem = cart.find((item) => item.id === product.id);
     if (existingItem) {
       setCart(
         cart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: (item.quantity || 1) + quantity }
-            : item,
+            : item
         ),
       );
     } else {
@@ -94,7 +121,6 @@ function App() {
     }
   };
 
-  // Toggle Favorite
   const toggleFavorite = (product) => {
     const exists = favorites.find((f) => f.id === product.id);
     if (exists) {
@@ -105,6 +131,8 @@ function App() {
   };
 
   const removeFromCart = (productId) => {
+    const item = cart.find(i => i.id === productId);
+    if (item) trackRemoveFromCart(item.id, item.name);
     setCart(cart.filter((item) => item.id !== productId));
   };
 
@@ -118,7 +146,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <div className="min-h-screen bg-white">
         <Navigation
@@ -184,14 +212,23 @@ function App() {
             />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
           </Routes>
         </main>
 
         <Footer />
         <BackToTop />
       </div>
+    </>
+  );
+}
+
+function AppWithRouter() {
+  return (
+    <Router>
+      <App />
     </Router>
   );
 }
 
-export default App;
+export default AppWithRouter;

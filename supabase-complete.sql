@@ -102,8 +102,19 @@ INSERT INTO categories (slug, name, icon) VALUES
 ON CONFLICT (slug) DO NOTHING;
 
 -- =========================================
--- 5. VERIFY SETUP
+-- 6. ANALYTICS TABLE
 -- =========================================
+
+CREATE TABLE IF NOT EXISTS analytics (
+  id SERIAL PRIMARY KEY,
+  event_type VARCHAR(50) NOT NULL,
+  event_data JSONB,
+  user_agent TEXT,
+  referrer TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE analytics DISABLE ROW LEVEL SECURITY;
 
 SELECT 'Tables created!' as status;
 

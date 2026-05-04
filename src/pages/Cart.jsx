@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { trackCheckout } from "../lib/analytics";
 
 export default function Cart({ cart, removeFromCart, updateQuantity }) {
   const navigate = useNavigate();
@@ -6,6 +7,7 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
   const total = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
   const handleCheckout = () => {
+    trackCheckout(total, cart.length);
     const itemsList = cart
       .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}`)
       .join("\n");

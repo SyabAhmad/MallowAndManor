@@ -306,25 +306,33 @@ const handleSubmit = async (e) => {
 
       {/* Admin Content */}
       <div className="max-w-7xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-6">
+<div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-black text-luxury-dark">Products</h2>
-          <button
-            onClick={() => {
-              setShowForm(!showForm);
-              setEditingProduct(null);
-              setFormData({
-                name: "",
-                price: "",
-                category: "bangles",
-                description: "",
-                mainImage: "",
-                thumbnails: "",
-              });
-            }}
-            className="px-6 py-3 bg-luxury-green text-white rounded-xl font-bold hover:bg-luxury-dark transition-all"
-          >
-            {showForm ? "Cancel" : "+ Add Product"}
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => window.location.href = '/admin/analytics'}
+              className="px-4 py-2 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all text-sm"
+            >
+              📊 Analytics
+            </button>
+            <button
+              onClick={() => {
+                setShowForm(!showForm);
+                setEditingProduct(null);
+                setFormData({
+                  name: "",
+                  price: "",
+                  category: "bangles",
+                  description: "",
+                  mainImage: "",
+                  thumbnails: [],
+                });
+              }}
+              className="px-6 py-3 bg-luxury-green text-white rounded-xl font-bold hover:bg-luxury-dark transition-all"
+            >
+              {showForm ? "Cancel" : "+ Add Product"}
+            </button>
+          </div>
         </div>
 
         {/* Add/Edit Form */}
