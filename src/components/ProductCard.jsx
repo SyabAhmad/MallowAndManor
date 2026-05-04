@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product, onAddToCart, stats = { views: 0, cartAdds: 0 } }) {
   const [selectedImage, setSelectedImage] = useState(product.mainImage);
+
+  // Debug
+  console.log("ProductCard stats for", product.id, stats);
 
   return (
 <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-luxury-light group flex flex-col h-full">
@@ -55,15 +58,21 @@ export default function ProductCard({ product, onAddToCart }) {
            {product.description}
          </p>
 
-         <div className="mt-auto flex items-center justify-between gap-3">
-           <div className="flex flex-col">
-             <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">
-               Price
-             </span>
-             <span className="text-xl font-black text-luxury-green leading-none">
-               Rs. {product.price}
-             </span>
-           </div>
+<div className="mt-auto flex items-center justify-between gap-3">
+            <div className="flex flex-col">
+              <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+                Price
+              </span>
+              <span className="text-xl font-black text-luxury-green leading-none">
+                Rs. {product.price}
+              </span>
+            </div>
+
+{/* Stats */}
+            <div className="flex gap-3 text-[9px] text-gray-400">
+              <span title="Views">👁 {stats.views || 0}</span>
+              <span title="Times added to cart">🛒 {stats.cartAdds || 0}</span>
+            </div>
 
            <button
              onClick={() => onAddToCart(product)}

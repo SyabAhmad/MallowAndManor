@@ -29,3 +29,36 @@ export const trackRemoveFromCart = (productId, productName) =>
   trackEvent("remove_from_cart", { productId, productName });
 export const trackCheckout = (total, itemCount) =>
   trackEvent("checkout", { total, itemCount });
+
+// Get product stats (views and cart adds)
+export const getProductStats = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("analytics")
+      .select("*")
+      .in("event_type", ["product_view", "add_to_cart"]);
+
+    if (error) throw error;
+
+    const stats = {};
+    data.forEach(event => {
+      const productId = event.event_data?.productId;
+      if (!productId) return;
+
+      if (!stats[productId]) {
+        stats[productId] = { views: 0, cartAdds: 0 };
+      }
+
+      if (event.event_type === "product_view") {
+        stats[productId].views += 1;
+      } else if (event.event_type === "add_to_cart") {
+        stats[productId].cartAdds += 1;
+      }
+    });
+
+    return stats;
+  } catch (err) {
+    console.error("Error fetching product stats:", err);
+    return {};
+  }
+};

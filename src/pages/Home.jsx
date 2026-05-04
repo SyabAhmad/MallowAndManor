@@ -6,7 +6,7 @@ import TrustBadges from "../components/TrustBadges";
 import Philosophy from "../components/Philosophy";
 import MapSection from "../components/MapSection";
 
-export default function Home({ products, categories, handleAddToCart }) {
+export default function Home({ products, categories, handleAddToCart, productStats = {} }) {
   const navigate = useNavigate();
 
   return (
@@ -33,6 +33,7 @@ export default function Home({ products, categories, handleAddToCart }) {
       <ProductsSection
         products={products}
         onAddToCart={handleAddToCart}
+        productStats={productStats}
       />
 
       {/* Nationwide Map Section */}

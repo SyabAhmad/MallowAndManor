@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 
-export default function AllProducts({ products = [], categories, handleAddToCart }) {
+export default function AllProducts({ products = [], categories, handleAddToCart, productStats = {} }) {
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -132,13 +132,14 @@ export default function AllProducts({ products = [], categories, handleAddToCart
 
            {filteredProducts.length > 0 ? (
              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-               {filteredProducts.map((product) => (
-                 <ProductCard
-                   key={product.id}
-                   product={product}
-                   onAddToCart={() => handleAddToCart(product)}
-                 />
-               ))}
+{filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onAddToCart={() => handleAddToCart(product)}
+                    stats={productStats[product.id] || { views: 0, cartAdds: 0 }}
+                  />
+                ))}
              </div>
            ) : (
              <div className="text-center py-16 bg-white rounded-2xl border border-luxury-light shadow-sm">

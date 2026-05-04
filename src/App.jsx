@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { supabase } from "./lib/supabase";
-import { trackPageView, trackAddToCart, trackRemoveFromCart } from "./lib/analytics";
+import { trackPageView, trackAddToCart, trackRemoveFromCart, getProductStats } from "./lib/analytics";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import Home from "./pages/Home";
 import AllProducts from "./pages/AllProducts";
@@ -20,6 +20,7 @@ import BackToTop from "./components/BackToTop";
 function App() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [productStats, setProductStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState(() => {
     const saved = sessionStorage.getItem("cart");
@@ -85,6 +86,12 @@ function App() {
           description: p.description
         }));
         setProducts(mappedProducts);
+
+        // Fetch product stats
+        console.log("Fetching product stats...");
+        const stats = await getProductStats();
+        console.log("Product stats:", stats);
+        setProductStats(stats || {});
 
         localStorage.setItem('mallow_products_cache', JSON.stringify({
           data: mappedProducts,
@@ -165,6 +172,7 @@ function App() {
                   products={products}
                   categories={categories}
                   handleAddToCart={handleAddToCart}
+                  productStats={productStats}
                 />
               }
             />
@@ -184,6 +192,7 @@ function App() {
                   products={products}
                   categories={categories}
                   handleAddToCart={handleAddToCart}
+                  productStats={productStats}
                 />
               }
             />
