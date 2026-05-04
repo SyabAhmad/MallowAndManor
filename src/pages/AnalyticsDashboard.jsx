@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
   const [stats, setStats] = useState({
     pageViews: 0,
     productViews: 0,
@@ -11,6 +12,14 @@ export default function AnalyticsDashboard() {
     checkouts: 0,
     totalEvents: 0,
   });
+  const [chartData, setChartData] = useState({
+    pageViews: [],
+    productViews: [],
+    addToCart: [],
+    totalByDay: [],
+  });
+
+  const eventsPerPage = 10;
 
   useEffect(() => {
     fetchAnalytics();
@@ -22,7 +31,7 @@ export default function AnalyticsDashboard() {
         .from("analytics")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(100);
+        .limit(500);
 
       if (error) throw error;
       setAnalytics(data || []);
@@ -40,6 +49,49 @@ export default function AnalyticsDashboard() {
         checkouts,
         totalEvents: data.length,
       });
+
+      // Process chart data - group by day
+      const last7Days = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (6 - i));
+        return d.toISOString().split('T')[0];
+      });
+
+      const pageViewsByDay = last7Days.map(day => ({
+        date: day,
+        count: data.filter(d =>
+          d.event_type === "page_view" &&
+          d.created_at.startsWith(day)
+        ).length
+      }));
+
+      const productViewsByDay = last7Days.map(day => ({
+        date: day,
+        count: data.filter(d =>
+          d.event_type === "product_view" &&
+          d.created_at.startsWith(day)
+        ).length
+      }));
+
+      const addToCartByDay = last7Days.map(day => ({
+        date: day,
+        count: data.filter(d =>
+          d.event_type === "add_to_cart" &&
+          d.created_at.startsWith(day)
+        ).length
+      }));
+
+      const totalByDay = last7Days.map(day => ({
+        date: day,
+        count: data.filter(d => d.created_at.startsWith(day)).length
+      }));
+
+      setChartData({
+        pageViews: pageViewsByDay,
+        productViews: productViewsByDay,
+        addToCart: addToCartByDay,
+        totalByDay,
+      });
     } catch (err) {
       console.error("Error fetching analytics:", err);
     } finally {
@@ -49,6 +101,45 @@ export default function AnalyticsDashboard() {
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString();
+  };
+
+  const formatDay = (dateStr) => {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  // Pagination
+  const totalPages = Math.ceil(analytics.length / eventsPerPage);
+  const startIndex = (page - 1) * eventsPerPage;
+  const endIndex = startIndex + eventsPerPage;
+  const currentEvents = analytics.slice(startIndex, endIndex);
+
+  const renderBarChart = (data, color, label) => {
+    const max = Math.max(...data.map(d => d.count), 1);
+    return (
+      <div className="mt-4">
+        <h3 className="font-bold text-luxury-dark mb-3">{label}</h3>
+        <div className="space-y-2">
+          {data.map((item, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <span className="text-xs text-gray-500 w-16 shrink-0">
+                {formatDay(item.date)}
+              </span>
+              <div className="flex-1 bg-gray-100 rounded-full h-6 overflow-hidden">
+                <div
+                  className={`h-full rounded-full ${color} transition-all duration-500`}
+                  style={{ width: `${(item.count / max) * 100}%` }}
+                >
+                  <span className="px-2 text-xs text-white font-bold leading-6">
+                    {item.count > 0 ? item.count : ''}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -79,10 +170,36 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* Events Table */}
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white rounded-2xl border border-luxury-light shadow-lg p-6">
+          <h2 className="font-bold text-luxury-dark mb-4">Page Views (Last 7 Days)</h2>
+          {renderBarChart(chartData.pageViews, "bg-blue-500", "")}
+        </div>
+
+        <div className="bg-white rounded-2xl border border-luxury-light shadow-lg p-6">
+          <h2 className="font-bold text-luxury-dark mb-4">Product Views (Last 7 Days)</h2>
+          {renderBarChart(chartData.productViews, "bg-purple-500", "")}
+        </div>
+
+        <div className="bg-white rounded-2xl border border-luxury-light shadow-lg p-6">
+          <h2 className="font-bold text-luxury-dark mb-4">Add to Cart (Last 7 Days)</h2>
+          {renderBarChart(chartData.addToCart, "bg-green-500", "")}
+        </div>
+
+        <div className="bg-white rounded-2xl border border-luxury-light shadow-lg p-6">
+          <h2 className="font-bold text-luxury-dark mb-4">Total Events (Last 7 Days)</h2>
+          {renderBarChart(chartData.totalByDay, "bg-luxury-green", "")}
+        </div>
+      </div>
+
+      {/* Events Table with Pagination */}
       <div className="bg-white rounded-2xl border border-luxury-light shadow-lg overflow-hidden">
-        <div className="p-4 border-b border-luxury-light">
+        <div className="p-4 border-b border-luxury-light flex justify-between items-center">
           <h2 className="font-bold text-luxury-dark">Recent Events</h2>
+          <span className="text-xs text-gray-500">
+            Page {page} of {totalPages}
+          </span>
         </div>
         <div className="overflow-x-auto">
           {loading ? (
@@ -90,37 +207,60 @@ export default function AnalyticsDashboard() {
           ) : analytics.length === 0 ? (
             <div className="p-8 text-center text-gray-500">No events yet</div>
           ) : (
-            <table className="w-full text-sm">
-              <thead className="bg-luxury-light/30">
-                <tr>
-                  <th className="text-left p-3 text-xs uppercase tracking-wider">Event</th>
-                  <th className="text-left p-3 text-xs uppercase tracking-wider">Data</th>
-                  <th className="text-left p-3 text-xs uppercase tracking-wider">Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {analytics.map((event) => (
-                  <tr key={event.id} className="border-t border-luxury-light hover:bg-luxury-light/10">
-                    <td className="p-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                        event.event_type === 'page_view' ? 'bg-blue-100 text-blue-700' :
-                        event.event_type === 'product_view' ? 'bg-purple-100 text-purple-700' :
-                        event.event_type === 'add_to_cart' ? 'bg-green-100 text-green-700' :
-                        'bg-orange-100 text-orange-700'
-                      }`}>
-                        {event.event_type.replace('_', ' ')}
-                      </span>
-                    </td>
-                    <td className="p-3 text-gray-600">
-                      {JSON.stringify(event.event_data)}
-                    </td>
-                    <td className="p-3 text-gray-500">
-                      {formatDate(event.created_at)}
-                    </td>
+            <>
+              <table className="w-full text-sm">
+                <thead className="bg-luxury-light/30">
+                  <tr>
+                    <th className="text-left p-3 text-xs uppercase tracking-wider">Event</th>
+                    <th className="text-left p-3 text-xs uppercase tracking-wider">Data</th>
+                    <th className="text-left p-3 text-xs uppercase tracking-wider">Time</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentEvents.map((event) => (
+                    <tr key={event.id} className="border-t border-luxury-light hover:bg-luxury-light/10">
+                      <td className="p-3">
+                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                          event.event_type === 'page_view' ? 'bg-blue-100 text-blue-700' :
+                          event.event_type === 'product_view' ? 'bg-purple-100 text-purple-700' :
+                          event.event_type === 'add_to_cart' ? 'bg-green-100 text-green-700' :
+                          'bg-orange-100 text-orange-700'
+                        }`}>
+                          {event.event_type.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="p-3 text-gray-600">
+                        {JSON.stringify(event.event_data)}
+                      </td>
+                      <td className="p-3 text-gray-500">
+                        {formatDate(event.created_at)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Pagination Controls */}
+              <div className="p-4 border-t border-luxury-light flex justify-between items-center">
+                <button
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="px-4 py-2 bg-luxury-light rounded-lg hover:bg-luxury-light/70 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-bold transition-colors"
+                >
+                  ← Previous
+                </button>
+                <span className="text-sm text-gray-500">
+                  Showing {startIndex + 1}-{Math.min(endIndex, analytics.length)} of {analytics.length}
+                </span>
+                <button
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="px-4 py-2 bg-luxury-green text-white rounded-lg hover:bg-luxury-dark disabled:opacity-50 disabled:cursor-not-allowed text-sm font-bold transition-colors"
+                >
+                  Next →
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>

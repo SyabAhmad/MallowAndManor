@@ -2,18 +2,26 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 
-export default function AllProducts({ products, categories, handleAddToCart }) {
+export default function AllProducts({ products = [], categories, handleAddToCart }) {
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("latest");
 
-  // Handle URL category parameter
+  // Debug
+  console.log("AllProducts received:", products.length, "products");
+
+  // Handle URL search parameter
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cat = params.get("category");
+    const search = params.get("search");
+
     if (cat) {
       setSelectedCategory(cat);
+    }
+    if (search) {
+      setSearchTerm(search);
     }
   }, [location]);
 

@@ -1,8 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navigation({ cartCount, favCount, categories }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchTerm.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm("");
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   return (
     <nav className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-luxury-light">
@@ -30,9 +40,22 @@ export default function Navigation({ cartCount, favCount, categories }) {
               <input
                 type="text"
                 placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleSearch}
                 className="w-40 lg:w-56 px-4 py-2 bg-luxury-light/50 border border-luxury-light rounded-full focus:border-luxury-green focus:outline-none transition-all text-xs font-medium"
               />
-              <span className="absolute right-3 text-xs opacity-30">🔍</span>
+              <span
+                className="absolute right-3 text-xs opacity-30 cursor-pointer"
+                onClick={() => {
+                  if (searchTerm.trim()) {
+                    navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+                    setSearchTerm("");
+                  }
+                }}
+              >
+                🔍
+              </span>
             </div>
 
             {/* Favorites */}
@@ -88,9 +111,23 @@ export default function Navigation({ cartCount, favCount, categories }) {
             <input
               type="text"
               placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleSearch}
               className="w-full px-4 py-2.5 bg-luxury-light/50 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none text-sm"
             />
-            <span className="absolute right-4 top-3 opacity-30">🔍</span>
+            <span
+              className="absolute right-4 top-3 opacity-30 cursor-pointer"
+              onClick={() => {
+                if (searchTerm.trim()) {
+                  navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+                  setSearchTerm("");
+                  setIsMobileMenuOpen(false);
+                }
+              }}
+            >
+              🔍
+            </span>
           </div>
 
           <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-700 font-semibold uppercase text-xs tracking-widest py-2">

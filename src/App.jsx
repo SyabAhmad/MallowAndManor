@@ -20,6 +20,7 @@ import BackToTop from "./components/BackToTop";
 function App() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState(() => {
     const saved = sessionStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];

@@ -139,6 +139,21 @@ WHERE tablename IN ('products', 'categories')
 ORDER BY tablename, policyname;
 
 -- =========================================
+-- 6. ANALYTICS TABLE
+-- =========================================
+
+CREATE TABLE IF NOT EXISTS analytics (
+  id SERIAL PRIMARY KEY,
+  event_type VARCHAR(50) NOT NULL,
+  event_data JSONB,
+  user_agent TEXT,
+  referrer TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE analytics DISABLE ROW LEVEL SECURITY;
+
+-- =========================================
 -- AFTER RUNNING THIS SQL:
 -- =========================================
 -- 1. Create storage bucket:
@@ -154,6 +169,10 @@ ORDER BY tablename, policyname;
 --    Password: MallowManor2024!@#
 --    CHECK "Auto Confirm User"
 --    Click "Create user"
+--
+-- 3. Test:
+--    npm run dev > /admin/login > login > add product
+--    Visit /admin/analytics to see tracked events
 
 -- =========================================
 -- 4. STORAGE BUCKET SETUP
