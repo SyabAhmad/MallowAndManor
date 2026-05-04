@@ -78,19 +78,19 @@ export default function AllProducts({ products, categories, handleAddToCart }) {
                >
                  <span className="text-sm">✨</span> All Items
                </button>
-               {categories.map((cat) => (
-                 <button
-                   key={cat.id}
-                   onClick={() => setSelectedCategory(cat.id)}
-                   className={`px-3 py-2 rounded-lg text-left transition-all flex items-center gap-2 text-sm ${
-                     selectedCategory === cat.id
-                       ? "bg-luxury-green text-white font-bold shadow-md"
-                       : "bg-white text-gray-600 hover:bg-luxury-light border border-luxury-light"
-                   }`}
-                 >
-                   <span className="text-sm">{cat.icon}</span> {cat.name}
-                 </button>
-               ))}
+{categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.slug)}
+                    className={`px-3 py-2 rounded-lg text-left transition-all flex items-center gap-2 text-sm ${
+                      selectedCategory === cat.slug
+                        ? "bg-luxury-green text-white font-bold shadow-md"
+                        : "bg-white text-gray-600 hover:bg-luxury-light border border-luxury-light"
+                    }`}
+                  >
+                    <span className="text-sm">{cat.icon}</span> {cat.name}
+                  </button>
+                ))}
              </div>
            </div>
 

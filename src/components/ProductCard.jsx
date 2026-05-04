@@ -24,11 +24,12 @@ export default function ProductCard({ product, onAddToCart }) {
          </div>
        </Link>
 
-       {/* Thumbnail Images */}
-       <div className="flex gap-2 p-2.5 bg-luxury-light/20 border-b border-luxury-light">
-         {[product.mainImage, ...product.thumbnails]
-           .slice(0, 4)
-           .map((img, idx) => (
+{/* Thumbnail Images */}
+        <div className="flex gap-2 p-2.5 bg-luxury-light/20 border-b border-luxury-light">
+          {[product.mainImage, ...(product.thumbnails || [])]
+            .filter(img => img)
+            .slice(0, 4)
+            .map((img, idx) => (
              <div
                key={idx}
                onMouseEnter={() => setSelectedImage(img)}

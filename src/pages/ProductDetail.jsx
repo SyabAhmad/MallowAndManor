@@ -12,7 +12,7 @@ export default function ProductDetail({ products, handleAddToCart }) {
     const foundProduct = products.find((p) => p.id === parseInt(id));
     if (foundProduct) {
       setProduct(foundProduct);
-      setSelectedImage(foundProduct.mainImage);
+      setSelectedImage(foundProduct.mainImage || "");
     }
   }, [id, products]);
 
@@ -72,27 +72,30 @@ Looking forward to hearing from you!`;
                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
              />
            </div>
-           <div className="grid grid-cols-4 gap-3">
-             <button
-               onClick={() => setSelectedImage(product.mainImage)}
-               className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === product.mainImage ? "border-luxury-green shadow-md" : "border-transparent opacity-70 hover:opacity-100"}`}
-             >
-               <img
-                 src={product.mainImage}
-                 alt=""
-                 className="w-full h-full object-cover"
-               />
-             </button>
-             {product.thumbnails.map((img, idx) => (
-               <button
-                 key={idx}
-                 onClick={() => setSelectedImage(img)}
-                 className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === img ? "border-luxury-green shadow-md" : "border-transparent opacity-70 hover:opacity-100"}`}
-               >
-                 <img src={img} alt="" className="w-full h-full object-cover" />
-               </button>
-             ))}
-           </div>
+<div className="grid grid-cols-4 gap-3">
+              {product.thumbnails && product.thumbnails.length > 0 ? (
+                product.thumbnails.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(img)}
+                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === img ? "border-luxury-green shadow-md" : "border-transparent opacity-70 hover:opacity-100"}`}
+                  >
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))
+              ) : (
+                <button
+                  onClick={() => setSelectedImage(product.mainImage)}
+                  className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === product.mainImage ? "border-luxury-green shadow-md" : "border-transparent opacity-70 hover:opacity-100"}`}
+                >
+                  <img
+                    src={product.mainImage}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              )}
+            </div>
          </div>
 
          {/* Right: Product Info */}

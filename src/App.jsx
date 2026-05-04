@@ -9,9 +9,12 @@ import AllProducts from "./pages/AllProducts";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Favorites from "./pages/Favorites";
-import Cart from "./pages/Cart";
+import Cart from "./pages/cart";
 import ScrollToTop from "./components/ScrollToTop";
 import BackToTop from "./components/BackToTop";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import { supabase } from "./lib/supabase";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -25,19 +28,44 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Load products and categories
+  // Load products and categories from Supabase
   useEffect(() => {
-    // Load products
-    fetch("/products.json")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products))
-      .catch((err) => console.error("Error loading products:", err));
+    const fetchData = async () => {
+      try {
+        // Fetch categories
+        const { data: categoriesData, error: catError } = await supabase
+          .from("categories")
+          .select("*")
+          .order("id", { ascending: true });
 
-    // Load categories
-    fetch("/categories.json")
-      .then((res) => res.json())
-      .then((data) => setCategories(data.categories))
-      .catch((err) => console.error("Error loading categories:", err));
+        if (catError) throw catError;
+        setCategories(categoriesData || []);
+
+        // Fetch products
+        const { data: productsData, error: prodError } = await supabase
+          .from("products")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (prodError) throw prodError;
+
+        // Map Supabase snake_case to app's camelCase
+        const mappedProducts = (productsData || []).map(p => ({
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          category: p.category,
+          mainImage: p.main_image,
+          thumbnails: Array.isArray(p.thumbnails) ? p.thumbnails : (p.thumbnails ? [p.thumbnails] : []),
+          description: p.description
+        }));
+        setProducts(mappedProducts);
+      } catch (err) {
+        console.error("Error loading data from Supabase:", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Sync cart to sessionStorage
@@ -154,6 +182,8 @@ function App() {
                 />
               }
             />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
         </main>
 
