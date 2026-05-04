@@ -9,12 +9,13 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
   const handleCheckout = () => {
     trackCheckout(total, cart.length);
     const itemsList = cart
-      .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}`)
+      .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}
+  ${window.location.origin}/product/${item.id}`)
       .join("\n");
     const message = `Hello Mallow & Manor! I'd like to place an order:\n\n${itemsList}\n\nTotal Amount: Rs.${total}\nPlease confirm my order.`;
 
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=${encodedMessage}`, "_blank");
+    window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
   };
 
   if (cart.length === 0) {
