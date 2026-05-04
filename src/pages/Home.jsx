@@ -21,7 +21,6 @@ export default function Home({ products, categories, handleAddToCart }) {
 
       {/* Collections */}
       <Collections
-        categories={categories}
         onCategoryClick={(cat) => {
           navigate(`/products?category=${cat}`);
         }}
@@ -33,7 +32,6 @@ export default function Home({ products, categories, handleAddToCart }) {
       {/* Products Section */}
       <ProductsSection
         products={products}
-        categories={categories}
         onAddToCart={handleAddToCart}
       />
 

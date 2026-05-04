@@ -1,18 +1,21 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 
-export default function ProductsSection({ products, categories, onAddToCart }) {
+export default function ProductsSection({ products = [], onAddToCart }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts = products.filter((product) => {
-    const matchCategory =
-      selectedCategory === "all" || product.category === selectedCategory;
-    const matchSearch =
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchCategory && matchSearch;
-  });
+  const filteredProducts = (products || [])
+    .filter((product) => {
+      const matchCategory =
+        selectedCategory === "all" || product.category === selectedCategory;
+      const matchSearch =
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchCategory && matchSearch;
+    })
+    .sort((a, b) => b.id - a.id)
+    .slice(0, 4);
 
   return (
     <section id="products" className="py-12 border-t border-luxury-light">
@@ -21,10 +24,10 @@ export default function ProductsSection({ products, categories, onAddToCart }) {
           <span className="text-luxury-green font-bold tracking-[0.4em] uppercase text-xs mb-3 block">
             Discovery
           </span>
-<h2 className="text-3xl font-black text-luxury-dark uppercase tracking-tighter mb-2">
-             Curated <span className="text-luxury-green italic">Selection</span>
-           </h2>
-           <p className="text-gray-500 text-sm leading-relaxed">
+          <h2 className="text-3xl font-black text-luxury-dark uppercase tracking-tighter mb-2">
+            Curated <span className="text-luxury-green italic">Selection</span>
+          </h2>
+          <p className="text-gray-500 text-sm leading-relaxed">
             Explore our handcrafted pieces designed for excellence and elegance.
           </p>
         </div>
@@ -57,18 +60,17 @@ export default function ProductsSection({ products, categories, onAddToCart }) {
             >
               All Items
             </button>
-            {categories.map((category) => (
+            {["bangles", "nails", "abayas", "necklaces"].map((cat) => (
               <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-2.5 rounded-xl font-bold transition-all whitespace-nowrap border-2 flex items-center gap-2 ${
-                  selectedCategory === category.id
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-6 py-2.5 rounded-xl font-bold transition-all whitespace-nowrap border-2 capitalize ${
+                  selectedCategory === cat
                     ? "bg-luxury-green text-white border-luxury-green shadow-lg ring-2 ring-luxury-green ring-offset-2"
                     : "bg-white text-gray-400 border-luxury-light hover:border-luxury-green hover:text-luxury-green"
                 }`}
               >
-                <span>{category.icon}</span>
-                {category.name}
+                {cat}
               </button>
             ))}
           </div>
@@ -77,7 +79,7 @@ export default function ProductsSection({ products, categories, onAddToCart }) {
 
       {/* Products Grid */}
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
