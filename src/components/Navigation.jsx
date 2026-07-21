@@ -37,6 +37,9 @@ export default function Navigation({ cartCount, favCount, categories }) {
             <Link to="/products" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity">
               Shop
             </Link>
+            <Link to="/blog" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity">
+              Journal
+            </Link>
             <Link to="/about" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity">
               Story
             </Link>
@@ -110,6 +113,9 @@ export default function Navigation({ cartCount, favCount, categories }) {
           </div>
           <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase">
             Shop
+          </Link>
+          <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase">
+            Journal
           </Link>
           <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase">
             Story

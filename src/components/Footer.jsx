@@ -57,6 +57,7 @@ export default function Footer() {
             <h4 className="text-xs font-semibold tracking-widest uppercase mb-6">Company</h4>
             <ul className="space-y-3 text-sm text-gray-500">
               <li><Link to="/about" className="hover:text-luxury-dark transition-colors">Our Story</Link></li>
+              <li><Link to="/blog" className="hover:text-luxury-dark transition-colors">Journal</Link></li>
               <li><Link to="/contact" className="hover:text-luxury-dark transition-colors">Contact</Link></li>
               <li><Link to="/favorites" className="hover:text-luxury-dark transition-colors">Wishlist</Link></li>
               <li><Link to="/cart" className="hover:text-luxury-dark transition-colors">Cart</Link></li>
