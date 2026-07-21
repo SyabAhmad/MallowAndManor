@@ -19,8 +19,7 @@ const request = async (path, options = {}, retries = 1) => {
     if (res.status >= 500 && attempt < retries) await sleep(1000 * (attempt + 1));
   }
 
-  // Auto-refresh on 401
-  if (res.status === 401 && !path.includes('/auth/')) {
+  if (res.status === 401 && !path.includes('/auth')) {
     const refreshed = await refreshAccessToken();
     if (refreshed) {
       headers['Authorization'] = `Bearer ${accessToken}`;
@@ -36,7 +35,7 @@ const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (!refreshToken) return false;
 
-    const res = await fetch(`${API_URL}/auth/refresh`, {
+    const res = await fetch(`${API_URL}/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken }),
@@ -73,12 +72,12 @@ export const fetchProducts = async () => {
 };
 
 export const fetchProductById = async (id) => {
-  const res = await request(`/product/${id}`);
+  const res = await request(`/products?id=${id}`);
   return safeJson(res);
 };
 
 export const fetchCategories = async () => {
-  const res = await request('/categories');
+  const res = await request('/products?categories=true');
   return safeJson(res);
 };
 
@@ -94,18 +93,18 @@ export const trackEvent = async (eventType, eventData = {}) => {
 };
 
 export const fetchProductStats = async (days = 0) => {
-  const res = await request(`/analytics/stats?days=${days}`);
+  const res = await request(`/analytics?days=${days}`);
   return safeJson(res);
 };
 
 export const fetchAnalytics = async (days = 0) => {
-  const res = await request(`/admin/analytics?days=${days}`);
+  const res = await request(`/analytics?admin=true&days=${days}`);
   return safeJson(res);
 };
 
 // Auth API
 export const login = async (email, password) => {
-  const res = await request('/auth/login', {
+  const res = await request('/auth', {
     method: 'POST',
     body: { email, password },
   });
@@ -118,30 +117,46 @@ export const login = async (email, password) => {
 };
 
 export const logout = async () => {
-  await request('/auth/logout', { method: 'POST' });
+  await request('/auth', { method: 'POST', body: { logout: true } });
   accessToken = null;
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
 };
 
 export const getCurrentUser = async () => {
-  const res = await request('/auth/me');
+  const res = await request('/auth');
   return safeJson(res);
 };
 
-// Admin API
+// Admin API - Products
 export const createProduct = async (productData) => {
-  const res = await request('/admin/products', { method: 'POST', body: productData });
+  const res = await request('/products?admin=true', { method: 'POST', body: productData });
   return safeJson(res);
 };
 
 export const updateProduct = async (id, productData) => {
-  const res = await request(`/product/${id}`, { method: 'PUT', body: productData });
+  const res = await request('/products?admin=true', { method: 'PUT', body: { id, ...productData } });
   return safeJson(res);
 };
 
 export const deleteProduct = async (id) => {
-  const res = await request(`/product/${id}`, { method: 'DELETE' });
+  const res = await request(`/products?id=${id}&admin=true`, { method: 'DELETE' });
+  return safeJson(res);
+};
+
+// Admin API - Categories
+export const createCategory = async (categoryData) => {
+  const res = await request('/products?categories=true&admin=true', { method: 'POST', body: categoryData });
+  return safeJson(res);
+};
+
+export const updateCategory = async (id, categoryData) => {
+  const res = await request('/products?categories=true&admin=true', { method: 'PUT', body: { id, ...categoryData } });
+  return safeJson(res);
+};
+
+export const deleteCategory = async (id) => {
+  const res = await request(`/products?categories=true&admin=true&id=${id}`, { method: 'DELETE' });
   return safeJson(res);
 };
 
@@ -182,26 +197,26 @@ export const fetchPosts = async () => {
 };
 
 export const fetchPostBySlug = async (slug) => {
-  const res = await request(`/posts/${slug}`);
+  const res = await request(`/posts?slug=${slug}`);
   return safeJson(res);
 };
 
 export const fetchAdminPosts = async () => {
-  const res = await request('/admin/posts');
+  const res = await request('/posts?admin=true');
   return safeJson(res);
 };
 
 export const createPost = async (postData) => {
-  const res = await request('/admin/posts', { method: 'POST', body: postData });
+  const res = await request('/posts', { method: 'POST', body: postData });
   return safeJson(res);
 };
 
 export const updatePost = async (id, postData) => {
-  const res = await request(`/admin/posts/${id}`, { method: 'PUT', body: postData });
+  const res = await request('/posts', { method: 'PUT', body: { id, ...postData } });
   return safeJson(res);
 };
 
 export const deletePost = async (id) => {
-  const res = await request(`/admin/posts/${id}`, { method: 'DELETE' });
+  const res = await request('/posts', { method: 'DELETE', body: { id } });
   return safeJson(res);
 };
