@@ -54,28 +54,48 @@ export default function AdminDashboard() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const MAX_FILE_SIZE = 10 * 1024 * 1024;
+  const VERCEL_PAYLOAD_LIMIT = 4.5 * 1024 * 1024;
 
-  const validateFileSize = (file) => {
-    if (!file) return true;
-    if (file.size > MAX_FILE_SIZE) {
-      alert(`"${file.name}" is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum size is 10 MB.`);
-      return false;
+  const compressImage = async (file, maxBytes = VERCEL_PAYLOAD_LIMIT) => {
+    const image = await new Promise((resolve, reject) => {
+      const el = new Image();
+      el.onload = () => resolve(el);
+      el.onerror = reject;
+      el.src = URL.createObjectURL(file);
+    });
+
+    let quality = 0.85;
+    let w = image.width, h = image.height;
+    const maxDim = 1200;
+    if (w > maxDim || h > maxDim) {
+      const ratio = Math.min(maxDim / w, maxDim / h);
+      w = Math.round(w * ratio);
+      h = Math.round(h * ratio);
     }
-    return true;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0, w, h);
+
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+      if (blob.size <= maxBytes) return new File([blob], file.name, { type: 'image/jpeg' });
+      quality -= 0.15;
+    }
+
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.1));
+    return new File([blob], file.name, { type: 'image/jpeg' });
   };
 
   const handleFileUpload = async (file) => {
     if (!file) return null;
 
-    if (file.size > MAX_FILE_SIZE) {
-      alert("File too large. Maximum size is 10 MB.");
-      return null;
-    }
-
     setUploading(true);
     try {
-      const result = await uploadImage(file);
+      const compressed = await compressImage(file);
+      const result = await uploadImage(compressed);
       if (result.error) {
         alert("Upload failed: " + result.error);
         return null;
@@ -93,10 +113,6 @@ export default function AdminDashboard() {
   const handleMainImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (!validateFileSize(file)) {
-        e.target.value = '';
-        return;
-      }
       setMainImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -111,12 +127,6 @@ export default function AdminDashboard() {
     if (files.length > 5) {
       alert("Maximum 5 images allowed");
       return;
-    }
-    for (const file of files) {
-      if (!validateFileSize(file)) {
-        e.target.value = '';
-        return;
-      }
     }
     const newThumbnails = files.map(file => {
       const reader = new FileReader();
