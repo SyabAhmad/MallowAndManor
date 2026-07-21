@@ -1,8 +1,8 @@
-import connectDB from '../_lib/db.js';
+import connectDB from './_lib/db.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { verifyToken } from '../_lib/auth.js';
-import User from '../_lib/models/User.js';
+import { verifyToken } from './_lib/auth.js';
+import User from './_lib/models/User.js';
 
 export default async function handler(req, res) {
   try {

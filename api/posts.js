@@ -1,6 +1,6 @@
-import connectDB from '../_lib/db.js';
-import { verifyToken } from '../_lib/auth.js';
-import Post from '../_lib/models/Post.js';
+import connectDB from './_lib/db.js';
+import { verifyToken } from './_lib/auth.js';
+import Post from './_lib/models/Post.js';
 
 export default async function handler(req, res) {
   try {
