@@ -10,7 +10,7 @@ export default function ProductDetail({ products, handleAddToCart }) {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    const foundProduct = products.find((p) => p.id === parseInt(id));
+    const foundProduct = products.find((p) => p.id === id);
     if (foundProduct) {
       setProduct(foundProduct);
       setSelectedImage(foundProduct.mainImage || "");

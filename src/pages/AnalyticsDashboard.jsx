@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabase";
+import { fetchAnalytics } from "../lib/api";
 
 export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState([]);
@@ -22,25 +22,19 @@ export default function AnalyticsDashboard() {
   const eventsPerPage = 10;
 
   useEffect(() => {
-    fetchAnalytics();
+    fetchAnalyticsData();
   }, []);
 
-  const fetchAnalytics = async () => {
+  const fetchAnalyticsData = async () => {
     try {
-      const { data, error } = await supabase
-        .from("analytics")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(500);
-
-      if (error) throw error;
+      const data = await fetchAnalytics();
       setAnalytics(data || []);
 
       // Calculate stats
-      const pageViews = data.filter(d => d.event_type === "page_view").length;
-      const productViews = data.filter(d => d.event_type === "product_view").length;
-      const addToCart = data.filter(d => d.event_type === "add_to_cart").length;
-      const checkouts = data.filter(d => d.event_type === "checkout").length;
+      const pageViews = data.filter(d => d.eventType === "page_view").length;
+      const productViews = data.filter(d => d.eventType === "product_view").length;
+      const addToCart = data.filter(d => d.eventType === "add_to_cart").length;
+      const checkouts = data.filter(d => d.eventType === "checkout").length;
 
       setStats({
         pageViews,
@@ -60,30 +54,30 @@ export default function AnalyticsDashboard() {
       const pageViewsByDay = last7Days.map(day => ({
         date: day,
         count: data.filter(d =>
-          d.event_type === "page_view" &&
-          d.created_at.startsWith(day)
+          d.eventType === "page_view" &&
+          d.createdAt && d.createdAt.startsWith(day)
         ).length
       }));
 
       const productViewsByDay = last7Days.map(day => ({
         date: day,
         count: data.filter(d =>
-          d.event_type === "product_view" &&
-          d.created_at.startsWith(day)
+          d.eventType === "product_view" &&
+          d.createdAt && d.createdAt.startsWith(day)
         ).length
       }));
 
       const addToCartByDay = last7Days.map(day => ({
         date: day,
         count: data.filter(d =>
-          d.event_type === "add_to_cart" &&
-          d.created_at.startsWith(day)
+          d.eventType === "add_to_cart" &&
+          d.createdAt && d.createdAt.startsWith(day)
         ).length
       }));
 
       const totalByDay = last7Days.map(day => ({
         date: day,
-        count: data.filter(d => d.created_at.startsWith(day)).length
+        count: data.filter(d => d.createdAt && d.createdAt.startsWith(day)).length
       }));
 
       setChartData({
@@ -218,22 +212,22 @@ export default function AnalyticsDashboard() {
                 </thead>
                 <tbody>
                   {currentEvents.map((event) => (
-                    <tr key={event.id} className="border-t border-luxury-light hover:bg-luxury-light/10">
+                    <tr key={event._id} className="border-t border-luxury-light hover:bg-luxury-light/10">
                       <td className="p-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                          event.event_type === 'page_view' ? 'bg-blue-100 text-blue-700' :
-                          event.event_type === 'product_view' ? 'bg-purple-100 text-purple-700' :
-                          event.event_type === 'add_to_cart' ? 'bg-green-100 text-green-700' :
+                          event.eventType === 'page_view' ? 'bg-blue-100 text-blue-700' :
+                          event.eventType === 'product_view' ? 'bg-purple-100 text-purple-700' :
+                          event.eventType === 'add_to_cart' ? 'bg-green-100 text-green-700' :
                           'bg-orange-100 text-orange-700'
                         }`}>
-                          {event.event_type.replace('_', ' ')}
+                          {event.eventType.replace('_', ' ')}
                         </span>
                       </td>
                       <td className="p-3 text-gray-600">
-                        {JSON.stringify(event.event_data)}
+                        {JSON.stringify(event.eventData)}
                       </td>
                       <td className="p-3 text-gray-500">
-                        {formatDate(event.created_at)}
+                        {formatDate(event.createdAt)}
                       </td>
                     </tr>
                   ))}

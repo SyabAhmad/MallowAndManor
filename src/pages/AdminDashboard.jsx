@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { getCurrentUser, logout, fetchProducts, createProduct, updateProduct, deleteProduct, uploadImage } from "../lib/api";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState(null);
@@ -24,33 +24,20 @@ export default function AdminDashboard() {
   const [thumbnailFiles, setThumbnailFiles] = useState([]);
 
   useEffect(() => {
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        setUser(session.user);
-        fetchProducts();
-      } else if (event === 'SIGNED_OUT') {
-        navigate("/admin/login");
-      }
-    });
-
-    // Check initial session
     checkUser();
-
-    return () => subscription.unsubscribe();
   }, []);
 
   const checkUser = async () => {
     try {
-      const { data: { user }, error } = await supabase.auth.getUser();
-      
-      if (error || !user) {
+      const userData = await getCurrentUser();
+
+      if (userData.error || !userData._id) {
         navigate("/admin/login");
         return;
       }
-      
-      setUser(user);
-      fetchProducts();
+
+      setUser(userData);
+      loadProducts();
     } catch (err) {
       console.error("Auth error:", err);
       navigate("/admin/login");
@@ -58,7 +45,7 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await logout();
     navigate("/admin/login");
   };
 
@@ -70,37 +57,14 @@ export default function AdminDashboard() {
   const handleFileUpload = async (file) => {
     if (!file) return null;
 
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-    const fileExt = file.name.split('.').pop().toLowerCase();
-    
-    if (!allowedExtensions.includes(fileExt)) {
-      alert(`Invalid file type. Allowed: ${allowedExtensions.join(', ')}`);
-      return null;
-    }
-
     setUploading(true);
-    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-    const filePath = `public/${fileName}`;
-
     try {
-      const { data, error } = await supabase.storage
-        .from('mallow')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (error) {
-        console.error("Storage upload error:", error);
-        alert("Upload failed: " + error.message);
+      const result = await uploadImage(file);
+      if (result.error) {
+        alert("Upload failed: " + result.error);
         return null;
       }
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('mallow')
-        .getPublicUrl(filePath);
-
-      return publicUrl;
+      return result.url;
     } catch (err) {
       console.error("Upload error:", err);
       alert("Upload error: " + err.message);
@@ -114,7 +78,6 @@ export default function AdminDashboard() {
     const file = e.target.files[0];
     if (file) {
       setMainImageFile(file);
-      // Preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData({ ...formData, mainImage: reader.result });
@@ -151,7 +114,7 @@ export default function AdminDashboard() {
     }));
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -163,7 +126,7 @@ const handleSubmit = async (e) => {
       const uploadedUrl = await handleFileUpload(mainImageFile);
       if (!uploadedUrl) {
         setLoading(false);
-        return; // Stop if main image upload failed
+        return;
       }
       mainImageUrl = uploadedUrl;
     }
@@ -174,13 +137,12 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    // Upload all thumbnail images
-    // First, get existing thumbnails (URLs from edit mode)
+    // Get existing thumbnails (URLs from edit mode)
     let existingThumbnails = [];
     if (formData.thumbnails && Array.isArray(formData.thumbnails)) {
       existingThumbnails = formData.thumbnails.filter(t => typeof t === 'string' && t.startsWith('http'));
     }
-    
+
     // Upload new file uploads
     for (const thumb of thumbnailFiles) {
       if (thumb.file && thumb.file instanceof File) {
@@ -189,7 +151,6 @@ const handleSubmit = async (e) => {
       }
     }
 
-    // Combine existing (from edit) and new thumbnails
     thumbnailUrls = [...existingThumbnails, ...thumbnailUrls];
 
     const productData = {
@@ -197,27 +158,20 @@ const handleSubmit = async (e) => {
       price: parseInt(formData.price),
       category: formData.category,
       description: formData.description,
-      main_image: mainImageUrl,
-      thumbnails: thumbnailUrls, // Store as array of URLs
+      mainImage: mainImageUrl,
+      thumbnails: thumbnailUrls,
     };
 
     try {
       if (editingProduct) {
-        const { error } = await supabase
-          .from("products")
-          .update(productData)
-          .eq("id", editingProduct.id);
-
-        if (error) throw error;
+        const result = await updateProduct(editingProduct.id, productData);
+        if (result.error) throw new Error(result.error);
       } else {
-        const { error } = await supabase
-          .from("products")
-          .insert([productData]);
-
-        if (error) throw error;
+        const result = await createProduct(productData);
+        if (result.error) throw new Error(result.error);
       }
 
-// Reset form
+      // Reset form
       setFormData({
         name: "",
         price: "",
@@ -230,9 +184,7 @@ const handleSubmit = async (e) => {
       setThumbnailFiles([]);
       setShowForm(false);
       setEditingProduct(null);
-      fetchProducts();
-      // Reload page to refresh products in App.jsx
-      window.location.reload();
+      loadProducts();
     } catch (err) {
       alert("Error: " + err.message);
     } finally {
@@ -240,18 +192,15 @@ const handleSubmit = async (e) => {
     }
   };
 
-  const fetchProducts = async () => {
+  const loadProducts = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("id", { ascending: false });
-
-    // Ignore RLS errors for read
-    if (error && !error.message.includes('row-level')) {
-      console.error("Error fetching products:", error);
+    try {
+      const data = await fetchProducts();
+      // Map _id to id for consistency
+      setProducts((data || []).map(p => ({ ...p, id: p._id })));
+    } catch (err) {
+      console.error("Error fetching products:", err);
     }
-    setProducts(data || []);
     setLoading(false);
   };
 
@@ -262,7 +211,7 @@ const handleSubmit = async (e) => {
       price: product.price.toString(),
       category: product.category,
       description: product.description || "",
-      mainImage: product.main_image || "",
+      mainImage: product.mainImage || "",
       thumbnails: Array.isArray(product.thumbnails) ? product.thumbnails : [],
     });
     setMainImageFile(null);
@@ -273,13 +222,13 @@ const handleSubmit = async (e) => {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
 
-    const { error } = await supabase
-      .from("products")
-      .delete()
-      .eq("id", id);
-
-    if (error) alert("Error deleting: " + error.message);
-    else fetchProducts();
+    try {
+      const result = await deleteProduct(id);
+      if (result.error) alert("Error deleting: " + result.error);
+      else loadProducts();
+    } catch (err) {
+      alert("Error deleting: " + err.message);
+    }
   };
 
   if (!user) return null;
@@ -306,7 +255,7 @@ const handleSubmit = async (e) => {
 
       {/* Admin Content */}
       <div className="max-w-7xl mx-auto p-6">
-<div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-black text-luxury-dark">Products</h2>
           <div className="flex gap-3">
             <button
@@ -336,7 +285,7 @@ const handleSubmit = async (e) => {
         </div>
 
         {/* Add/Edit Form */}
-            {showForm && (
+        {showForm && (
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <h3 className="text-xl font-bold mb-4">
               {editingProduct ? "Edit Product" : "Add New Product"}
@@ -487,9 +436,9 @@ const handleSubmit = async (e) => {
                   <tr key={product.id} className="border-t border-gray-100 hover:bg-luxury-light/30">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        {product.main_image && (
+                        {product.mainImage && (
                           <img
-                            src={product.main_image}
+                            src={product.mainImage}
                             alt={product.name}
                             className="w-12 h-12 object-cover rounded-lg"
                           />

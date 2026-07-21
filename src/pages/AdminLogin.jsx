@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { login } from "../lib/api";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -15,18 +15,14 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const data = await login(email, password);
 
-      if (error) throw error;
-      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
       if (data.user) {
-        // Wait a moment for session to be fully set
-        setTimeout(() => {
-          navigate("/admin/dashboard");
-        }, 500);
+        navigate("/admin/dashboard");
       }
     } catch (err) {
       setError(err.message || "Login failed");

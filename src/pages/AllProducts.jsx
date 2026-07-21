@@ -37,7 +37,7 @@ export default function AllProducts({ products = [], categories, handleAddToCart
     .sort((a, b) => {
       if (sortBy === "price-low") return a.price - b.price;
       if (sortBy === "price-high") return b.price - a.price;
-      return b.id - a.id; // Latest
+      return new Date(b.createdAt) - new Date(a.createdAt); // Latest
     });
 
   return (

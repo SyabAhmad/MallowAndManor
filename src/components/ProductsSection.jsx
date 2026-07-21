@@ -14,7 +14,7 @@ export default function ProductsSection({ products = [], onAddToCart, productSta
         product.description.toLowerCase().includes(searchTerm.toLowerCase());
       return matchCategory && matchSearch;
     })
-    .sort((a, b) => b.id - a.id)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 4);
 
   return (

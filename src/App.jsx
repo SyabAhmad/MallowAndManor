@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { supabase } from "./lib/supabase";
-import { trackPageView, trackAddToCart, trackRemoveFromCart, getProductStats } from "./lib/analytics";
+import { fetchProducts, fetchCategories, fetchProductStats } from "./lib/api";
+import { trackPageView, trackAddToCart, trackRemoveFromCart } from "./lib/analytics";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import Home from "./pages/Home";
 import AllProducts from "./pages/AllProducts";
@@ -37,7 +37,7 @@ function App() {
     trackPageView(location.pathname);
   }, [location.pathname]);
 
-  // Load products and categories from Supabase
+  // Load products and categories from API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,16 +52,12 @@ function App() {
           if (now - prodCache.timestamp < 300000 && now - catCache.timestamp < 300000) {
             setProducts(prodCache.data);
             setCategories(catCache.data);
+            setLoading(false);
             return;
           }
         }
 
-        const { data: categoriesData, error: catError } = await supabase
-          .from("categories")
-          .select("*")
-          .order("id", { ascending: true });
-
-        if (catError) throw catError;
+        const categoriesData = await fetchCategories();
         setCategories(categoriesData || []);
 
         localStorage.setItem('mallow_categories_cache', JSON.stringify({
@@ -69,28 +65,23 @@ function App() {
           timestamp: Date.now()
         }));
 
-        const { data: productsData, error: prodError } = await supabase
-          .from("products")
-          .select("*")
-          .order("id", { ascending: true });
+        const productsData = await fetchProducts();
 
-        if (prodError) throw prodError;
-
+        // Map MongoDB _id to id for backwards compatibility with frontend
         const mappedProducts = (productsData || []).map(p => ({
-          id: p.id,
+          id: p._id,
           name: p.name,
           price: p.price,
           category: p.category,
-          mainImage: p.main_image,
-          thumbnails: Array.isArray(p.thumbnails) ? p.thumbnails : (p.thumbnails ? [p.thumbnails] : []),
-          description: p.description
+          mainImage: p.mainImage,
+          thumbnails: Array.isArray(p.thumbnails) ? p.thumbnails : [],
+          description: p.description,
+          createdAt: p.createdAt,
         }));
         setProducts(mappedProducts);
 
         // Fetch product stats
-        console.log("Fetching product stats...");
-        const stats = await getProductStats();
-        console.log("Product stats:", stats);
+        const stats = await fetchProductStats();
         setProductStats(stats || {});
 
         localStorage.setItem('mallow_products_cache', JSON.stringify({
@@ -98,7 +89,9 @@ function App() {
           timestamp: Date.now()
         }));
       } catch (err) {
-        console.error("Error loading data from Supabase:", err);
+        console.error("Error loading data from API:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
