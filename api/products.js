@@ -68,13 +68,13 @@ export default async function handler(req, res) {
 
     // Admin: DELETE /api/products/:id - delete product
     if (req.method === 'DELETE' && !req.query?.categories) {
-      await Product.findByIdAndDelete(req.query.id);
+      await Product.findByIdAndDelete(req.body.id);
       return res.json({ success: true });
     }
 
     // Admin: DELETE /api/products?categories=true - delete category
     if (req.method === 'DELETE' && req.query?.categories === 'true') {
-      await Category.findByIdAndDelete(req.query.id);
+      await Category.findByIdAndDelete(req.body.id);
       return res.json({ success: true });
     }
 

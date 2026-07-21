@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     if (req.method === 'DELETE') {
       const user = verifyToken(req);
       if (!user) return res.status(401).json({ error: 'Unauthorized' });
-      await Post.findByIdAndDelete(req.query.id);
+      await Post.findByIdAndDelete(req.body.id);
       return res.json({ success: true });
     }
 

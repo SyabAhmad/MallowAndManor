@@ -72,7 +72,9 @@ router.put('/', authenticate, async (req, res, next) => {
 // DELETE /api/products — admin
 router.delete('/', authenticate, async (req, res, next) => {
   try {
-    const { id, categories } = req.query;
+    const { categories } = req.query;
+    const { id } = req.body;
+    if (!id) return res.status(400).json({ error: 'id required' });
 
     if (categories === 'true') {
       await Category.findByIdAndDelete(id);
