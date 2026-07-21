@@ -164,7 +164,7 @@ function App() {
           categories={categories}
         />
 
-        <main className="max-w-7xl mx-auto px-4 py-8">
+        <main>
           <Routes>
             <Route
               path="/"

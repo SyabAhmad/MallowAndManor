@@ -1,205 +1,75 @@
 export default function Contact() {
   const faqs = [
-    {
-      q: "Where do you deliver?",
-      a: "We provide nationwide delivery across Pakistan, covering all major cities and districts including Karachi, Lahore, Islamabad, and more.",
-    },
-    {
-      q: "How can I track my order?",
-      a: "Once your order is confirmed via WhatsApp, we will provide you with a tracking number and regular updates on your delivery process.",
-    },
-    {
-      q: "What are the shipping costs?",
-      a: "Shipping is calculated based on destination within Pakistan. We offer free delivery on all orders over Rs. 5,000.",
-    },
-    {
-      q: "What is your return policy?",
-      a: "Due to the nature of luxury products, we only accept returns for damaged items reported within 24 hours of delivery.",
-    },
+    { q: "Where do you deliver?", a: "We provide nationwide delivery across Pakistan, covering all major cities including Karachi, Lahore, Islamabad, and more." },
+    { q: "How can I track my order?", a: "Once confirmed via WhatsApp, we provide a tracking number and regular delivery updates." },
+    { q: "What are the shipping costs?", a: "Shipping is calculated by destination. Free delivery on orders over Rs. 5,000." },
+    { q: "What is your return policy?", a: "We accept returns for damaged items reported within 24 hours of delivery." },
   ];
 
   return (
-    <div className="animate-fade-in py-8 max-w-5xl mx-auto">
-      <div className="text-center mb-12">
-        <h1 className="text-3xl font-black text-luxury-dark mb-3">
-          Get In Touch
-        </h1>
-        <p className="text-gray-500 max-w-xl mx-auto text-sm italic">
-          "Luxury is in each detail, and we're here to help you get every detail
-          right."
-        </p>
+    <div className="max-w-5xl mx-auto px-6 lg:px-8 py-16">
+      <div className="text-center mb-16">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">Get In Touch</h1>
+        <p className="text-gray-400 text-sm">We're here to help you get every detail right.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
-        {/* Contact Info */}
-        <div className="space-y-8">
-          <div>
-            <h2 className="text-xl font-black text-luxury-dark mb-4 border-b-2 border-luxury-green inline-block">
-              Contact Details
-            </h2>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-luxury-light rounded-xl flex items-center justify-center text-xl group-hover:bg-luxury-green group-hover:text-white transition-all duration-300">
-                  📞
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+        {/* Contact */}
+        <div>
+          <h2 className="text-lg font-semibold mb-6">Contact Details</h2>
+          <div className="space-y-5">
+            {[
+              { label: "Phone", value: "+92 344 4778119", icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" },
+              { label: "Email", value: "hello@mallowandmanor.com", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+              { label: "Address", value: "DHA Phase 6, Karachi, Pakistan", icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-gray-50 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
+                  </svg>
                 </div>
                 <div>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                    Phone
-                  </p>
-                  <p className="text-base font-bold text-luxury-dark">
-                    +92 344 4778119
-                  </p>
+                  <p className="text-xs text-gray-400 tracking-wider uppercase mb-1">{item.label}</p>
+                  <p className="text-sm font-medium">{item.value}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-luxury-light rounded-xl flex items-center justify-center text-xl group-hover:bg-luxury-green group-hover:text-white transition-all duration-300">
-                  📧
-                </div>
-                <div>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                    Email
-                  </p>
-                  <p className="text-base font-bold text-luxury-dark">
-                    hello@mallowandmanor.com
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-luxury-light rounded-xl flex items-center justify-center text-xl group-hover:bg-luxury-green group-hover:text-white transition-all duration-300">
-                  📍
-                </div>
-                <div>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                    Address
-                  </p>
-                  <p className="text-base font-bold text-luxury-dark">
-                    DHA Phase 6, Karachi, Pakistan
-                  </p>
-                </div>
-              </div>
-              <div
-                className="flex items-center gap-3 group cursor-pointer"
-                onClick={() => {
-                  const rawNumber =
-                    import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
-                  const cleanNumber = rawNumber.replace(/\D/g, "");
-                  const message = encodeURIComponent(
-                    import.meta.env.VITE_WHATSAPP_MESSAGE ||
-                      "Hello Mallow & Manor! 👑",
-                  );
-                  const whatsappUrl = `https://wa.me/${cleanNumber}?text=${message}`;
-                  const newWindow = window.open(whatsappUrl, "_blank");
-                  if (
-                    !newWindow ||
-                    newWindow.closed ||
-                    typeof newWindow.closed === "undefined"
-                  ) {
-                    window.location.href = whatsappUrl;
-                  }
-                }}
-              >
-                <div className="w-10 h-10 bg-[#25D366] text-white rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-all duration-300">
-                  💬
-                </div>
-                <div>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                    WhatsApp
-                  </p>
-                  <p className="text-base font-bold text-[#25D366]">
-                    Chat with us now
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
-          <div className="bg-luxury-dark text-white p-6 rounded-2xl shadow-xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-luxury-green opacity-20 rounded-full -mr-8 -mt-8 group-hover:scale-150 transition-transform duration-700"></div>
-            <h3 className="text-lg font-bold mb-3 relative z-10">
-              Business Hours
-            </h3>
-            <ul className="space-y-1.5 text-gray-300 text-sm relative z-10">
-              <li className="flex justify-between">
-                <span>Mon - Fri</span>{" "}
-                <span className="text-luxury-gold font-bold">
-                  9:00 AM - 6:00 PM
-                </span>
-              </li>
-              <li className="flex justify-between">
-                <span>Saturday</span>{" "}
-                <span className="text-luxury-gold font-bold">
-                  10:00 AM - 4:00 PM
-                </span>
-              </li>
-              <li className="flex justify-between">
-                <span>Sunday</span>{" "}
-                <span className="text-luxury-gold font-bold uppercase tracking-widest">
-                  Closed
-                </span>
-              </li>
-            </ul>
+          <div className="mt-8 p-6 bg-gray-50">
+            <h3 className="text-sm font-semibold mb-3">Business Hours</h3>
+            <div className="space-y-2 text-sm text-gray-500">
+              <div className="flex justify-between"><span>Mon - Fri</span><span className="font-medium text-luxury-dark">9:00 AM - 6:00 PM</span></div>
+              <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-luxury-dark">10:00 AM - 4:00 PM</span></div>
+              <div className="flex justify-between"><span>Sunday</span><span className="font-medium text-gray-400">Closed</span></div>
+            </div>
           </div>
         </div>
 
-        {/* FAQ Section */}
+        {/* FAQ */}
         <div>
-          <h2 className="text-xl font-black text-luxury-dark mb-4 border-b-2 border-luxury-green inline-block">
-            Common Questions
-          </h2>
+          <h2 className="text-lg font-semibold mb-6">Frequently Asked Questions</h2>
           <div className="space-y-4">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="bg-white p-4 rounded-xl border border-luxury-light shadow-sm hover:shadow-md transition-all group"
-              >
-                <h4 className="font-bold text-luxury-dark mb-1 text-sm group-hover:text-luxury-green transition-colors">
-                  {faq.q}
-                </h4>
-                <p className="text-gray-500 text-xs leading-relaxed">{faq.a}</p>
+            {faqs.map((faq, i) => (
+              <div key={i} className="border-b border-gray-100 pb-4">
+                <h4 className="text-sm font-medium mb-2">{faq.q}</h4>
+                <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Delivery Map / Places */}
-      <div className="bg-luxury-dark text-white rounded-2xl p-10 text-center border-4 border-luxury-gold/20 shadow-xl relative overflow-hidden group">
-        <div className="absolute inset-0 bg-luxury-gold outline-offset-8 -z-0 opacity-5 group-hover:opacity-10 transition-opacity"></div>
-        <h2 className="text-2xl font-black mb-6 italic tracking-tighter relative z-10">
-          Where We Deliver
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-luxury-gold font-bold text-sm relative z-10">
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Karachi
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Lahore
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Islamabad
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Faisalabad
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Multan
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Peshawar
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Quetta
-          </span>
-          <span className="flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-            📍 Sialkot
-          </span>
+      {/* Delivery */}
+      <div className="bg-luxury-dark text-white py-12 px-8 text-center">
+        <h2 className="text-xl font-bold mb-6">Where We Deliver</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-white/70 mb-6">
+          {["Karachi", "Lahore", "Islamabad", "Faisalabad", "Multan", "Peshawar", "Quetta", "Sialkot"].map((city) => (
+            <span key={city}>{city}</span>
+          ))}
         </div>
-        <p className="mt-8 text-gray-400 text-sm max-w-2xl mx-auto italic border-t border-white/10 pt-6 relative z-10">
-          Not in these cities? Send us a DM on WhatsApp, <br />
-          <span className="text-white font-bold">
-            We handle deliveries to all districts across Pakistan!
-          </span>
-        </p>
+        <p className="text-xs text-white/40">We deliver to all districts across Pakistan</p>
       </div>
     </div>
   );

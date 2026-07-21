@@ -2,161 +2,74 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-luxury-dark text-white mt-16 py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
+    <footer className="border-t border-gray-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
-          <div className="lg:col-span-2 space-y-6">
-            <Link
-              to="/"
-              className="text-3xl font-black flex items-center gap-2 tracking-tighter italic"
-            >
-              <span className="text-luxury-gold">👑</span> Mallow & Manor
+          <div className="lg:col-span-2">
+            <Link to="/" className="text-lg font-bold tracking-wider uppercase mb-4 block">
+              Mallow & Manor
             </Link>
-            <p className="text-gray-400 text-lg leading-relaxed max-w-md italic">
-              "Redefining elegance for the modern soul. Our curated anthology of
-              bangles, abayas, and accessories is designed to celebrate your
-              unique identity."
+            <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-6">
+              Redefining elegance for the modern soul. Curated bangles, abayas,
+              and accessories designed to celebrate your unique identity.
             </p>
             <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/mallowandmanor/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-luxury-gold hover:border-luxury-gold transition-all group"
+                className="w-9 h-9 border border-gray-200 flex items-center justify-center hover:bg-luxury-dark hover:text-white hover:border-luxury-dark transition-all"
                 aria-label="Instagram"
               >
-                <span className="text-xl group-hover:scale-110 transition-transform">
-                  📸
-                </span>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
               </a>
               <a
                 href="https://www.tiktok.com/@mallowandmanor?lang=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-luxury-gold hover:border-luxury-gold transition-all group"
+                className="w-9 h-9 border border-gray-200 flex items-center justify-center hover:bg-luxury-dark hover:text-white hover:border-luxury-dark transition-all"
                 aria-label="TikTok"
               >
-                <span className="text-xl group-hover:scale-110 transition-transform">
-                  ♪
-                </span>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13.2a8.16 8.16 0 005.58 2.2v-3.45a4.85 4.85 0 01-2-.83 4.84 4.84 0 01-1.65-2.23h3.45z" />
+                </svg>
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Shop */}
           <div>
-            <h4 className="font-bold text-luxury-gold tracking-widest uppercase text-xs mb-6">
-              Collections
-            </h4>
-            <ul className="space-y-4 text-gray-400">
-              <li>
-                <Link
-                  to="/"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/products"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Shop All
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Our Story
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Contact Us
-                </Link>
-              </li>
+            <h4 className="text-xs font-semibold tracking-widest uppercase mb-6">Shop</h4>
+            <ul className="space-y-3 text-sm text-gray-500">
+              <li><Link to="/products" className="hover:text-luxury-dark transition-colors">All Products</Link></li>
+              <li><Link to="/products?category=bangles" className="hover:text-luxury-dark transition-colors">Bangles</Link></li>
+              <li><Link to="/products?category=nails" className="hover:text-luxury-dark transition-colors">Nails</Link></li>
+              <li><Link to="/products?category=abayas" className="hover:text-luxury-dark transition-colors">Abayas</Link></li>
+              <li><Link to="/products?category=necklaces" className="hover:text-luxury-dark transition-colors">Necklaces</Link></li>
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Company */}
           <div>
-            <h4 className="font-bold text-luxury-gold tracking-widest uppercase text-xs mb-6">
-              Support
-            </h4>
-            <ul className="space-y-4 text-gray-400">
-              <li>
-                <Link
-                  to="#"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Shipping Info
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Returns
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/favorites"
-                  className="hover:text-luxury-gold transition-colors block"
-                >
-                  Wishlist
-                </Link>
-              </li>
+            <h4 className="text-xs font-semibold tracking-widest uppercase mb-6">Company</h4>
+            <ul className="space-y-3 text-sm text-gray-500">
+              <li><Link to="/about" className="hover:text-luxury-dark transition-colors">Our Story</Link></li>
+              <li><Link to="/contact" className="hover:text-luxury-dark transition-colors">Contact</Link></li>
+              <li><Link to="/favorites" className="hover:text-luxury-dark transition-colors">Wishlist</Link></li>
+              <li><Link to="/cart" className="hover:text-luxury-dark transition-colors">Cart</Link></li>
             </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-bold text-luxury-gold tracking-widest uppercase text-xs mb-6">
-              Connect
-            </h4>
-            <div className="space-y-4 text-gray-400">
-              <p className="flex items-center gap-3">
-                <span className="text-luxury-gold">📞</span> +92 344 4778119
-              </p>
-              <p className="flex items-center gap-3 break-all">
-                <span className="text-luxury-gold">📧</span>{" "}
-                hello@mallowandmanor.com
-              </p>
-              <p className="flex items-center gap-3">
-                <span className="text-luxury-gold">📍</span> Pakistan | Luxury
-                Headquarters
-              </p>
-            </div>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
-          <p>&copy; 2026 Mallow & Manor. Royal Elegance Defined.</p>
-          <div className="flex gap-8 mt-4 md:mt-0 uppercase tracking-widest">
-            <Link to="#" className="hover:text-luxury-gold transition-colors">
-              Privacy
-            </Link>
-            <Link to="#" className="hover:text-luxury-gold transition-colors">
-              Terms
-            </Link>
+        <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+          <p>&copy; 2026 Mallow & Manor. All rights reserved.</p>
+          <div className="flex gap-6">
+            <Link to="#" className="hover:text-luxury-dark transition-colors">Privacy</Link>
+            <Link to="#" className="hover:text-luxury-dark transition-colors">Terms</Link>
           </div>
         </div>
       </div>

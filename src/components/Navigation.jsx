@@ -15,98 +15,89 @@ export default function Navigation({ cartCount, favCount, categories }) {
   };
 
   return (
-    <nav className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-luxury-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center justify-between gap-6">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <span className="text-2xl group-hover:rotate-12 transition-transform duration-300">
-              👑
-            </span>
-            <h1 className="text-lg font-black text-luxury-green tracking-tighter uppercase italic hidden sm:block">
+    <nav className="bg-white sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 -ml-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+
+          {/* Left nav links - desktop */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link to="/products" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity">
+              Shop
+            </Link>
+            <Link to="/about" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity">
+              Story
+            </Link>
+          </div>
+
+          {/* Logo - center */}
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+            <h1 className="text-sm md:text-base font-bold tracking-wider uppercase whitespace-nowrap">
               Mallow & Manor
             </h1>
           </Link>
 
-          {/* Center - Empty or minimal */}
-          <div className="hidden md:flex items-center flex-1 justify-center">
-            {/* Empty - removed Today's Deals, Brands, Categories, Delivery */}
-          </div>
-
-          {/* Right Side - Search, Cart, Favorites */}
-          <div className="flex items-center gap-3 shrink-0">
-            {/* Search Bar */}
+          {/* Right icons */}
+          <div className="flex items-center gap-4">
+            {/* Search - desktop */}
             <div className="hidden md:flex items-center relative">
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleSearch}
-                className="w-40 lg:w-56 px-4 py-2 bg-luxury-light/50 border border-luxury-light rounded-full focus:border-luxury-green focus:outline-none transition-all text-xs font-medium"
+                className="w-32 lg:w-48 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-full text-xs focus:outline-none focus:border-luxury-green transition-colors"
               />
-              <span
-                className="absolute right-3 text-xs opacity-30 cursor-pointer"
-                onClick={() => {
-                  if (searchTerm.trim()) {
-                    navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
-                    setSearchTerm("");
-                  }
-                }}
-              >
-                🔍
-              </span>
+              <svg className="absolute right-3 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
 
-            {/* Favorites */}
-            <Link
-              to="/favorites"
-              className="relative group p-2 rounded-full hover:bg-luxury-light transition-colors"
-            >
-              <span className="text-xl">♡</span>
+            <Link to="/favorites" className="relative p-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
               {favCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-luxury-gold text-luxury-dark text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-luxury-green text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                   {favCount}
                 </span>
               )}
             </Link>
 
-            {/* Cart */}
-            <Link
-              to="/cart"
-              className="relative group p-2 rounded-full hover:bg-luxury-light transition-colors"
-            >
-              <span className="text-xl">🛍️</span>
+            <Link to="/cart" className="relative p-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-luxury-green text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-luxury-dark text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                   {cartCount}
                 </span>
               )}
             </Link>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-luxury-green"
-            >
-              {isMobileMenuOpen ? (
-                <span className="text-xl">✕</span>
-              ) : (
-                <span className="text-xl">☰</span>
-              )}
-            </button>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 bg-white border-t border-luxury-light ${
-          isMobileMenuOpen ? "max-h-[80vh] py-4 opacity-100" : "max-h-0 py-0 opacity-0"
+        className={`md:hidden overflow-hidden transition-all duration-300 bg-white border-t border-gray-100 ${
+          isMobileMenuOpen ? "max-h-[60vh] py-6" : "max-h-0"
         }`}
       >
-        <div className="px-6 flex flex-col gap-4">
-          {/* Mobile Search */}
+        <div className="px-6 space-y-5">
           <div className="relative">
             <input
               type="text"
@@ -114,26 +105,16 @@ export default function Navigation({ cartCount, favCount, categories }) {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleSearch}
-              className="w-full px-4 py-2.5 bg-luxury-light/50 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none text-sm"
+              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none"
             />
-            <span
-              className="absolute right-4 top-3 opacity-30 cursor-pointer"
-              onClick={() => {
-                if (searchTerm.trim()) {
-                  navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
-                  setSearchTerm("");
-                  setIsMobileMenuOpen(false);
-                }
-              }}
-            >
-              🔍
-            </span>
           </div>
-
-          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-700 font-semibold uppercase text-xs tracking-widest py-2">
-            About
+          <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase">
+            Shop
           </Link>
-          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-700 font-semibold uppercase text-xs tracking-widest py-2">
+          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase">
+            Story
+          </Link>
+          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase">
             Contact
           </Link>
         </div>

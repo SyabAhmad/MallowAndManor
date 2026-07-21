@@ -1,76 +1,61 @@
-// Static seasonal collections with your own images
-const seasonalCollections = [
+const collections = [
   {
     id: "bangles",
     name: "Bangles",
-    icon: "💍",
+    tagline: "Artisanal adornments",
     image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80",
   },
   {
     id: "nails",
     name: "Nails",
-    icon: "💅",
+    tagline: "Precision artistry",
     image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80",
   },
   {
     id: "abayas",
     name: "Abayas",
-    icon: "👗",
+    tagline: "Silk & sobriety",
     image: "https://images.unsplash.com/photo-1583267746897-2cf415888172?w=600&q=80",
   },
   {
     id: "necklaces",
     name: "Necklaces",
-    icon: "✨",
+    tagline: "Royal adornments",
     image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80",
   },
 ];
 
 export default function Collections({ onCategoryClick }) {
   return (
-    <section className="mb-12">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-        <div>
-          <span className="text-luxury-green font-bold tracking-[0.3em] uppercase text-[11px] mb-2 block">
-            Curation
-          </span>
-          <h2 className="text-3xl font-black text-luxury-dark uppercase tracking-tighter italic">
-            Seasonal{" "}
-            <span className="text-luxury-green underline decoration-luxury-gold decoration-2 underline-offset-4">
-              Collections
-            </span>
-          </h2>
-        </div>
-        <p className="text-gray-500 italic text-sm max-w-sm">
-          "Style is a way to say who you are without having to speak."
-        </p>
+    <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <span className="text-xs font-medium tracking-[0.3em] uppercase text-gray-400 mb-4 block">
+          Collections
+        </span>
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          Shop by Category
+        </h2>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {seasonalCollections.map((category) => (
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {collections.map((category) => (
           <div
             key={category.id}
             onClick={() => onCategoryClick(category.id)}
-            className="group cursor-pointer relative h-64 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 border border-luxury-light"
+            className="group cursor-pointer"
           >
-            <img
-              src={category.image}
-              alt={category.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
-            />
-
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-luxury-dark/90 via-luxury-dark/20 to-transparent flex flex-col justify-end p-5">
-              <div className="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300 inline-block">
-                  {category.icon}
-                </div>
-                <h3 className="text-xl font-black mb-1">{category.name}</h3>
-                <p className="text-luxury-gold font-bold tracking-widest text-[10px] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  View Anthology →
-                </p>
-              </div>
+            <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-gray-100">
+              <img
+                src={category.image}
+                alt={category.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
             </div>
+            <h3 className="text-sm font-semibold tracking-wider uppercase mb-1">
+              {category.name}
+            </h3>
+            <p className="text-xs text-gray-400">{category.tagline}</p>
           </div>
         ))}
       </div>

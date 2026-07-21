@@ -7,92 +7,87 @@ export default function HeroCarousel() {
 
   const slides = [
     {
-      title: "Royal Adornments",
-      subtitle: "Exquisite Bangles & Necklaces for True Royalty",
+      title: "Good for your style.\nGood for the Earth.",
+      subtitle: "Handcrafted luxury accessories made with intention.",
       image: "MallowAndManor.jpeg",
-      accent: "text-luxury-green",
+      cta: "Shop Now",
     },
     {
-      title: "Silk & Sobriety",
-      subtitle: "Designer Abayas for Unmatched Grace",
-      image:
-        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1440&auto=format&fit=crop",
-      accent: "text-luxury-gold",
+      title: "Curated elegance\nfor the modern soul.",
+      subtitle: "Designer abayas, bangles, and accessories.",
+      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1440&auto=format&fit=crop",
+      cta: "Explore Collection",
     },
     {
-      title: "Precision Artistry",
-      subtitle: "Custom Nails That Tell a Story",
-      image:
-        "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1632&auto=format&fit=crop",
-      accent: "text-white",
+      title: "Buy fewer pieces,\ncreate less waste.",
+      subtitle: "Timeless designs that transcend seasons.",
+      image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1632&auto=format&fit=crop",
+      cta: "Discover More",
     },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-[2rem] shadow-xl mb-12 group">
-      {/* Slides */}
+    <section className="relative w-full h-[70vh] md:h-[85vh] min-h-[480px] md:min-h-[600px] overflow-hidden">
       {slides.map((slide, idx) => (
         <div
           key={idx}
-          className={`absolute inset-0 transition-all duration-[1500ms] ease-in-out ${
-            idx === currentSlide
-              ? "opacity-100 scale-100"
-              : "opacity-0 scale-105 pointer-events-none"
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            idx === currentSlide ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
           <img
             src={slide.image}
             alt={slide.title}
-            className="w-full h-full object-cover brightness-95"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
-
-          {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-center items-start px-12 md:px-24">
-            <div className="animate-fade-in space-y-4">
-              <span
-                className={`uppercase tracking-[0.4em] font-bold text-xs ${slide.accent}`}
-              >
-                New Arrivals
-              </span>
-<h1 className="text-3xl md:text-5xl font-black text-white mb-2 max-w-2xl drop-shadow-2xl">
-                 {slide.title}
-               </h1>
-               <p className="text-base md:text-lg text-white/90 mb-4 font-light max-w-xl">
-                {slide.subtitle}
-              </p>
-              <button
-                onClick={() => navigate("/products")}
-                className="bg-white text-luxury-dark px-10 py-4 rounded-full font-bold hover:bg-luxury-green hover:text-white transition-all transform hover:scale-110 shadow-xl"
-              >
-                Explore Now
-              </button>
-            </div>
-          </div>
+          <div className="absolute inset-0 bg-black/30" />
         </div>
       ))}
 
-      {/* Decorative Dots */}
-      <div className="absolute bottom-10 left-12 flex gap-3 z-10">
+      {/* Content overlay */}
+      <div className="absolute inset-0 flex items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+          <div className="max-w-xl">
+            <span className="inline-block text-white/80 text-[10px] md:text-xs font-medium tracking-[0.3em] uppercase mb-4 md:mb-6">
+              New Arrivals
+            </span>
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 leading-[1.1] whitespace-pre-line">
+              {slides[currentSlide].title}
+            </h1>
+            <p className="text-white/80 text-sm md:text-lg mb-6 md:mb-8 max-w-md leading-relaxed">
+              {slides[currentSlide].subtitle}
+            </p>
+            <button
+              onClick={() => navigate("/products")}
+              className="bg-white text-luxury-dark px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green hover:text-white transition-all duration-300"
+            >
+              {slides[currentSlide].cta}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Slide indicators */}
+      <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
         {slides.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentSlide(idx)}
-            className={`transition-all duration-500 rounded-full ${
+            className={`transition-all duration-300 ${
               idx === currentSlide
-                ? "bg-white w-12 h-2.5"
-                : "bg-white/30 w-2.5 h-2.5 hover:bg-white/60"
+                ? "w-8 h-0.5 bg-white"
+                : "w-4 h-0.5 bg-white/40 hover:bg-white/60"
             }`}
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

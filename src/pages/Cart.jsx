@@ -3,32 +3,25 @@ import { trackCheckout } from "../lib/analytics";
 
 export default function Cart({ cart, removeFromCart, updateQuantity }) {
   const navigate = useNavigate();
-
   const total = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
   const handleCheckout = () => {
     trackCheckout(total, cart.length);
     const itemsList = cart
-      .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}
-  ${window.location.origin}/product/${item.id}`)
+      .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}\n${window.location.origin}/product/${item.id}`)
       .join("\n");
-    const message = `Hello Mallow & Manor! I'd like to place an order:\n\n${itemsList}\n\nTotal Amount: Rs.${total}\nPlease confirm my order.`;
-
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
+    const message = `Hello Mallow & Manor! I'd like to place an order:\n\n${itemsList}\n\nTotal: Rs.${total}\nPlease confirm my order.`;
+    window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   if (cart.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center animate-fade-in">
-        <div className="text-6xl mb-6">🛍️</div>
-        <h1 className="text-3xl font-black text-luxury-dark mb-3">Your cart is empty</h1>
-        <p className="text-gray-500 mb-6 max-w-sm text-sm">
-          Looks like you haven't added anything yet. Discover our latest arrivals!
-        </p>
+      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-6">
+        <h1 className="text-2xl font-bold mb-3">Your cart is empty</h1>
+        <p className="text-gray-400 text-sm mb-6">Discover our curated collection.</p>
         <button
           onClick={() => navigate("/products")}
-          className="bg-luxury-green text-white px-8 py-3 rounded-full font-bold hover:shadow-lg hover:scale-105 transition-all text-sm"
+          className="bg-luxury-dark text-white px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors"
         >
           Browse Products
         </button>
@@ -37,88 +30,71 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
   }
 
   return (
-    <div className="animate-fade-in py-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-black text-luxury-dark mb-6 flex items-center gap-3">
-        Your Shopping Bag <span className="text-luxury-green text-xl">({cart.length})</span>
-      </h1>
+    <div className="max-w-5xl mx-auto px-6 lg:px-8 py-12">
+      <h1 className="text-2xl font-bold mb-8">Shopping Cart ({cart.length})</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Items */}
         <div className="lg:col-span-2 space-y-4">
           {cart.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-2xl p-3 flex gap-4 border border-luxury-light shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden flex-shrink-0">
+            <div key={item.id} className="flex gap-4 py-4 border-b border-gray-100">
+              <div className="w-20 h-20 bg-gray-100 overflow-hidden shrink-0">
                 <img src={item.mainImage} alt={item.name} className="w-full h-full object-cover" />
               </div>
-              <div className="flex-1 flex flex-col justify-between py-1">
-                <div className="flex justify-between items-start">
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between gap-2">
                   <div>
-                    <h3 className="font-bold text-luxury-dark text-base sm:text-lg">{item.name}</h3>
-                    <p className="text-luxury-green font-semibold text-xs capitalize">{item.category}</p>
+                    <h3 className="text-sm font-medium truncate">{item.name}</h3>
+                    <p className="text-xs text-gray-400 capitalize">{item.category}</p>
                   </div>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="text-gray-400 hover:text-red-500 transition-colors text-sm"
+                    className="text-gray-300 hover:text-gray-600 transition-colors shrink-0"
                   >
-                    ✕
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                   </button>
                 </div>
-
-                <div className="flex justify-between items-end">
-                  <div className="flex items-center border border-luxury-light rounded-lg overflow-hidden bg-luxury-light/20">
-                    <button
-                      onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}
-                      className="px-2.5 py-1 hover:bg-luxury-light transition-colors font-bold text-sm"
-                    >
-                      –
-                    </button>
-                    <span className="px-3 font-bold text-sm">{item.quantity || 1}</span>
-                    <button
-                      onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
-                      className="px-2.5 py-1 hover:bg-luxury-light transition-colors font-bold text-sm"
-                    >
-                      +
-                    </button>
+                <div className="flex justify-between items-center mt-3">
+                  <div className="flex items-center border border-gray-200">
+                    <button onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)} className="w-8 h-8 flex items-center justify-center text-sm hover:bg-gray-50">-</button>
+                    <span className="w-8 text-center text-sm">{item.quantity || 1}</span>
+                    <button onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)} className="w-8 h-8 flex items-center justify-center text-sm hover:bg-gray-50">+</button>
                   </div>
-                  <span className="text-lg font-black text-luxury-dark">
-                    Rs. {item.price * (item.quantity || 1)}
-                  </span>
+                  <span className="text-sm font-semibold">Rs. {item.price * (item.quantity || 1)}</span>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-luxury-light shadow-lg h-fit sticky top-20">
-          <h2 className="text-xl font-black text-luxury-dark mb-4">Summary</h2>
-          <div className="space-y-3 mb-6">
-            <div className="flex justify-between text-gray-500 text-sm">
-              <span>Subtotal</span>
-              <span className="font-bold text-luxury-dark">Rs. {total}</span>
+        {/* Summary */}
+        <div className="bg-gray-50 p-6 h-fit sticky top-24">
+          <h2 className="text-sm font-semibold tracking-wider uppercase mb-4">Summary</h2>
+          <div className="space-y-3 mb-6 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-500">Subtotal</span>
+              <span className="font-medium">Rs. {total}</span>
             </div>
-            <div className="flex justify-between text-gray-500 text-sm">
-              <span>Shipping</span>
-              <span className="text-luxury-green font-bold text-xs">Calculated at WhatsApp</span>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Shipping</span>
+              <span className="text-xs text-gray-400">Calculated at WhatsApp</span>
             </div>
-            <div className="border-t border-luxury-light pt-3 mt-3">
-              <div className="flex justify-between items-center">
-                <span className="font-bold text-luxury-dark">Total</span>
-                <span className="text-2xl font-black text-luxury-green">Rs. {total}</span>
+            <div className="border-t border-gray-200 pt-3">
+              <div className="flex justify-between">
+                <span className="font-semibold">Total</span>
+                <span className="text-lg font-bold">Rs. {total}</span>
               </div>
             </div>
           </div>
-
           <button
             onClick={handleCheckout}
-            className="w-full bg-[#25D366] text-white py-4 rounded-xl font-black text-sm hover:bg-[#128C7E] transition-all shadow-lg flex items-center justify-center gap-2 active:scale-[0.98]"
+            className="w-full bg-[#25D366] text-white py-3.5 text-sm font-semibold tracking-wider uppercase hover:bg-[#128C7E] transition-colors"
           >
-            ORDER VIA WHATSAPP 💬
+            Order via WhatsApp
           </button>
-          <p className="text-[9px] text-gray-400 text-center mt-3 uppercase tracking-[0.2em] font-bold">
-            Fast response & safe delivery
-          </p>
+          <p className="text-[10px] text-gray-400 text-center mt-3">Fast response & safe delivery</p>
         </div>
       </div>
     </div>

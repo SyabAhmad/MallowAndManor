@@ -3,46 +3,23 @@ import { useState, useEffect } from "react";
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Show button when page is scrolled down
-  const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   useEffect(() => {
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 400);
     window.addEventListener("scroll", toggleVisibility);
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
+  if (!isVisible) return null;
+
   return (
-    <div className="fixed bottom-8 right-8 z-[60]">
-      <button
-        type="button"
-        onClick={scrollToTop}
-        className={`
-          p-4 rounded-full shadow-2xl transition-all duration-500 transform
-          ${isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-50 pointer-events-none"}
-          bg-luxury-dark text-white hover:bg-luxury-green hover:scale-110 active:scale-90
-          border-2 border-luxury-gold/30 group
-        `}
-      >
-        <span className="text-xl block group-hover:-translate-y-1 transition-transform">
-          ▲
-        </span>
-        <span className="text-[10px] font-black uppercase tracking-tighter mt-1 block">
-          Top
-        </span>
-      </button>
-    </div>
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className="fixed bottom-6 right-6 w-10 h-10 bg-luxury-dark text-white flex items-center justify-center hover:bg-luxury-green transition-colors z-50"
+      aria-label="Back to top"
+    >
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
   );
 }
