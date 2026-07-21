@@ -16,6 +16,11 @@ export default function BlogPost() {
       .finally(() => setLoading(false));
   }, [slug]);
 
+  const renderedContent = useMemo(() => {
+    if (!post?.content) return '';
+    return marked(post.content, { breaks: true });
+  }, [post?.content]);
+
   if (loading) {
     return (
       <div className="flex justify-center py-32">
@@ -23,11 +28,6 @@ export default function BlogPost() {
       </div>
     );
   }
-
-  const renderedContent = useMemo(() => {
-    if (!post?.content) return '';
-    return marked(post.content, { breaks: true });
-  }, [post?.content]);
 
   if (!post) {
     return (
