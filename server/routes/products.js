@@ -1,47 +1,85 @@
 import { Router } from 'express';
 import Product from '../models/Product.js';
+import Category from '../models/Category.js';
 import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
-// GET /api/products — public
+// GET /api/products — public (supports ?id= and ?categories=true)
 router.get('/', async (req, res, next) => {
   try {
+    const { id, categories, admin } = req.query;
+
+    // Categories
+    if (categories === 'true') {
+      const categories = await Category.find().sort({ createdAt: 1 });
+      return res.json(categories);
+    }
+
+    // Single product by id
+    if (id) {
+      const product = await Product.findById(id);
+      if (!product) return res.status(404).json({ error: 'Not found' });
+      return res.json(product);
+    }
+
+    // Admin: all products
+    if (admin === 'true') {
+      const user = authenticate(req, res);
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      const products = await Product.find().sort({ createdAt: -1 });
+      return res.json(products);
+    }
+
+    // Default: all products
     const products = await Product.find().sort({ createdAt: 1 });
     res.json(products);
   } catch (err) { next(err); }
 });
 
-// GET /api/products/:id — public
-router.get('/:id', async (req, res, next) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ error: 'Not found' });
-    res.json(product);
-  } catch (err) { next(err); }
-});
-
-// POST /api/admin/products — protected
+// POST /api/products — admin (supports ?categories=true for categories)
 router.post('/', authenticate, async (req, res, next) => {
   try {
+    const { categories } = req.query;
+
+    if (categories === 'true') {
+      const category = await Category.create(req.body);
+      return res.status(201).json(category);
+    }
+
     const product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (err) { next(err); }
 });
 
-// PUT /api/admin/products/:id — protected
-router.put('/:id', authenticate, async (req, res, next) => {
+// PUT /api/products — admin
+router.put('/', authenticate, async (req, res, next) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { id, categories } = { ...req.body, ...req.query };
+
+    if (categories === 'true') {
+      const category = await Category.findByIdAndUpdate(id, req.body, { new: true });
+      if (!category) return res.status(404).json({ error: 'Not found' });
+      return res.json(category);
+    }
+
+    const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
     if (!product) return res.status(404).json({ error: 'Not found' });
     res.json(product);
   } catch (err) { next(err); }
 });
 
-// DELETE /api/admin/products/:id — protected
-router.delete('/:id', authenticate, async (req, res, next) => {
+// DELETE /api/products — admin
+router.delete('/', authenticate, async (req, res, next) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
+    const { id, categories } = req.query;
+
+    if (categories === 'true') {
+      await Category.findByIdAndDelete(id);
+      return res.json({ success: true });
+    }
+
+    await Product.findByIdAndDelete(id);
     res.json({ success: true });
   } catch (err) { next(err); }
 });

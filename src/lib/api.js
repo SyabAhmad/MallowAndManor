@@ -140,7 +140,7 @@ export const updateProduct = async (id, productData) => {
 };
 
 export const deleteProduct = async (id) => {
-  const res = await request(`/products?id=${id}&admin=true`, { method: 'DELETE' });
+  const res = await request('/products?admin=true', { method: 'DELETE', body: { id } });
   return safeJson(res);
 };
 
@@ -156,7 +156,7 @@ export const updateCategory = async (id, categoryData) => {
 };
 
 export const deleteCategory = async (id) => {
-  const res = await request(`/products?categories=true&admin=true&id=${id}`, { method: 'DELETE' });
+  const res = await request('/products?categories=true&admin=true', { method: 'DELETE', body: { id } });
   return safeJson(res);
 };
 

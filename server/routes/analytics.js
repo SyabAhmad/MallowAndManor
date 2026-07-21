@@ -12,10 +12,10 @@ router.post('/', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// GET /api/analytics/stats — public (for product stats + dashboard)
-router.get('/stats', async (req, res, next) => {
+// GET /api/analytics — public stats, admin events, or recent events
+router.get('/', async (req, res, next) => {
   try {
-    const { days } = req.query;
+    const { days, admin } = req.query;
     const dayLimit = parseInt(days) || 0;
     let dateFilter = {};
     if (dayLimit > 0) {
@@ -24,6 +24,15 @@ router.get('/stats', async (req, res, next) => {
       dateFilter = { createdAt: { $gte: since } };
     }
 
+    // Admin: /api/analytics?admin=true - returns raw events
+    if (admin === 'true') {
+      const user = authenticate(req, res);
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      const events = await Analytics.find(dateFilter).sort({ createdAt: -1 }).limit(500);
+      return res.json(events);
+    }
+
+    // Stats: /api/analytics?days=N - aggregated data
     const events = await Analytics.find({
       eventType: { $in: ['product_view', 'add_to_cart', 'page_view', 'checkout'] },
       ...dateFilter,
@@ -49,14 +58,6 @@ router.get('/stats', async (req, res, next) => {
     });
 
     res.json({ productStats, daily: dailyMap });
-  } catch (err) { next(err); }
-});
-
-// GET /api/admin/analytics — protected (for dashboard)
-router.get('/', authenticate, async (req, res, next) => {
-  try {
-    const events = await Analytics.find().sort({ createdAt: -1 }).limit(500);
-    res.json(events);
   } catch (err) { next(err); }
 });
 
