@@ -73,7 +73,7 @@ export default async function handler(req, res) {
       const dbUser = await User.findById(user.userId);
       if (!dbUser) return res.status(404).json({ error: 'User not found' });
 
-      return res.json({ id: dbUser._id, email: dbUser.email, role: dbUser.role });
+      return res.json({ _id: dbUser._id, email: dbUser.email, role: dbUser.role });
     }
 
     res.status(405).json({ error: 'Method not allowed' });
