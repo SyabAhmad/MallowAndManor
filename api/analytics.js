@@ -30,38 +30,32 @@ export default async function handler(req, res) {
         return res.json(events);
       }
 
-      // Stats: /api/analytics/stats - aggregated data
-      if (req.url?.includes('/stats')) {
-        const events = await Analytics.find({
-          eventType: { $in: ['product_view', 'add_to_cart', 'page_view', 'checkout'] },
-          ...dateFilter,
-        }).sort({ createdAt: 1 });
+      // Stats: aggregated data (used by fetchProductStats — /api/analytics?days=N)
+      const events = await Analytics.find({
+        eventType: { $in: ['product_view', 'add_to_cart', 'page_view', 'checkout'] },
+        ...dateFilter,
+      }).sort({ createdAt: 1 });
 
-        const productStats = {};
-        const dailyMap = {};
+      const productStats = {};
+      const dailyMap = {};
 
-        events.forEach(e => {
-          const pid = e.eventData?.productId;
-          const day = new Date(e.createdAt).toISOString().split('T')[0];
+      events.forEach(e => {
+        const pid = e.eventData?.productId;
+        const day = new Date(e.createdAt).toISOString().split('T')[0];
 
-          if (!dailyMap[day]) dailyMap[day] = { pageViews: 0, productViews: 0, addToCart: 0, checkouts: 0 };
-          if (e.eventType === 'page_view') dailyMap[day].pageViews++;
-          else if (e.eventType === 'product_view') dailyMap[day].productViews++;
-          else if (e.eventType === 'add_to_cart') dailyMap[day].addToCart++;
-          else if (e.eventType === 'checkout') dailyMap[day].checkouts++;
+        if (!dailyMap[day]) dailyMap[day] = { pageViews: 0, productViews: 0, addToCart: 0, checkouts: 0 };
+        if (e.eventType === 'page_view') dailyMap[day].pageViews++;
+        else if (e.eventType === 'product_view') dailyMap[day].productViews++;
+        else if (e.eventType === 'add_to_cart') dailyMap[day].addToCart++;
+        else if (e.eventType === 'checkout') dailyMap[day].checkouts++;
 
-          if (!pid) return;
-          if (!productStats[pid]) productStats[pid] = { views: 0, cartAdds: 0, productName: e.eventData?.productName || '' };
-          if (e.eventType === 'product_view') productStats[pid].views += 1;
-          if (e.eventType === 'add_to_cart') productStats[pid].cartAdds += 1;
-        });
+        if (!pid) return;
+        if (!productStats[pid]) productStats[pid] = { views: 0, cartAdds: 0, productName: e.eventData?.productName || '' };
+        if (e.eventType === 'product_view') productStats[pid].views += 1;
+        if (e.eventType === 'add_to_cart') productStats[pid].cartAdds += 1;
+      });
 
-        return res.json({ productStats, daily: dailyMap });
-      }
-
-      // Default: /api/analytics - return recent events (for admin dashboard)
-      const events = await Analytics.find(dateFilter).sort({ createdAt: -1 }).limit(100);
-      return res.json(events);
+      return res.json({ productStats, daily: dailyMap });
     }
 
     res.status(405).json({ error: 'Method not allowed' });
