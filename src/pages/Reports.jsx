@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProductStats } from "../lib/api";
+import AdminHeader from "../components/AdminHeader";
 
 const ROWS = [
   { key: "pageViews", label: "Page Views" },
@@ -110,33 +111,23 @@ export default function Reports() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <h1 className="text-sm font-bold tracking-wider uppercase">Admin</h1>
-            <nav className="hidden md:flex items-center gap-1">
-              <button onClick={() => navigate('/admin/dashboard')} className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">Products</button>
-              <button onClick={() => navigate('/admin/posts')} className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">Posts</button>
-              <button className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-luxury-dark">Reports</button>
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex bg-white border border-gray-200">
-              {[7, 30, 90].map(d => (
-                <button key={d} onClick={() => setDays(d)}
-                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${days === d ? "bg-luxury-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
-                  {d}D
-                </button>
-              ))}
-            </div>
-            <button onClick={handleExport} disabled={loading}
-              className="px-4 py-1.5 bg-luxury-dark text-white text-xs font-medium hover:bg-luxury-green transition-colors disabled:opacity-50">
-              Export
+      <AdminHeader userEmail="" />
+
+      {/* Controls */}
+      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center gap-3">
+        <div className="flex bg-white border border-gray-200">
+          {[7, 30, 90].map(d => (
+            <button key={d} onClick={() => setDays(d)}
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${days === d ? "bg-luxury-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
+              {d}D
             </button>
-          </div>
+          ))}
         </div>
-      </header>
+        <button onClick={handleExport} disabled={loading}
+          className="px-4 py-1.5 bg-luxury-dark text-white text-xs font-medium hover:bg-luxury-green transition-colors disabled:opacity-50">
+          Export
+        </button>
+      </div>
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         {loading ? (

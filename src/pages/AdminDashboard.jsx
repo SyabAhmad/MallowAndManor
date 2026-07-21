@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, logout, fetchProducts, createProduct, updateProduct, deleteProduct, uploadImage } from "../lib/api";
+import { getCurrentUser, fetchProducts, createProduct, updateProduct, deleteProduct, uploadImage } from "../lib/api";
+import AdminHeader from "../components/AdminHeader";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState(null);
@@ -29,8 +30,6 @@ export default function AdminDashboard() {
       await loadProducts();
     } catch { navigate("/admin/login"); }
   };
-
-  const handleLogout = async () => { await logout(); navigate("/admin/login"); };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -168,38 +167,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <h1 className="text-sm font-bold tracking-wider uppercase">Admin</h1>
-            <nav className="hidden md:flex items-center gap-1">
-              <button onClick={() => { setShowForm(false); setEditingProduct(null); }}
-                className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase transition-colors ${!showForm ? "text-luxury-dark" : "text-gray-400 hover:text-gray-600"}`}>
-                Products
-              </button>
-              <button onClick={() => navigate('/admin/analytics')}
-                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
-                Analytics
-              </button>
-              <button onClick={() => navigate('/admin/reports')}
-                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
-                Reports
-              </button>
-              <button onClick={() => navigate('/admin/posts')}
-                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
-                Posts
-              </button>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-gray-400 hidden sm:block">{user.email}</span>
-            <button onClick={handleLogout} className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader userEmail={user.email} />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         {/* Actions bar */}

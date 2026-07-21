@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProductStats } from "../lib/api";
+import AdminHeader from "../components/AdminHeader";
 
 const TIME_RANGES = [
   { label: "7D", days: 7 },
@@ -109,33 +110,19 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <h1 className="text-sm font-bold tracking-wider uppercase">Admin</h1>
-            <nav className="hidden md:flex items-center gap-1">
-              <button onClick={() => navigate('/admin/dashboard')}
-                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
-                Products
-              </button>
-              <button className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-luxury-dark">
-                Analytics
-              </button>
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex bg-white border border-gray-200">
-              {TIME_RANGES.map(r => (
-                <button key={r.days} onClick={() => { setTimeRange(r.days); fetchData(r.days); }}
-                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${timeRange === r.days ? "bg-luxury-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
-                  {r.label}
-                </button>
-              ))}
-            </div>
-          </div>
+      <AdminHeader userEmail="" />
+
+      {/* Time range selector */}
+      <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="flex bg-white border border-gray-200 w-fit">
+          {TIME_RANGES.map(r => (
+            <button key={r.days} onClick={() => { setTimeRange(r.days); fetchData(r.days); }}
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${timeRange === r.days ? "bg-luxury-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
+              {r.label}
+            </button>
+          ))}
         </div>
-      </header>
+      </div>
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         {/* Stats */}
