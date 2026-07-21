@@ -178,6 +178,8 @@ function App() {
                   categories={categories}
                   handleAddToCart={handleAddToCart}
                   productStats={productStats}
+                  toggleFavorite={toggleFavorite}
+                  favorites={favorites}
                 />
               }
             />
@@ -187,6 +189,8 @@ function App() {
                 <ProductDetail
                   products={products}
                   handleAddToCart={handleAddToCart}
+                  toggleFavorite={toggleFavorite}
+                  favorites={favorites}
                 />
               }
             />
@@ -198,6 +202,8 @@ function App() {
                   categories={categories}
                   handleAddToCart={handleAddToCart}
                   productStats={productStats}
+                  toggleFavorite={toggleFavorite}
+                  favorites={favorites}
                 />
               }
             />

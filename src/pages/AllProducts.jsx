@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 
-export default function AllProducts({ products = [], categories, handleAddToCart }) {
+export default function AllProducts({ products = [], categories, handleAddToCart, toggleFavorite, favorites }) {
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -99,6 +99,8 @@ export default function AllProducts({ products = [], categories, handleAddToCart
               key={product.id}
               product={product}
               onAddToCart={() => handleAddToCart(product)}
+              isFavorite={favorites.some(f => f.id === product.id)}
+              onToggleFavorite={toggleFavorite}
             />
           ))}
         </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 
-export default function ProductsSection({ products = [], onAddToCart, productStats = {} }) {
+export default function ProductsSection({ products = [], onAddToCart, productStats = {}, favorites = [], onToggleFavorite }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const filteredProducts = (products || [])
@@ -55,6 +55,8 @@ export default function ProductsSection({ products = [], onAddToCart, productSta
               product={product}
               onAddToCart={() => onAddToCart(product)}
               stats={productStats[product.id] || { views: 0, cartAdds: 0 }}
+              isFavorite={favorites.some(f => f.id === product.id)}
+              onToggleFavorite={onToggleFavorite}
             />
           ))}
         </div>

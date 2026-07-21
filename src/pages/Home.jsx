@@ -3,7 +3,7 @@ import HeroCarousel from "../components/HeroCarousel";
 import Collections from "../components/Collections";
 import ProductsSection from "../components/ProductsSection";
 
-export default function Home({ products, categories, handleAddToCart, productStats = {} }) {
+export default function Home({ products, categories, handleAddToCart, productStats = {}, toggleFavorite, favorites }) {
   const navigate = useNavigate();
 
   return (
@@ -39,6 +39,8 @@ export default function Home({ products, categories, handleAddToCart, productSta
         products={products}
         onAddToCart={handleAddToCart}
         productStats={productStats}
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
       />
 
       {/* Location / Delivery Section */}

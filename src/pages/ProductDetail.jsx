@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { trackProductView } from "../lib/analytics";
 
-export default function ProductDetail({ products, handleAddToCart }) {
+export default function ProductDetail({ products, handleAddToCart, toggleFavorite, favorites }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const isFav = product ? favorites.some(f => f.id === product.id) : false;
 
   useEffect(() => {
     const foundProduct = products.find((p) => p.id === id);
@@ -34,7 +35,14 @@ export default function ProductDetail({ products, handleAddToCart }) {
     window.open(`https://wa.me/${cleanNumber}?text=${encodedMessage}`, "_blank");
   };
 
-  const related = products.filter((p) => p.id !== product.id).slice(0, 4);
+  const related = products
+    .filter((p) => p.id !== product.id)
+    .sort((a, b) => {
+      const sameCat = a.category === product.category ? 0 : 1;
+      const bSameCat = b.category === product.category ? 0 : 1;
+      return sameCat - bSameCat;
+    })
+    .slice(0, 4);
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
@@ -81,8 +89,19 @@ export default function ProductDetail({ products, handleAddToCart }) {
           <span className="text-xs font-medium tracking-widest uppercase text-gray-400 mb-3 block">
             {product.category}
           </span>
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">{product.name}</h1>
-          <p className="text-2xl font-semibold mb-6">Rs. {product.price}</p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">{product.name}</h1>
+              <p className="text-2xl font-semibold">Rs. {product.price}</p>
+            </div>
+            <button onClick={() => toggleFavorite(product)}
+              className={`shrink-0 w-10 h-10 flex items-center justify-center border rounded-full transition-colors ${isFav ? 'border-red-200 bg-red-50 text-red-500' : 'border-gray-200 text-gray-400 hover:border-gray-400'}`}
+              title={isFav ? 'Remove from Wishlist' : 'Add to Wishlist'}>
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill={isFav ? "currentColor" : "none"} stroke="currentColor" strokeWidth={2}>
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
+          </div>
 
           {product.description && (
             <p className="text-gray-500 text-sm leading-relaxed mb-8">{product.description}</p>
