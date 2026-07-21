@@ -182,6 +182,14 @@ export default function AdminDashboard() {
                 className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
                 Analytics
               </button>
+              <button onClick={() => navigate('/admin/reports')}
+                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
+                Reports
+              </button>
+              <button onClick={() => navigate('/admin/posts')}
+                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
+                Posts
+              </button>
             </nav>
           </div>
           <div className="flex items-center gap-4">

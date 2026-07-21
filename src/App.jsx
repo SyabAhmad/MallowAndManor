@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import { fetchProducts, fetchCategories, fetchProductStats } from "./lib/api";
 import { trackPageView, trackAddToCart, trackRemoveFromCart } from "./lib/analytics";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import Reports from "./pages/Reports";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import AdminPosts from "./pages/AdminPosts";
 import Home from "./pages/Home";
 import AllProducts from "./pages/AllProducts";
 import ProductDetail from "./pages/ProductDetail";
@@ -221,9 +225,13 @@ function App() {
                 />
               }
             />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
+            <Route path="/admin/reports" element={<Reports />} />
+            <Route path="/admin/posts" element={<AdminPosts />} />
           </Routes>
         </main>
 

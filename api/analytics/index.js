@@ -15,7 +15,16 @@ export default async function handler(req, res) {
       const user = authenticate(req, res);
       if (!user) return;
 
-      const events = await Analytics.find().sort({ createdAt: -1 }).limit(500);
+      const { days } = req.query;
+      const dayLimit = parseInt(days) || 0;
+      let dateFilter = {};
+      if (dayLimit > 0) {
+        const since = new Date();
+        since.setDate(since.getDate() - dayLimit);
+        dateFilter = { createdAt: { $gte: since } };
+      }
+
+      const events = await Analytics.find(dateFilter).sort({ createdAt: -1 }).limit(500);
       return res.json(events);
     }
 

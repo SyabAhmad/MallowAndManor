@@ -93,13 +93,13 @@ export const trackEvent = async (eventType, eventData = {}) => {
   }
 };
 
-export const fetchProductStats = async () => {
-  const res = await request('/analytics/stats');
+export const fetchProductStats = async (days = 0) => {
+  const res = await request(`/analytics/stats?days=${days}`);
   return safeJson(res);
 };
 
-export const fetchAnalytics = async () => {
-  const res = await request('/admin/analytics');
+export const fetchAnalytics = async (days = 0) => {
+  const res = await request(`/admin/analytics?days=${days}`);
   return safeJson(res);
 };
 
@@ -173,4 +173,35 @@ export const uploadImage = async (file) => {
 
   const data = await uploadRes.json();
   return { url: data.secure_url };
+};
+
+// Blog Posts
+export const fetchPosts = async () => {
+  const res = await request('/posts');
+  return safeJson(res);
+};
+
+export const fetchPostBySlug = async (slug) => {
+  const res = await request(`/posts/${slug}`);
+  return safeJson(res);
+};
+
+export const fetchAdminPosts = async () => {
+  const res = await request('/admin/posts');
+  return safeJson(res);
+};
+
+export const createPost = async (postData) => {
+  const res = await request('/admin/posts', { method: 'POST', body: postData });
+  return safeJson(res);
+};
+
+export const updatePost = async (id, postData) => {
+  const res = await request(`/admin/posts/${id}`, { method: 'PUT', body: postData });
+  return safeJson(res);
+};
+
+export const deletePost = async (id) => {
+  const res = await request(`/admin/posts/${id}`, { method: 'DELETE' });
+  return safeJson(res);
 };

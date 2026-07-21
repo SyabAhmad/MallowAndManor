@@ -8,6 +8,7 @@ import categoriesRouter from './routes/categories.js';
 import analyticsRouter from './routes/analytics.js';
 import authRouter from './routes/auth.js';
 import uploadRouter from './routes/upload.js';
+import postsRouter from './routes/posts.js';
 import { authenticate } from './middleware/auth.js';
 import Product from './models/Product.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -33,6 +34,7 @@ app.use('/api/categories', categoriesRouter);
 app.use('/api/analytics', analyticsRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/upload', uploadRouter);
+app.use('/api', postsRouter);
 
 // Admin routes
 app.post('/api/admin/products', authenticate, async (req, res, next) => {
