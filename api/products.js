@@ -7,7 +7,15 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
-    // Public: GET /api/products - all products (also supports ?categories=true)
+    // Admin: GET /api/products?admin=true - all products (must be before public catch-all)
+    if (req.method === 'GET' && req.query?.admin === 'true') {
+      const user = verifyToken(req);
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      const products = await Product.find().sort({ createdAt: -1 });
+      return res.json(products);
+    }
+
+    // Public: GET /api/products - all products
     if (req.method === 'GET' && !req.query?.id && !req.query?.categories) {
       const products = await Product.find().sort({ createdAt: 1 });
       return res.json(products);
@@ -24,14 +32,6 @@ export default async function handler(req, res) {
       const product = await Product.findById(req.query.id);
       if (!product) return res.status(404).json({ error: 'Not found' });
       return res.json(product);
-    }
-
-    // Admin: GET /api/products?admin=true - all products
-    if (req.method === 'GET' && req.query?.admin === 'true') {
-      const user = verifyToken(req);
-      if (!user) return res.status(401).json({ error: 'Unauthorized' });
-      const products = await Product.find().sort({ createdAt: -1 });
-      return res.json(products);
     }
 
     // Admin operations

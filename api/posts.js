@@ -6,8 +6,16 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
+    // Admin: GET /api/posts?admin=true - all posts (must be before public check)
+    if (req.method === 'GET' && req.query?.admin === 'true') {
+      const user = verifyToken(req);
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      const posts = await Post.find().sort({ createdAt: -1 });
+      return res.json(posts);
+    }
+
     // Public: GET /api/posts - published posts list
-    if (req.method === 'GET' && !req.query?.slug && !req.url?.includes('/admin')) {
+    if (req.method === 'GET' && !req.query?.slug) {
       const posts = await Post.find({ published: true })
         .select('-content')
         .sort({ createdAt: -1 });
@@ -19,14 +27,6 @@ export default async function handler(req, res) {
       const post = await Post.findOne({ slug: req.query.slug, published: true });
       if (!post) return res.status(404).json({ error: 'Post not found' });
       return res.json(post);
-    }
-
-    // Admin: GET /api/posts?admin=true - all posts
-    if (req.method === 'GET' && req.query?.admin === 'true') {
-      const user = verifyToken(req);
-      if (!user) return res.status(401).json({ error: 'Unauthorized' });
-      const posts = await Post.find().sort({ createdAt: -1 });
-      return res.json(posts);
     }
 
     // Admin: POST /api/posts - create post
