@@ -223,10 +223,21 @@ export default function AdminDashboard() {
                 <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Additional Images (max 5)</label>
                 <input type="file" accept="image/*" multiple onChange={handleThumbnailChange}
                   className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none" />
+                {Array.isArray(formData.thumbnails) && formData.thumbnails.filter(t => typeof t === 'string').length > 0 && (
+                  <div className="flex gap-2 mt-2 flex-wrap">
+                    {formData.thumbnails.filter(t => typeof t === 'string').map(url => (
+                      <div key={url} className="relative">
+                        <img src={url} alt="" className="w-14 h-14 object-cover" />
+                        <button type="button" onClick={() => setFormData(prev => ({ ...prev, thumbnails: prev.thumbnails.filter(t => t !== url) }))}
+                          className="absolute -top-1 -right-1 bg-gray-800 text-white w-4 h-4 flex items-center justify-center text-[10px]">×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {thumbnailFiles.length > 0 && (
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-2 mt-2 flex-wrap">
                     {thumbnailFiles.map((thumb, idx) => (
-                      <div key={idx} className="relative">
+                      <div key={thumb.preview} className="relative">
                         <img src={thumb.preview} alt="" className="w-14 h-14 object-cover" />
                         <button type="button" onClick={() => removeThumbnail(idx)}
                           className="absolute -top-1 -right-1 bg-gray-800 text-white w-4 h-4 flex items-center justify-center text-[10px]">×</button>
