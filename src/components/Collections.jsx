@@ -1,27 +1,27 @@
 const collections = [
   {
-    id: "bangles",
-    name: "Bangles",
-    tagline: "Artisanal adornments",
-    image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80",
-  },
-  {
     id: "nails",
     name: "Nails",
     tagline: "Precision artistry",
-    image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80",
+    image: "/image.webp",
   },
   {
     id: "abayas",
     name: "Abayas",
     tagline: "Silk & sobriety",
-    image: "https://images.unsplash.com/photo-1583267746897-2cf415888172?w=600&q=80",
+    image: "/image_1.webp",
   },
   {
     id: "necklaces",
     name: "Necklaces",
     tagline: "Royal adornments",
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80",
+    image: "/image_2.webp",
+  },
+  {
+    id: "bangles",
+    name: "Bangles",
+    tagline: "Artisanal adornments",
+    image: "/image_3.webp",
   },
 ];
 
