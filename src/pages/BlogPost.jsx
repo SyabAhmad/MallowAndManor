@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchPostBySlug } from "../lib/api";
+import { marked } from "marked";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -22,6 +23,11 @@ export default function BlogPost() {
       </div>
     );
   }
+
+  const renderedContent = useMemo(() => {
+    if (!post?.content) return '';
+    return marked(post.content, { breaks: true });
+  }, [post?.content]);
 
   if (!post) {
     return (
@@ -68,9 +74,7 @@ export default function BlogPost() {
         <p className="text-lg text-gray-500 italic mb-8 leading-relaxed border-l-2 border-gray-200 pl-4">{post.excerpt}</p>
       )}
 
-      <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap">
-        {post.content}
-      </div>
+      <div className="blog-content text-gray-700" dangerouslySetInnerHTML={{ __html: renderedContent }} />
     </article>
   );
 }

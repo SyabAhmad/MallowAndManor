@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, logout, fetchAdminPosts, createPost, updatePost, deletePost } from "../lib/api";
+import { getCurrentUser, logout, fetchAdminPosts, createPost, updatePost, deletePost, uploadImage } from "../lib/api";
 import AdminHeader from "../components/AdminHeader";
 
 function slugify(text) {
@@ -15,10 +15,55 @@ export default function AdminPosts() {
   const [editing, setEditing] = useState(null);
   const navigate = useNavigate();
 
+  const [uploadingImg, setUploadingImg] = useState(false);
+  const [uploadingFeatured, setUploadingFeatured] = useState(false);
+
   const [form, setForm] = useState({
     title: '', slug: '', content: '', excerpt: '', author: '',
     published: false, tags: '', featuredImage: '', seoTitle: '', seoDescription: '',
   });
+
+  const contentRef = useRef(null);
+
+  const handleFeaturedUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingFeatured(true);
+    try {
+      const { url } = await uploadImage(file);
+      setForm({ ...form, featuredImage: url });
+    } catch (err) {
+      alert('Upload error: ' + err.message);
+    }
+    setUploadingFeatured(false);
+  };
+
+  const insertContentImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingImg(true);
+    try {
+      const { url } = await uploadImage(file);
+      const imgMd = `![image](${url})`;
+      const textarea = contentRef.current;
+      if (textarea) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const before = form.content.substring(0, start);
+        const after = form.content.substring(end);
+        setForm({ ...form, content: before + imgMd + after });
+        requestAnimationFrame(() => {
+          textarea.selectionStart = textarea.selectionEnd = start + imgMd.length;
+          textarea.focus();
+        });
+      } else {
+        setForm({ ...form, content: form.content + '\n' + imgMd });
+      }
+    } catch (err) {
+      alert('Upload error: ' + err.message);
+    }
+    setUploadingImg(false);
+  };
 
   useEffect(() => {
     getCurrentUser().then(u => {
@@ -105,9 +150,15 @@ export default function AdminPosts() {
                     className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Featured Image URL</label>
-                  <input type="text" value={form.featuredImage} onChange={e => setForm({ ...form, featuredImage: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none" />
+                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Featured Image</label>
+                  <div className="flex gap-2">
+                    <input type="text" value={form.featuredImage} onChange={e => setForm({ ...form, featuredImage: e.target.value })}
+                      className="flex-1 px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" placeholder="Paste URL or upload" />
+                    <label className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors ${uploadingFeatured ? 'bg-gray-100 text-gray-400' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                      {uploadingFeatured ? 'Uploading...' : 'Upload'}
+                      <input type="file" accept="image/*" onChange={handleFeaturedUpload} className="hidden" disabled={uploadingFeatured} />
+                    </label>
+                  </div>
                   {form.featuredImage && <img src={form.featuredImage} alt="" className="mt-2 w-20 h-14 object-cover" />}
                 </div>
                 <div className="md:col-span-2">
@@ -121,8 +172,14 @@ export default function AdminPosts() {
                     className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none" />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Content</label>
-                  <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} rows="10"
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-xs font-medium tracking-wider uppercase text-gray-400">Content</label>
+                    <label className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase cursor-pointer transition-colors ${uploadingImg ? 'bg-gray-100 text-gray-400' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}>
+                      {uploadingImg ? 'Uploading...' : '+ Insert Image'}
+                      <input type="file" accept="image/*" onChange={insertContentImage} className="hidden" disabled={uploadingImg} />
+                    </label>
+                  </div>
+                  <textarea ref={contentRef} value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} rows="10"
                     className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none font-mono" />
                 </div>
               </div>
