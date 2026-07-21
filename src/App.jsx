@@ -41,6 +41,14 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Clear any stale/error cache from localStorage
+        try {
+          const oldCatCache = JSON.parse(localStorage.getItem('mallow_categories_cache'));
+          const oldProdCache = JSON.parse(localStorage.getItem('mallow_products_cache'));
+          if (oldCatCache && !Array.isArray(oldCatCache.data)) localStorage.removeItem('mallow_categories_cache');
+          if (oldProdCache && !Array.isArray(oldProdCache.data)) localStorage.removeItem('mallow_products_cache');
+        } catch { /* ignore parse errors */ }
+
         const cachedProducts = localStorage.getItem('mallow_products_cache');
         const cachedCategories = localStorage.getItem('mallow_categories_cache');
 
@@ -57,18 +65,21 @@ function App() {
           }
         }
 
-        const categoriesData = await fetchCategories();
-        setCategories(categoriesData || []);
+        const [categoriesData, productsData, stats] = await Promise.all([
+          fetchCategories(),
+          fetchProducts(),
+          fetchProductStats().catch(() => ({})),
+        ]);
 
+        const validCategories = Array.isArray(categoriesData) ? categoriesData : [];
+        setCategories(validCategories);
         localStorage.setItem('mallow_categories_cache', JSON.stringify({
-          data: categoriesData || [],
+          data: validCategories,
           timestamp: Date.now()
         }));
 
-        const productsData = await fetchProducts();
-
-        // Map MongoDB _id to id for backwards compatibility with frontend
-        const mappedProducts = (productsData || []).map(p => ({
+        const rawProducts = Array.isArray(productsData) ? productsData : [];
+        const mappedProducts = rawProducts.map(p => ({
           id: p._id,
           name: p.name,
           price: p.price,
@@ -79,10 +90,7 @@ function App() {
           createdAt: p.createdAt,
         }));
         setProducts(mappedProducts);
-
-        // Fetch product stats
-        const stats = await fetchProductStats();
-        setProductStats(stats || {});
+        setProductStats(typeof stats === 'object' && !Array.isArray(stats) ? stats : {});
 
         localStorage.setItem('mallow_products_cache', JSON.stringify({
           data: mappedProducts,

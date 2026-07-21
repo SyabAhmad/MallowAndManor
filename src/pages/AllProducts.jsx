@@ -86,9 +86,9 @@ export default function AllProducts({ products = [], categories, handleAddToCart
                >
                  <span className="text-sm">✨</span> All Items
                </button>
-{categories.map((cat) => (
+                {categories.map((cat) => (
                   <button
-                    key={cat.id}
+                    key={cat._id || cat.slug}
                     onClick={() => setSelectedCategory(cat.slug)}
                     className={`px-3 py-2 rounded-lg text-left transition-all flex items-center gap-2 text-sm ${
                       selectedCategory === cat.slug
