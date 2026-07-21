@@ -1,18 +1,17 @@
 import mongoose from 'mongoose';
 
-let cached = global._mongoose;
-if (!cached) cached = global._mongoose = { conn: null, promise: null };
+let cached = null;
 
 const connectDB = async () => {
-  if (cached.conn) return cached.conn;
+  if (cached) return cached;
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGODB_URI, {
-      bufferCommands: false,
-    });
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI env var is not set');
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+
+  const conn = await mongoose.connect(process.env.MONGODB_URI);
+  cached = conn;
+  return conn;
 };
 
 export default connectDB;
