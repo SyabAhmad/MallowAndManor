@@ -303,6 +303,8 @@ export default function AdminDashboard() {
                       </td>
                       <td className="p-4 font-medium">Rs. {product.price.toLocaleString()}</td>
                       <td className="p-4 text-right">
+                        <a href={`/product/${product.id}`} target="_blank" rel="noopener noreferrer"
+                          className="text-xs text-blue-500 hover:text-blue-700 transition-colors mr-3 font-medium">View</a>
                         <button onClick={() => handleEdit(product)} className="text-xs text-gray-500 hover:text-luxury-dark transition-colors mr-3 font-medium">Edit</button>
                         <button onClick={() => handleDelete(product.id)} className="text-xs text-gray-400 hover:text-red-600 transition-colors font-medium">Delete</button>
                       </td>
