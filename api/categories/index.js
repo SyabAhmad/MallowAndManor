@@ -4,15 +4,14 @@ import Category from '../_lib/models/Category.js';
 export default async function handler(req, res) {
   try {
     await connectDB();
-
-    if (req.method === 'GET') {
-      const categories = await Category.find().sort({ createdAt: 1 });
-      return res.json(categories);
-    }
-
-    res.status(405).json({ error: 'Method not allowed' });
+    const categories = await Category.find().sort({ createdAt: 1 });
+    return res.json(categories);
   } catch (err) {
-    console.error('Categories error:', err.message);
-    res.status(500).json({ error: err.message });
+    console.error('Categories error:', err);
+    return res.status(500).json({
+      error: err.message,
+      name: err.name,
+      code: err.code,
+    });
   }
 }
