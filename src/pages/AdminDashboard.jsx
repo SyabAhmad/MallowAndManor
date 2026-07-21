@@ -54,13 +54,22 @@ export default function AdminDashboard() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const MAX_FILE_SIZE = 4.5 * 1024 * 1024;
+  const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+  const validateFileSize = (file) => {
+    if (!file) return true;
+    if (file.size > MAX_FILE_SIZE) {
+      alert(`"${file.name}" is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum size is 10 MB.`);
+      return false;
+    }
+    return true;
+  };
 
   const handleFileUpload = async (file) => {
     if (!file) return null;
 
     if (file.size > MAX_FILE_SIZE) {
-      alert("File too large. Maximum size is 4.5 MB.");
+      alert("File too large. Maximum size is 10 MB.");
       return null;
     }
 
@@ -84,6 +93,10 @@ export default function AdminDashboard() {
   const handleMainImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!validateFileSize(file)) {
+        e.target.value = '';
+        return;
+      }
       setMainImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -98,6 +111,12 @@ export default function AdminDashboard() {
     if (files.length > 5) {
       alert("Maximum 5 images allowed");
       return;
+    }
+    for (const file of files) {
+      if (!validateFileSize(file)) {
+        e.target.value = '';
+        return;
+      }
     }
     const newThumbnails = files.map(file => {
       const reader = new FileReader();

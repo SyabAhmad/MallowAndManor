@@ -6,13 +6,13 @@ export const config = {
   api: { bodyParser: false },
 };
 
-const MAX_BODY_SIZE = 4.5 * 1024 * 1024;
+const MAX_BODY_SIZE = 10 * 1024 * 1024;
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const contentLength = parseInt(req.headers['content-length'] || '0', 10);
     if (contentLength > MAX_BODY_SIZE) {
-      return res.status(413).json({ error: 'File too large. Maximum size is 4.5 MB.' });
+      return res.status(413).json({ error: 'File too large. Maximum size is 10 MB.' });
     }
   }
 
