@@ -168,6 +168,10 @@ export default function AdminPosts() {
                       </td>
                       <td className="p-4 text-gray-400 text-xs hidden md:table-cell">{new Date(post.createdAt).toLocaleDateString()}</td>
                       <td className="p-4 text-right">
+                        <a href={`/blog/${post.slug}`} target="_blank" rel="noopener noreferrer"
+                          className={`text-xs font-medium mr-3 transition-colors ${post.published ? 'text-blue-500 hover:text-blue-700' : 'text-gray-300 pointer-events-none'}`}>
+                          View
+                        </a>
                         <button onClick={() => handleEdit(post)} className="text-xs text-gray-500 hover:text-luxury-dark transition-colors mr-3 font-medium">Edit</button>
                         <button onClick={() => handleDelete(post._id)} className="text-xs text-gray-400 hover:text-red-600 transition-colors font-medium">Delete</button>
                       </td>
