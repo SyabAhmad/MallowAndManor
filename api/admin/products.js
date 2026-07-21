@@ -1,6 +1,6 @@
 import connectDB from '../_lib/db.js';
 import { authenticate } from '../_lib/auth.js';
-import Product from '../../server/models/Product.js';
+import Product from '../_lib/models/Product.js';
 
 export default async function handler(req, res) {
   await connectDB();

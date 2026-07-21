@@ -1,5 +1,5 @@
 import connectDB from '../_lib/db.js';
-import Category from '../../server/models/Category.js';
+import Category from '../_lib/models/Category.js';
 
 export default async function handler(req, res) {
   await connectDB();
