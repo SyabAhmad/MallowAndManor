@@ -54,52 +54,12 @@ export default function AdminDashboard() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const VERCEL_PAYLOAD_LIMIT = 4.5 * 1024 * 1024;
-
-  const compressImage = async (file, maxBytes = VERCEL_PAYLOAD_LIMIT) => {
-    const image = await new Promise((resolve, reject) => {
-      const el = new Image();
-      el.onload = () => resolve(el);
-      el.onerror = reject;
-      el.src = URL.createObjectURL(file);
-    });
-
-    let quality = 0.85;
-    let w = image.width, h = image.height;
-    const maxDim = 1200;
-    if (w > maxDim || h > maxDim) {
-      const ratio = Math.min(maxDim / w, maxDim / h);
-      w = Math.round(w * ratio);
-      h = Math.round(h * ratio);
-    }
-
-    const canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(image, 0, 0, w, h);
-
-    for (let attempt = 0; attempt < 5; attempt++) {
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
-      if (blob.size <= maxBytes) return new File([blob], file.name, { type: 'image/jpeg' });
-      quality -= 0.15;
-    }
-
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.1));
-    return new File([blob], file.name, { type: 'image/jpeg' });
-  };
-
   const handleFileUpload = async (file) => {
     if (!file) return null;
 
     setUploading(true);
     try {
-      const compressed = await compressImage(file);
-      const result = await uploadImage(compressed);
-      if (result.error) {
-        alert("Upload failed: " + result.error);
-        return null;
-      }
+      const result = await uploadImage(file);
       return result.url;
     } catch (err) {
       console.error("Upload error:", err);
