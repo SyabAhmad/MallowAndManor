@@ -13,17 +13,10 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setError("");
-
     try {
       const data = await login(email, password);
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      if (data.user) {
-        navigate("/admin/dashboard");
-      }
+      if (data.error) throw new Error(data.error);
+      if (data.user) navigate("/admin/dashboard");
     } catch (err) {
       setError(err.message || "Login failed");
     } finally {
@@ -32,70 +25,57 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-luxury-dark">
-      <div className="max-w-md w-full mx-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <div className="text-center mb-8">
-            <div className="text-4xl mb-4">👑</div>
-            <h1 className="text-3xl font-black text-luxury-dark mb-2">
-              Admin Login
-            </h1>
-            <p className="text-gray-500 text-sm">
-              Mallow & Manor Admin Panel
-            </p>
-          </div>
-
-          {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none transition-all"
-                placeholder="admin@mallowandmanor.com"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none transition-all"
-                placeholder="Enter password"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-luxury-dark text-white py-3 rounded-xl font-bold hover:bg-luxury-green transition-all disabled:opacity-50"
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
-          </form>
-
-          <button
-            onClick={() => navigate("/")}
-            className="w-full mt-4 text-gray-500 text-sm hover:text-luxury-green transition-colors"
-          >
-            ← Back to Store
-          </button>
+    <div className="min-h-screen flex items-center justify-center bg-white px-6">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-10">
+          <h1 className="text-xl font-bold tracking-wider uppercase mb-2">Admin</h1>
+          <p className="text-sm text-gray-400">Mallow & Manor</p>
         </div>
+
+        {error && (
+          <div className="bg-red-50 text-red-600 px-4 py-3 text-sm mb-6">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green transition-colors"
+              placeholder="admin@mallowandmanor.com"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green transition-colors"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-luxury-dark text-white py-3 text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors disabled:opacity-50"
+          >
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
+
+        <button
+          onClick={() => navigate("/")}
+          className="w-full mt-6 text-gray-400 text-xs hover:text-luxury-dark transition-colors text-center"
+        >
+          Back to Store
+        </button>
       </div>
     </div>
   );

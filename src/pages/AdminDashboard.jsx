@@ -9,45 +9,28 @@ export default function AdminDashboard() {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const navigate = useNavigate();
 
-  // Form state
   const [formData, setFormData] = useState({
-    name: "",
-    price: "",
-    category: "bangles",
-    description: "",
-    mainImage: "",
-    thumbnails: "",
+    name: "", price: "", category: "bangles", description: "", mainImage: "", thumbnails: "",
   });
   const [mainImageFile, setMainImageFile] = useState(null);
   const [thumbnailFiles, setThumbnailFiles] = useState([]);
 
-  useEffect(() => {
-    checkUser();
-  }, []);
+  useEffect(() => { checkUser(); }, []);
 
   const checkUser = async () => {
     try {
       const userData = await getCurrentUser();
-
-      if (userData.error || !userData._id) {
-        navigate("/admin/login");
-        return;
-      }
-
+      if (userData.error || !userData._id) { navigate("/admin/login"); return; }
       setUser(userData);
-      loadProducts();
-    } catch (err) {
-      console.error("Auth error:", err);
-      navigate("/admin/login");
-    }
+      await loadProducts();
+    } catch { navigate("/admin/login"); }
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/admin/login");
-  };
+  const handleLogout = async () => { await logout(); navigate("/admin/login"); };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,18 +39,14 @@ export default function AdminDashboard() {
 
   const handleFileUpload = async (file) => {
     if (!file) return null;
-
     setUploading(true);
     try {
       const result = await uploadImage(file);
       return result.url;
     } catch (err) {
-      console.error("Upload error:", err);
       alert("Upload error: " + err.message);
       return null;
-    } finally {
-      setUploading(false);
-    }
+    } finally { setUploading(false); }
   };
 
   const handleMainImageChange = (e) => {
@@ -75,31 +54,25 @@ export default function AdminDashboard() {
     if (file) {
       setMainImageFile(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, mainImage: reader.result });
-      };
+      reader.onloadend = () => setFormData({ ...formData, mainImage: reader.result });
       reader.readAsDataURL(file);
     }
   };
 
   const handleThumbnailChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length > 5) {
-      alert("Maximum 5 images allowed");
-      return;
-    }
-    const newThumbnails = files.map(file => {
+    if (files.length > 5) { alert("Maximum 5 images"); return; }
+    const readers = files.map(file => new Promise(resolve => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({
-          ...prev,
-          thumbnails: [...(prev.thumbnails || []), reader.result]
-        }));
-      };
+      reader.onloadend = () => resolve({ file, preview: URL.createObjectURL(file), dataUrl: reader.result });
       reader.readAsDataURL(file);
-      return { file, preview: URL.createObjectURL(file) };
+    }));
+    Promise.all(readers).then(results => {
+      setThumbnailFiles(prev => [...prev, ...results].slice(0, 5));
+      results.forEach(r => {
+        setFormData(prev => ({ ...prev, thumbnails: [...(prev.thumbnails || []), r.dataUrl] }));
+      });
     });
-    setThumbnailFiles(prev => [...prev, ...newThumbnails].slice(0, 5));
   };
 
   const removeThumbnail = (index) => {
@@ -113,49 +86,31 @@ export default function AdminDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     let mainImageUrl = formData.mainImage;
     let thumbnailUrls = [];
 
-    // Upload main image if new file selected
     if (mainImageFile && mainImageFile instanceof File) {
       const uploadedUrl = await handleFileUpload(mainImageFile);
-      if (!uploadedUrl) {
-        setLoading(false);
-        return;
-      }
+      if (!uploadedUrl) { setLoading(false); return; }
       mainImageUrl = uploadedUrl;
     }
+    if (!mainImageUrl) { alert("Please select a main image"); setLoading(false); return; }
 
-    if (!mainImageUrl) {
-      alert("Please select a main image");
-      setLoading(false);
-      return;
-    }
-
-    // Get existing thumbnails (URLs from edit mode)
     let existingThumbnails = [];
     if (formData.thumbnails && Array.isArray(formData.thumbnails)) {
       existingThumbnails = formData.thumbnails.filter(t => typeof t === 'string' && t.startsWith('http'));
     }
-
-    // Upload new file uploads
     for (const thumb of thumbnailFiles) {
       if (thumb.file && thumb.file instanceof File) {
         const url = await handleFileUpload(thumb.file);
         if (url) thumbnailUrls.push(url);
       }
     }
-
     thumbnailUrls = [...existingThumbnails, ...thumbnailUrls];
 
     const productData = {
-      name: formData.name,
-      price: parseInt(formData.price),
-      category: formData.category,
-      description: formData.description,
-      mainImage: mainImageUrl,
-      thumbnails: thumbnailUrls,
+      name: formData.name, price: parseInt(formData.price), category: formData.category,
+      description: formData.description, mainImage: mainImageUrl, thumbnails: thumbnailUrls,
     };
 
     try {
@@ -166,314 +121,217 @@ export default function AdminDashboard() {
         const result = await createProduct(productData);
         if (result.error) throw new Error(result.error);
       }
-
-      // Reset form
-      setFormData({
-        name: "",
-        price: "",
-        category: "bangles",
-        description: "",
-        mainImage: "",
-        thumbnails: [],
-      });
-      setMainImageFile(null);
-      setThumbnailFiles([]);
-      setShowForm(false);
-      setEditingProduct(null);
-      loadProducts();
-    } catch (err) {
-      alert("Error: " + err.message);
-    } finally {
-      setLoading(false);
-    }
+      setFormData({ name: "", price: "", category: "bangles", description: "", mainImage: "", thumbnails: [] });
+      setMainImageFile(null); setThumbnailFiles([]); setShowForm(false); setEditingProduct(null);
+      await loadProducts();
+    } catch (err) { alert("Error: " + err.message); }
+    finally { setLoading(false); }
   };
 
   const loadProducts = async () => {
     setLoading(true);
     try {
       const data = await fetchProducts();
-      // Map _id to id for consistency
       setProducts((data || []).map(p => ({ ...p, id: p._id })));
-    } catch (err) {
-      console.error("Error fetching products:", err);
-    }
+    } catch (err) { console.error("Error:", err); }
     setLoading(false);
   };
 
   const handleEdit = (product) => {
     setEditingProduct(product);
     setFormData({
-      name: product.name,
-      price: product.price.toString(),
-      category: product.category,
-      description: product.description || "",
-      mainImage: product.mainImage || "",
+      name: product.name, price: product.price.toString(), category: product.category,
+      description: product.description || "", mainImage: product.mainImage || "",
       thumbnails: Array.isArray(product.thumbnails) ? product.thumbnails : [],
     });
-    setMainImageFile(null);
-    setThumbnailFiles([]);
-    setShowForm(true);
+    setMainImageFile(null); setThumbnailFiles([]); setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
-
+    if (!confirm("Delete this product?")) return;
     try {
       const result = await deleteProduct(id);
-      if (result.error) alert("Error deleting: " + result.error);
-      else loadProducts();
-    } catch (err) {
-      alert("Error deleting: " + err.message);
-    }
+      if (result.error) alert("Error: " + result.error);
+      else await loadProducts();
+    } catch (err) { alert("Error: " + err.message); }
   };
+
+  const filteredProducts = products.filter(p => {
+    const matchSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchCategory = categoryFilter === "all" || p.category === categoryFilter;
+    return matchSearch && matchCategory;
+  });
+
+  const categories = [...new Set(products.map(p => p.category))];
 
   if (!user) return null;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Admin Header */}
-      <div className="bg-luxury-dark text-white p-4 shadow-lg">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-black">
-            Mallow & Manor - <span className="text-luxury-gold">Admin</span>
-          </h1>
+      {/* Header */}
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <h1 className="text-sm font-bold tracking-wider uppercase">Admin</h1>
+            <nav className="hidden md:flex items-center gap-1">
+              <button onClick={() => { setShowForm(false); setEditingProduct(null); }}
+                className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase transition-colors ${!showForm ? "text-luxury-dark" : "text-gray-400 hover:text-gray-600"}`}>
+                Products
+              </button>
+              <button onClick={() => navigate('/admin/analytics')}
+                className="px-3 py-1.5 text-xs font-medium tracking-wider uppercase text-gray-400 hover:text-gray-600 transition-colors">
+                Analytics
+              </button>
+            </nav>
+          </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-300">{user.email}</span>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition-colors"
-            >
-              Logout
+            <span className="text-xs text-gray-400 hidden sm:block">{user.email}</span>
+            <button onClick={handleLogout} className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
+              Sign Out
             </button>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Admin Content */}
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-black text-luxury-dark">Products</h2>
-          <div className="flex gap-3">
-            <button
-              onClick={() => window.location.href = '/admin/analytics'}
-              className="px-4 py-2 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all text-sm"
-            >
-              📊 Analytics
-            </button>
-            <button
-              onClick={() => {
-                setShowForm(!showForm);
-                setEditingProduct(null);
-                setFormData({
-                  name: "",
-                  price: "",
-                  category: "bangles",
-                  description: "",
-                  mainImage: "",
-                  thumbnails: [],
-                });
-              }}
-              className="px-6 py-3 bg-luxury-green text-white rounded-xl font-bold hover:bg-luxury-dark transition-all"
-            >
-              {showForm ? "Cancel" : "+ Add Product"}
-            </button>
+      <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Actions bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">Products</h2>
+            <p className="text-sm text-gray-400 mt-1">{products.length} total</p>
           </div>
+          <button onClick={() => {
+            setShowForm(!showForm); setEditingProduct(null);
+            setFormData({ name: "", price: "", category: "bangles", description: "", mainImage: "", thumbnails: [] });
+            setMainImageFile(null); setThumbnailFiles([]);
+          }}
+            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-luxury-dark text-white hover:bg-luxury-green"}`}>
+            {showForm ? "Cancel" : "Add Product"}
+          </button>
         </div>
 
-        {/* Add/Edit Form */}
+        {/* Form */}
         {showForm && (
-          <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-            <h3 className="text-xl font-bold mb-4">
-              {editingProduct ? "Edit Product" : "Add New Product"}
-            </h3>
+          <div className="bg-white border border-gray-100 p-6 mb-8">
+            <h3 className="text-lg font-semibold mb-5">{editingProduct ? "Edit Product" : "New Product"}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                    Product Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none"
-                    required
-                  />
+                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Name</label>
+                  <input type="text" name="name" value={formData.name} onChange={handleInputChange}
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" required />
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                    Price (Rs.)
-                  </label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none"
-                    required
-                  />
+                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Price (Rs.)</label>
+                  <input type="number" name="price" value={formData.price} onChange={handleInputChange}
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" required />
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                    Category
-                  </label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none"
-                  >
+                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Category</label>
+                  <select name="category" value={formData.category} onChange={handleInputChange}
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none bg-white">
                     <option value="bangles">Bangles</option>
                     <option value="nails">Nails</option>
                     <option value="abayas">Abayas</option>
                     <option value="necklaces">Necklaces</option>
                   </select>
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                    Main Image
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleMainImageChange}
-                    className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none text-sm"
-                  />
-                  {formData.mainImage && (
-                    <img src={formData.mainImage} alt="Preview" className="mt-2 w-32 h-32 object-cover rounded-lg" />
-                  )}
+                  <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Main Image</label>
+                  <input type="file" accept="image/*" onChange={handleMainImageChange}
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none" />
+                  {formData.mainImage && <img src={formData.mainImage} alt="Preview" className="mt-2 w-20 h-20 object-cover" />}
                 </div>
               </div>
-
               <div>
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                  Additional Images (max 5)
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleThumbnailChange}
-                  className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none text-sm"
-                />
+                <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Additional Images (max 5)</label>
+                <input type="file" accept="image/*" multiple onChange={handleThumbnailChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none" />
                 {thumbnailFiles.length > 0 && (
-                  <div className="flex gap-2 mt-2 flex-wrap">
+                  <div className="flex gap-2 mt-2">
                     {thumbnailFiles.map((thumb, idx) => (
                       <div key={idx} className="relative">
-                        <img src={thumb.preview} alt={`Thumb ${idx + 1}`} className="w-16 h-16 object-cover rounded-lg" />
-                        <button
-                          type="button"
-                          onClick={() => removeThumbnail(idx)}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
-                        >
-                          ×
-                        </button>
+                        <img src={thumb.preview} alt="" className="w-14 h-14 object-cover" />
+                        <button type="button" onClick={() => removeThumbnail(idx)}
+                          className="absolute -top-1 -right-1 bg-gray-800 text-white w-4 h-4 flex items-center justify-center text-[10px]">×</button>
                       </div>
                     ))}
                   </div>
                 )}
-                <p className="text-xs text-gray-500 mt-1">{thumbnailFiles.length}/5 images selected</p>
               </div>
-
               <div>
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  rows="3"
-                  className="w-full px-4 py-3 border border-luxury-light rounded-xl focus:border-luxury-green focus:outline-none"
-                />
+                <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Description</label>
+                <textarea name="description" value={formData.description} onChange={handleInputChange} rows="3"
+                  className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" />
               </div>
-
-              <button
-                type="submit"
-                disabled={loading || uploading}
-                className="px-8 py-3 bg-luxury-dark text-white rounded-xl font-bold hover:bg-luxury-green transition-all disabled:opacity-50"
-              >
-                {loading ? "Saving..." : uploading ? "Uploading..." : editingProduct ? "Update Product" : "Add Product"}
+              <button type="submit" disabled={loading || uploading}
+                className="px-6 py-2.5 bg-luxury-dark text-white text-xs font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors disabled:opacity-50">
+                {loading ? "Saving..." : uploading ? "Uploading..." : editingProduct ? "Update" : "Create"}
               </button>
             </form>
           </div>
         )}
 
-        {/* Products List */}
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <div className="relative flex-1 max-w-sm">
+            <input type="text" placeholder="Search products..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 bg-white border border-gray-200 text-sm focus:outline-none" />
+          </div>
+          <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
+            className="px-4 py-2 bg-white border border-gray-200 text-sm focus:outline-none">
+            <option value="all">All Categories</option>
+            {categories.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+          </select>
+        </div>
+
+        {/* Products table */}
         {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-luxury-green mx-auto"></div>
+          <div className="text-center py-16">
+            <div className="w-6 h-6 border-2 border-gray-300 border-t-luxury-dark rounded-full animate-spin mx-auto" />
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-luxury-light/50">
-                <tr>
-                  <th className="text-left p-4 text-xs font-bold uppercase tracking-widest text-gray-600">
-                    Name
-                  </th>
-                  <th className="text-left p-4 text-xs font-bold uppercase tracking-widest text-gray-600">
-                    Category
-                  </th>
-                  <th className="text-left p-4 text-xs font-bold uppercase tracking-widest text-gray-600">
-                    Price
-                  </th>
-                  <th className="text-right p-4 text-xs font-bold uppercase tracking-widest text-gray-600">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product.id} className="border-t border-gray-100 hover:bg-luxury-light/30">
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        {product.mainImage && (
-                          <img
-                            src={product.mainImage}
-                            alt={product.name}
-                            className="w-12 h-12 object-cover rounded-lg"
-                          />
-                        )}
-                        <span className="font-bold text-luxury-dark">{product.name}</span>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <span className="px-3 py-1 bg-luxury-light rounded-full text-xs font-bold text-luxury-green">
-                        {product.category}
-                      </span>
-                    </td>
-                    <td className="p-4 font-bold">Rs. {product.price}</td>
-                    <td className="p-4 text-right">
-                      <button
-                        onClick={() => handleEdit(product)}
-                        className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors mr-2"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
-                      >
-                        Delete
-                      </button>
-                    </td>
+          <div className="bg-white border border-gray-100 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="text-left p-4 text-xs font-medium tracking-wider uppercase text-gray-400">Product</th>
+                    <th className="text-left p-4 text-xs font-medium tracking-wider uppercase text-gray-400 hidden sm:table-cell">Category</th>
+                    <th className="text-left p-4 text-xs font-medium tracking-wider uppercase text-gray-400">Price</th>
+                    <th className="text-right p-4 text-xs font-medium tracking-wider uppercase text-gray-400">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            {products.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                No products yet. Click "Add Product" to create one.
+                </thead>
+                <tbody>
+                  {filteredProducts.map((product) => (
+                    <tr key={product.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <td className="p-4">
+                        <div className="flex items-center gap-3">
+                          {product.mainImage && <img src={product.mainImage} alt="" className="w-10 h-10 object-cover" />}
+                          <span className="font-medium truncate max-w-[200px]">{product.name}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 hidden sm:table-cell">
+                        <span className="text-xs text-gray-500 capitalize">{product.category}</span>
+                      </td>
+                      <td className="p-4 font-medium">Rs. {product.price.toLocaleString()}</td>
+                      <td className="p-4 text-right">
+                        <button onClick={() => handleEdit(product)} className="text-xs text-gray-500 hover:text-luxury-dark transition-colors mr-3 font-medium">Edit</button>
+                        <button onClick={() => handleDelete(product.id)} className="text-xs text-gray-400 hover:text-red-600 transition-colors font-medium">Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12 text-gray-400 text-sm">
+                {searchQuery || categoryFilter !== "all" ? "No products match your filters." : "No products yet."}
               </div>
             )}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
