@@ -112,6 +112,7 @@ export const login = async (email, password) => {
   if (res.ok && data.accessToken) {
     accessToken = data.accessToken;
     localStorage.setItem('accessToken', data.accessToken);
+    if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
   }
   return data;
 };
