@@ -64,7 +64,7 @@ export const fetchProducts = async () => {
 };
 
 export const fetchProductById = async (id) => {
-  const res = await request(`/products/${id}`);
+  const res = await request(`/product/${id}`);
   return res.json();
 };
 
@@ -127,12 +127,12 @@ export const createProduct = async (productData) => {
 };
 
 export const updateProduct = async (id, productData) => {
-  const res = await request(`/products/${id}`, { method: 'PUT', body: productData });
+  const res = await request(`/product/${id}`, { method: 'PUT', body: productData });
   return res.json();
 };
 
 export const deleteProduct = async (id) => {
-  const res = await request(`/products/${id}`, { method: 'DELETE' });
+  const res = await request(`/product/${id}`, { method: 'DELETE' });
   return res.json();
 };
 
