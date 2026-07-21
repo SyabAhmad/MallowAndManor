@@ -1,9 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-let accessToken = null;
-
-export const setAccessToken = (token) => { accessToken = token; };
-export const getAccessToken = () => accessToken;
+let accessToken = localStorage.getItem('accessToken');
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
@@ -36,13 +33,24 @@ const request = async (path, options = {}, retries = 2) => {
 
 const refreshAccessToken = async () => {
   try {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!refreshToken) return false;
+
     const res = await fetch(`${API_URL}/auth/refresh`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
       credentials: 'include',
     });
-    if (!res.ok) return false;
+    if (!res.ok) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      return false;
+    }
     const data = await res.json();
     accessToken = data.accessToken;
+    localStorage.setItem('accessToken', data.accessToken);
+    if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
     return true;
   } catch {
     return false;
@@ -93,13 +101,18 @@ export const login = async (email, password) => {
     body: { email, password },
   });
   const data = await res.json();
-  if (res.ok) accessToken = data.accessToken;
+  if (res.ok && data.accessToken) {
+    accessToken = data.accessToken;
+    localStorage.setItem('accessToken', data.accessToken);
+  }
   return data;
 };
 
 export const logout = async () => {
   await request('/auth/logout', { method: 'POST' });
   accessToken = null;
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
 };
 
 export const getCurrentUser = async () => {

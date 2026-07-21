@@ -30,36 +30,22 @@ router.post('/login', async (req, res, next) => {
     }
 
     const { accessToken, refreshToken } = generateTokens(user);
-
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    res.json({ accessToken, user: { id: user._id, email: user.email, role: user.role } });
+    res.json({ accessToken, refreshToken, user: { id: user._id, email: user.email, role: user.role } });
   } catch (err) { next(err); }
 });
 
 // POST /api/auth/refresh
 router.post('/refresh', async (req, res, next) => {
   try {
-    const token = req.cookies.refreshToken;
-    if (!token) return res.status(401).json({ error: 'No refresh token' });
+    const { refreshToken } = req.body;
+    if (!refreshToken) return res.status(401).json({ error: 'No refresh token' });
 
-    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
     const user = await User.findById(decoded.userId);
     if (!user) return res.status(401).json({ error: 'User not found' });
 
-    const { accessToken, refreshToken } = generateTokens(user);
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-    res.json({ accessToken });
+    const tokens = generateTokens(user);
+    res.json(tokens);
   } catch {
     res.status(401).json({ error: 'Invalid refresh token' });
   }
@@ -67,7 +53,6 @@ router.post('/refresh', async (req, res, next) => {
 
 // POST /api/auth/logout
 router.post('/logout', (req, res) => {
-  res.clearCookie('refreshToken');
   res.json({ ok: true });
 });
 

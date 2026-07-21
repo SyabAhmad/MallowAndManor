@@ -2,28 +2,16 @@ import connectDB from '../_lib/db.js';
 import jwt from 'jsonwebtoken';
 import User from '../_lib/models/User.js';
 
-function parseCookies(cookieHeader) {
-  const cookies = {};
-  if (!cookieHeader) return cookies;
-  cookieHeader.split(';').forEach(c => {
-    const [key, ...val] = c.trim().split('=');
-    cookies[key] = val.join('=');
-  });
-  return cookies;
-}
-
 export default async function handler(req, res) {
   try {
     await connectDB();
 
     if (req.method === 'POST') {
-      const cookies = parseCookies(req.headers.cookie);
-      const token = cookies.refreshToken;
-
-      if (!token) return res.status(401).json({ error: 'No refresh token' });
+      const { refreshToken } = req.body;
+      if (!refreshToken) return res.status(401).json({ error: 'No refresh token' });
 
       try {
-        const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
         const user = await User.findById(decoded.userId);
         if (!user) return res.status(401).json({ error: 'User not found' });
 
@@ -32,14 +20,13 @@ export default async function handler(req, res) {
           process.env.JWT_SECRET,
           { expiresIn: '15m' }
         );
-        const refreshToken = jwt.sign(
+        const newRefreshToken = jwt.sign(
           { userId: user._id },
           process.env.JWT_REFRESH_SECRET,
           { expiresIn: '7d' }
         );
 
-        res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
-        return res.json({ accessToken });
+        return res.json({ accessToken, refreshToken: newRefreshToken });
       } catch {
         return res.status(401).json({ error: 'Invalid refresh token' });
       }

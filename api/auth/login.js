@@ -25,8 +25,7 @@ export default async function handler(req, res) {
         { expiresIn: '7d' }
       );
 
-      res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
-      return res.json({ accessToken, user: { id: user._id, email: user.email, role: user.role } });
+      return res.json({ accessToken, refreshToken, user: { id: user._id, email: user.email, role: user.role } });
     }
 
     res.status(405).json({ error: 'Method not allowed' });
