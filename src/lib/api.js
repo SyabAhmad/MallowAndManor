@@ -57,20 +57,29 @@ const refreshAccessToken = async () => {
   }
 };
 
+const safeJson = async (res) => {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`Server returned ${res.status}: ${text.slice(0, 200)}`);
+  }
+};
+
 // Public API
 export const fetchProducts = async () => {
   const res = await request('/products');
-  return res.json();
+  return safeJson(res);
 };
 
 export const fetchProductById = async (id) => {
   const res = await request(`/product/${id}`);
-  return res.json();
+  return safeJson(res);
 };
 
 export const fetchCategories = async () => {
   const res = await request('/categories');
-  return res.json();
+  return safeJson(res);
 };
 
 export const trackEvent = async (eventType, eventData = {}) => {
@@ -86,12 +95,12 @@ export const trackEvent = async (eventType, eventData = {}) => {
 
 export const fetchProductStats = async () => {
   const res = await request('/analytics/stats');
-  return res.json();
+  return safeJson(res);
 };
 
 export const fetchAnalytics = async () => {
   const res = await request('/admin/analytics');
-  return res.json();
+  return safeJson(res);
 };
 
 // Auth API
@@ -100,7 +109,7 @@ export const login = async (email, password) => {
     method: 'POST',
     body: { email, password },
   });
-  const data = await res.json();
+  const data = await safeJson(res);
   if (res.ok && data.accessToken) {
     accessToken = data.accessToken;
     localStorage.setItem('accessToken', data.accessToken);
@@ -117,28 +126,28 @@ export const logout = async () => {
 
 export const getCurrentUser = async () => {
   const res = await request('/auth/me');
-  return res.json();
+  return safeJson(res);
 };
 
 // Admin API
 export const createProduct = async (productData) => {
   const res = await request('/admin/products', { method: 'POST', body: productData });
-  return res.json();
+  return safeJson(res);
 };
 
 export const updateProduct = async (id, productData) => {
   const res = await request(`/product/${id}`, { method: 'PUT', body: productData });
-  return res.json();
+  return safeJson(res);
 };
 
 export const deleteProduct = async (id) => {
   const res = await request(`/product/${id}`, { method: 'DELETE' });
-  return res.json();
+  return safeJson(res);
 };
 
 export const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
   const res = await request('/upload', { method: 'POST', body: formData });
-  return res.json();
+  return safeJson(res);
 };

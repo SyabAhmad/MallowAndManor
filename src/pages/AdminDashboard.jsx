@@ -54,8 +54,15 @@ export default function AdminDashboard() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const MAX_FILE_SIZE = 4.5 * 1024 * 1024;
+
   const handleFileUpload = async (file) => {
     if (!file) return null;
+
+    if (file.size > MAX_FILE_SIZE) {
+      alert("File too large. Maximum size is 4.5 MB.");
+      return null;
+    }
 
     setUploading(true);
     try {

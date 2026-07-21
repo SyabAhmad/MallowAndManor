@@ -6,8 +6,21 @@ export const config = {
   api: { bodyParser: false },
 };
 
+const MAX_BODY_SIZE = 4.5 * 1024 * 1024;
+
 export default async function handler(req, res) {
-  await connectDB();
+  if (req.method === 'POST') {
+    const contentLength = parseInt(req.headers['content-length'] || '0', 10);
+    if (contentLength > MAX_BODY_SIZE) {
+      return res.status(413).json({ error: 'File too large. Maximum size is 4.5 MB.' });
+    }
+  }
+
+  try {
+    await connectDB();
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 
   if (req.method === 'POST') {
     const user = authenticate(req, res);
