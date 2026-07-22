@@ -47,7 +47,7 @@ export default function AdminHeader({ userEmail }) {
                 onClick={() => navigate(item.path)}
                 className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase transition-colors ${
                   location.pathname === item.path
-                    ? "text-brand-walnut"
+                    ? "text-brand-dark"
                     : "text-gray-400 hover:text-gray-600"
                 }`}
               >
@@ -75,7 +75,7 @@ export default function AdminHeader({ userEmail }) {
                 onClick={() => { navigate(item.path); setMenuOpen(false); }}
                 className={`block w-full text-left px-3 py-2 text-sm font-medium tracking-wider uppercase transition-colors ${
                   location.pathname === item.path
-                    ? "text-brand-walnut bg-gray-50"
+                    ? "text-brand-dark bg-gray-50"
                     : "text-gray-400 hover:text-gray-600"
                 }`}
               >

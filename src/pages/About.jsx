@@ -84,14 +84,14 @@ export default function About() {
 
       {/* CTA */}
       <section className="py-20 px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="bg-brand-walnut text-brand-cream py-16 px-8 text-center">
+        <div className="bg-brand-black text-brand-cream py-16 px-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Join the Inner Circle</h2>
           <p className="text-brand-cream/50 text-sm max-w-md mx-auto mb-8">
             Experience luxury redefined. Every order handled with personal care.
           </p>
           <button
             onClick={() => (window.location.href = "/products")}
-            className="px-8 py-3 bg-brand-cream text-brand-walnut text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne hover:text-brand-cream transition-all duration-300"
+            className="px-8 py-3 bg-brand-cream text-brand-dark text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-brand-cream transition-all duration-300"
           >
             Explore Collections
           </button>

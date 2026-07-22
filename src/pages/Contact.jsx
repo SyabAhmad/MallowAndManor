@@ -40,8 +40,8 @@ export default function Contact() {
           <div className="mt-8 p-6 bg-gray-50">
             <h3 className="text-sm font-semibold mb-3">Business Hours</h3>
             <div className="space-y-2 text-sm text-gray-500">
-              <div className="flex justify-between"><span>Mon - Fri</span><span className="font-medium text-brand-walnut">9:00 AM - 6:00 PM</span></div>
-              <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-brand-walnut">10:00 AM - 4:00 PM</span></div>
+              <div className="flex justify-between"><span>Mon - Fri</span><span className="font-medium text-brand-dark">9:00 AM - 6:00 PM</span></div>
+              <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-brand-dark">10:00 AM - 4:00 PM</span></div>
               <div className="flex justify-between"><span>Sunday</span><span className="font-medium text-gray-400">Closed</span></div>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function Contact() {
       </div>
 
       {/* Delivery */}
-      <div className="bg-brand-walnut text-brand-cream py-12 px-8 text-center">
+      <div className="bg-brand-black text-brand-cream py-12 px-8 text-center">
         <h2 className="text-xl font-bold mb-6">Where We Deliver</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-brand-cream/70 mb-6">
           {["Karachi", "Lahore", "Islamabad", "Faisalabad", "Multan", "Peshawar", "Quetta", "Sialkot"].map((city) => (

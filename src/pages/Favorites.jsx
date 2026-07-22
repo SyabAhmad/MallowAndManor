@@ -11,7 +11,7 @@ export default function Favorites({ favorites, addToCart, removeFromFavorites })
         <p className="text-gray-400 text-sm mb-6">Save items you love for later.</p>
         <button
           onClick={() => navigate("/products")}
-          className="bg-brand-walnut text-brand-cream px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors"
+          className="bg-brand-black text-brand-cream px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors"
         >
           Discover Products
         </button>

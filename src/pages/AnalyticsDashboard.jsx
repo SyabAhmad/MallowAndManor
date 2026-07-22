@@ -117,7 +117,7 @@ export default function AnalyticsDashboard() {
         <div className="flex bg-brand-cream border border-gray-200 w-fit">
           {TIME_RANGES.map(r => (
             <button key={r.days} onClick={() => { setTimeRange(r.days); fetchData(r.days); }}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${timeRange === r.days ? "bg-brand-walnut text-brand-cream" : "text-gray-400 hover:text-gray-600"}`}>
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${timeRange === r.days ? "bg-brand-black text-brand-cream" : "text-gray-400 hover:text-gray-600"}`}>
               {r.label}
             </button>
           ))}

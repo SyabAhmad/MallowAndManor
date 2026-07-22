@@ -21,7 +21,7 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
         <p className="text-gray-400 text-sm mb-6">Discover our curated collection.</p>
         <button
           onClick={() => navigate("/products")}
-          className="bg-brand-walnut text-brand-cream px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors"
+          className="bg-brand-black text-brand-cream px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors"
         >
           Browse Products
         </button>

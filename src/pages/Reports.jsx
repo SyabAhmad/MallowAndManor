@@ -118,13 +118,13 @@ export default function Reports() {
         <div className="flex bg-brand-cream border border-gray-200">
           {[7, 30, 90].map(d => (
             <button key={d} onClick={() => setDays(d)}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${days === d ? "bg-brand-walnut text-brand-cream" : "text-gray-400 hover:text-gray-600"}`}>
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${days === d ? "bg-brand-black text-brand-cream" : "text-gray-400 hover:text-gray-600"}`}>
               {d}D
             </button>
           ))}
         </div>
         <button onClick={handleExport} disabled={loading}
-          className="px-4 py-1.5 bg-brand-walnut text-brand-cream text-xs font-medium hover:bg-brand-champagne transition-colors disabled:opacity-50">
+          className="px-4 py-1.5 bg-brand-black text-brand-cream text-xs font-medium hover:bg-brand-gold transition-colors disabled:opacity-50">
           Export
         </button>
       </div>

@@ -66,7 +66,7 @@ export default function HeroCarousel() {
             </p>
             <button
               onClick={() => navigate("/products")}
-              className="bg-brand-cream text-brand-walnut px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne hover:text-brand-cream transition-all duration-300"
+              className="bg-brand-cream text-brand-dark px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-brand-cream transition-all duration-300"
             >
               {slides[currentSlide].cta}
             </button>

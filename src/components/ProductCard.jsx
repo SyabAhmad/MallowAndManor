@@ -37,7 +37,7 @@ export default function ProductCard({ product, onAddToCart, isFavorite, onToggle
                 onMouseEnter={() => setSelectedImage(img)}
                 className={`w-8 h-8 rounded overflow-hidden border transition-all ${
                   selectedImage === img
-                    ? "border-brand-walnut"
+                    ? "border-brand-black"
                     : "border-gray-200 hover:border-gray-400"
                 }`}
               >
@@ -59,7 +59,7 @@ export default function ProductCard({ product, onAddToCart, isFavorite, onToggle
         </div>
         <button
           onClick={() => onAddToCart(product)}
-          className="shrink-0 w-9 h-9 flex items-center justify-center border border-gray-200 rounded-full hover:bg-brand-walnut hover:text-brand-cream hover:border-brand-walnut transition-all"
+          className="shrink-0 w-9 h-9 flex items-center justify-center border border-gray-200 rounded-full hover:bg-brand-black hover:text-brand-cream hover:border-brand-black transition-all"
           title="Add to cart"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
