@@ -80,11 +80,6 @@ export default function AllProducts({ handleAddToCart, toggleFavorite, favorites
         <OfferHeadline text="SALE SALE SALE" />
       </div>
 
-      {/* Offer Banner */}
-      <div className="-mx-6 lg:-mx-8 mb-10">
-        <OfferHeadline text="Free Delivery on Orders Over Rs. 5,000 · New Arrivals Just Dropped · Shop the Collection" />
-      </div>
-
       {/* Filters bar */}
       <div className="flex flex-col md:flex-row gap-4 mb-10">
         {/* Search */}
