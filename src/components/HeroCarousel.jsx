@@ -9,19 +9,19 @@ export default function HeroCarousel() {
     {
       title: "Good for your style.\nGood for the Earth.",
       subtitle: "Handcrafted luxury accessories made with intention.",
-      image: "GULWARENA.png",
+      image: "/luxury_hero_banner.webp",
       cta: "Shop Now",
     },
     {
       title: "Curated elegance\nfor the modern soul.",
       subtitle: "Designer abayas, bangles, and accessories.",
-      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1440&auto=format&fit=crop",
+      image: "/luxury_hero_banner.webp",
       cta: "Explore Collection",
     },
     {
       title: "Buy fewer pieces,\ncreate less waste.",
       subtitle: "Timeless designs that transcend seasons.",
-      image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1632&auto=format&fit=crop",
+      image: "/luxury_hero_banner.webp",
       cta: "Discover More",
     },
   ];
