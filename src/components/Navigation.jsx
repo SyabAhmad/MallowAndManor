@@ -17,7 +17,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
   return (
     <nav className="bg-brand-walnut sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -48,7 +48,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
 
           {/* Logo - center */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-            <img src="/GULWARENA.png" alt="Gulwarena" className="h-8 md:h-10 w-auto" />
+            <img src="/GULWARENA.png" alt="Gulwarena" className="h-12 md:h-14 w-auto" />
           </Link>
 
           {/* Right icons */}
