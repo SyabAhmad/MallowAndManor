@@ -5,15 +5,15 @@ import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
-// GET /api/products — public (supports ?id= and ?categories=true)
+// GET /api/products — public (supports ?id=, ?categories=true, ?page=, ?limit=, ?category=, ?search=, ?sort=)
 router.get('/', async (req, res, next) => {
   try {
-    const { id, categories, admin } = req.query;
+    const { id, categories, admin, page, limit, category, search, sort } = req.query;
 
     // Categories
     if (categories === 'true') {
-      const categories = await Category.find().sort({ createdAt: 1 });
-      return res.json(categories);
+      const cats = await Category.find().sort({ createdAt: 1 });
+      return res.json(cats);
     }
 
     // Single product by id
@@ -28,12 +28,38 @@ router.get('/', async (req, res, next) => {
       const user = authenticate(req, res);
       if (!user) return res.status(401).json({ error: 'Unauthorized' });
       const products = await Product.find().sort({ createdAt: -1 });
-      return res.json(products);
+      return res.json({ products, total: products.length });
     }
 
-    // Default: all products
-    const products = await Product.find().sort({ createdAt: 1 });
-    res.json(products);
+    // Paginated products
+    const pageNum = Math.max(1, parseInt(page) || 1);
+    const limitNum = Math.min(50, Math.max(1, parseInt(limit) || 12));
+    const skip = (pageNum - 1) * limitNum;
+
+    // Build filter
+    const filter = {};
+    if (category && category !== 'all') filter.category = category;
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    // Build sort
+    let sortOption = { createdAt: -1 };
+    if (sort === 'price-low') sortOption = { price: 1 };
+    else if (sort === 'price-high') sortOption = { price: -1 };
+
+    const [products, total] = await Promise.all([
+      Product.find(filter).sort(sortOption).skip(skip).limit(limitNum),
+      Product.countDocuments(filter),
+    ]);
+
+    const totalPages = Math.ceil(total / limitNum);
+
+    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    res.json({ products, total, page: pageNum, totalPages, limit: limitNum });
   } catch (err) { next(err); }
 });
 
