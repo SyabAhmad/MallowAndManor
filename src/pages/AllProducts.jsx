@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchProducts } from "../lib/api";
 import ProductCard from "../components/ProductCard";
-import OfferHeadline from "../components/OfferHeadline";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -73,11 +72,6 @@ export default function AllProducts({ handleAddToCart, toggleFavorite, favorites
         <p className="text-gray-400 text-sm">
           {total} {total === 1 ? "item" : "items"}
         </p>
-      </div>
-
-      {/* SALE Banner */}
-      <div className="-mx-6 lg:-mx-8 mb-10">
-        <OfferHeadline text="SALE SALE SALE" big showDot={false} glow speed={280} />
       </div>
 
       {/* Filters bar */}
