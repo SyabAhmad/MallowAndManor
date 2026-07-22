@@ -2,12 +2,16 @@ import { useNavigate } from "react-router-dom";
 import HeroCarousel from "../components/HeroCarousel";
 import Collections from "../components/Collections";
 import ProductsSection from "../components/ProductsSection";
+import OfferHeadline from "../components/OfferHeadline";
 
 export default function Home({ products, categories, handleAddToCart, productStats = {}, toggleFavorite, favorites }) {
   const navigate = useNavigate();
 
   return (
     <div>
+      {/* Offer Banner */}
+      <OfferHeadline text="Free Delivery on Orders Over Rs. 5,000 · New Arrivals Just Dropped · Shop the Collection" speed={30} />
+
       {/* Hero */}
       <HeroCarousel />
 
