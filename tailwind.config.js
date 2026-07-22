@@ -5,12 +5,11 @@ export default {
     extend: {
       colors: {
         brand: {
-          espresso: "#22140C",
-          walnut: "#352418",
-          brown: "#463225",
-          gold: "#A98353",
-          champagne: "#E3BC87",
-          cream: "#F9F6F0",
+          black: "#0A0A0A",
+          dark: "#1A1A1A",
+          gold: "#C9A84C",
+          light: "#F5F0E8",
+          cream: "#FAFAF8",
         },
       },
       fontFamily: {
