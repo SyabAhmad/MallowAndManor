@@ -82,7 +82,7 @@ function App() {
           timestamp: Date.now()
         }));
 
-        const rawProducts = Array.isArray(productsData) ? productsData : [];
+        const rawProducts = Array.isArray(productsData) ? productsData : (productsData?.products || []);
         const mappedProducts = rawProducts.map(p => ({
           id: p._id,
           name: p.name,
