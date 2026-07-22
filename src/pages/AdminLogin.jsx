@@ -25,7 +25,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-6">
+    <div className="min-h-screen flex items-center justify-center bg-brand-cream px-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
           <img src="/GULWARENA.png" alt="Gulwarena" className="h-12 w-auto mx-auto mb-4" />
@@ -46,7 +46,7 @@ export default function AdminLogin() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold transition-colors"
+              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne transition-colors"
               placeholder="admin@gulwarena.com"
               required
             />
@@ -57,7 +57,7 @@ export default function AdminLogin() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold transition-colors"
+              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne transition-colors"
               placeholder="Enter password"
               required
             />
@@ -65,7 +65,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand-dark text-white py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors disabled:opacity-50"
+            className="w-full bg-brand-walnut text-brand-cream py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -73,7 +73,7 @@ export default function AdminLogin() {
 
         <button
           onClick={() => navigate("/")}
-          className="w-full mt-6 text-gray-400 text-xs hover:text-brand-dark transition-colors text-center"
+          className="w-full mt-6 text-gray-400 text-xs hover:text-brand-walnut transition-colors text-center"
         >
           Back to Store
         </button>

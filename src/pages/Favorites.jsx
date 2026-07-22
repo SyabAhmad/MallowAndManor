@@ -11,7 +11,7 @@ export default function Favorites({ favorites, addToCart, removeFromFavorites })
         <p className="text-gray-400 text-sm mb-6">Save items you love for later.</p>
         <button
           onClick={() => navigate("/products")}
-          className="bg-brand-dark text-white px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors"
+          className="bg-brand-walnut text-brand-cream px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors"
         >
           Discover Products
         </button>
@@ -35,7 +35,7 @@ export default function Favorites({ favorites, addToCart, removeFromFavorites })
               <ProductCard product={product} onAddToCart={() => addToCart(product)} />
               <button
                 onClick={() => removeFromFavorites(product.id)}
-                className="absolute top-2 right-2 w-8 h-8 bg-white/90 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors z-10"
+                className="absolute top-2 right-2 w-8 h-8 bg-brand-cream/90 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors z-10"
                 title="Remove"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -20,7 +20,7 @@ export default function AdminHeader({ userEmail }) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <header className="bg-brand-cream border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           {/* Mobile menu button */}
@@ -47,7 +47,7 @@ export default function AdminHeader({ userEmail }) {
                 onClick={() => navigate(item.path)}
                 className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase transition-colors ${
                   location.pathname === item.path
-                    ? "text-brand-dark"
+                    ? "text-brand-walnut"
                     : "text-gray-400 hover:text-gray-600"
                 }`}
               >
@@ -67,7 +67,7 @@ export default function AdminHeader({ userEmail }) {
 
       {/* Mobile nav dropdown */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white">
+        <div className="md:hidden border-t border-gray-100 bg-brand-cream">
           <div className="px-6 py-3 space-y-1">
             {navItems.map(item => (
               <button
@@ -75,7 +75,7 @@ export default function AdminHeader({ userEmail }) {
                 onClick={() => { navigate(item.path); setMenuOpen(false); }}
                 className={`block w-full text-left px-3 py-2 text-sm font-medium tracking-wider uppercase transition-colors ${
                   location.pathname === item.path
-                    ? "text-brand-dark bg-gray-50"
+                    ? "text-brand-walnut bg-gray-50"
                     : "text-gray-400 hover:text-gray-600"
                 }`}
               >

@@ -37,8 +37,8 @@ export default function ProductsSection({ products = [], onAddToCart, productSta
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-4 py-2 text-xs font-medium tracking-wider uppercase transition-colors whitespace-nowrap ${
                 selectedCategory === cat.id
-                  ? "bg-brand-dark text-white"
-                  : "text-gray-500 hover:text-brand-dark"
+                  ? "bg-brand-walnut text-brand-cream"
+                  : "text-gray-500 hover:text-brand-walnut"
               }`}
             >
               {cat.label}
@@ -72,7 +72,7 @@ export default function ProductsSection({ products = [], onAddToCart, productSta
         <div className="text-center mt-12">
           <button
             onClick={() => (window.location.href = "/products")}
-            className="text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-dark pb-1 hover:text-brand-gold hover:border-brand-gold transition-colors"
+            className="text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-walnut pb-1 hover:text-brand-champagne hover:border-brand-champagne transition-colors"
           >
             View All Products
           </button>

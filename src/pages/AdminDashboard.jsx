@@ -181,31 +181,31 @@ export default function AdminDashboard() {
             setFormData({ name: "", price: "", category: "bangles", description: "", mainImage: "", thumbnails: [] });
             setMainImageFile(null); setThumbnailFiles([]);
           }}
-            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-brand-dark text-white hover:bg-brand-gold"}`}>
+            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-brand-walnut text-brand-cream hover:bg-brand-champagne"}`}>
             {showForm ? "Cancel" : "Add Product"}
           </button>
         </div>
 
         {/* Form */}
         {showForm && (
-          <div className="bg-white border border-gray-100 p-6 mb-8">
+          <div className="bg-brand-cream border border-gray-100 p-6 mb-8">
             <h3 className="text-lg font-semibold mb-5">{editingProduct ? "Edit Product" : "New Product"}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Name</label>
                   <input type="text" name="name" value={formData.name} onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" required />
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Price (Rs.)</label>
                   <input type="number" name="price" value={formData.price} onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" required />
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Category</label>
                   <select name="category" value={formData.category} onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none bg-white">
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none bg-brand-cream">
                     <option value="bangles">Bangles</option>
                     <option value="nails">Nails</option>
                     <option value="abayas">Abayas</option>
@@ -229,7 +229,7 @@ export default function AdminDashboard() {
                       <div key={url} className="relative">
                         <img src={url} alt="" className="w-14 h-14 object-cover" />
                         <button type="button" onClick={() => setFormData(prev => ({ ...prev, thumbnails: prev.thumbnails.filter(t => t !== url) }))}
-                          className="absolute -top-1 -right-1 bg-gray-800 text-white w-4 h-4 flex items-center justify-center text-[10px]">×</button>
+                          className="absolute -top-1 -right-1 bg-gray-800 text-brand-cream w-4 h-4 flex items-center justify-center text-[10px]">×</button>
                       </div>
                     ))}
                   </div>
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
                       <div key={thumb.preview} className="relative">
                         <img src={thumb.preview} alt="" className="w-14 h-14 object-cover" />
                         <button type="button" onClick={() => removeThumbnail(idx)}
-                          className="absolute -top-1 -right-1 bg-gray-800 text-white w-4 h-4 flex items-center justify-center text-[10px]">×</button>
+                          className="absolute -top-1 -right-1 bg-gray-800 text-brand-cream w-4 h-4 flex items-center justify-center text-[10px]">×</button>
                       </div>
                     ))}
                   </div>
@@ -249,10 +249,10 @@ export default function AdminDashboard() {
               <div>
                 <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Description</label>
                 <textarea name="description" value={formData.description} onChange={handleInputChange} rows="3"
-                  className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" />
+                  className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne" />
               </div>
               <button type="submit" disabled={loading || uploading}
-                className="px-6 py-2.5 bg-brand-dark text-white text-xs font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors disabled:opacity-50">
+                className="px-6 py-2.5 bg-brand-walnut text-brand-cream text-xs font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors disabled:opacity-50">
                 {loading ? "Saving..." : uploading ? "Uploading..." : editingProduct ? "Update" : "Create"}
               </button>
             </form>
@@ -263,10 +263,10 @@ export default function AdminDashboard() {
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="relative flex-1 max-w-sm">
             <input type="text" placeholder="Search products..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 bg-white border border-gray-200 text-sm focus:outline-none" />
+              className="w-full px-4 py-2 bg-brand-cream border border-gray-200 text-sm focus:outline-none" />
           </div>
           <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
-            className="px-4 py-2 bg-white border border-gray-200 text-sm focus:outline-none">
+            className="px-4 py-2 bg-brand-cream border border-gray-200 text-sm focus:outline-none">
             <option value="all">All Categories</option>
             {categories.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
           </select>
@@ -275,10 +275,10 @@ export default function AdminDashboard() {
         {/* Products table */}
         {loading ? (
           <div className="text-center py-16">
-            <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-walnut rounded-full animate-spin mx-auto" />
           </div>
         ) : (
-          <div className="bg-white border border-gray-100 overflow-hidden">
+          <div className="bg-brand-cream border border-gray-100 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -305,7 +305,7 @@ export default function AdminDashboard() {
                       <td className="p-4 text-right">
                         <a href={`/product/${product.id}`} target="_blank" rel="noopener noreferrer"
                           className="text-xs text-blue-500 hover:text-blue-700 transition-colors mr-3 font-medium">View</a>
-                        <button onClick={() => handleEdit(product)} className="text-xs text-gray-500 hover:text-brand-dark transition-colors mr-3 font-medium">Edit</button>
+                        <button onClick={() => handleEdit(product)} className="text-xs text-gray-500 hover:text-brand-walnut transition-colors mr-3 font-medium">Edit</button>
                         <button onClick={() => handleDelete(product.id)} className="text-xs text-gray-400 hover:text-red-600 transition-colors font-medium">Delete</button>
                       </td>
                     </tr>

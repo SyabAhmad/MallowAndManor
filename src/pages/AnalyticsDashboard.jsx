@@ -52,7 +52,7 @@ function FunnelBar({ label, value, max, color }) {
       <div className="flex-1 bg-gray-100 h-6 overflow-hidden">
         <div className={`h-full ${color} transition-all duration-500 flex items-center justify-end pr-2`}
           style={{ width: `${Math.max(pct, value > 0 ? 4 : 0)}%` }}>
-          <span className="text-[10px] text-white font-medium">{value}</span>
+          <span className="text-[10px] text-brand-cream font-medium">{value}</span>
         </div>
       </div>
       <span className="w-10 text-xs text-gray-400 shrink-0">{pct.toFixed(1)}%</span>
@@ -114,10 +114,10 @@ export default function AnalyticsDashboard() {
 
       {/* Time range selector */}
       <div className="max-w-6xl mx-auto px-6 py-4">
-        <div className="flex bg-white border border-gray-200 w-fit">
+        <div className="flex bg-brand-cream border border-gray-200 w-fit">
           {TIME_RANGES.map(r => (
             <button key={r.days} onClick={() => { setTimeRange(r.days); fetchData(r.days); }}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${timeRange === r.days ? "bg-brand-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${timeRange === r.days ? "bg-brand-walnut text-brand-cream" : "text-gray-400 hover:text-gray-600"}`}>
               {r.label}
             </button>
           ))}
@@ -133,7 +133,7 @@ export default function AnalyticsDashboard() {
             { label: "Add to Cart", value: stats.addToCart, color: "bg-green-500" },
             { label: "Checkouts", value: stats.checkouts, color: "bg-amber-500" },
           ].map((s, i) => (
-            <div key={i} className="bg-white border border-gray-100 p-5">
+            <div key={i} className="bg-brand-cream border border-gray-100 p-5">
               <div className={`w-2 h-2 rounded-full ${s.color} mb-3`} />
               <p className="text-2xl font-bold">{s.value.toLocaleString()}</p>
               <p className="text-xs text-gray-400 mt-1">{s.label}</p>
@@ -143,12 +143,12 @@ export default function AnalyticsDashboard() {
 
         {/* Conversion + Funnel */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white border border-gray-100 p-6">
+          <div className="bg-brand-cream border border-gray-100 p-6">
             <p className="text-xs text-gray-400 tracking-wider uppercase mb-2">Conversion Rate</p>
             <p className="text-3xl font-bold">{conversionRate}%</p>
             <p className="text-xs text-gray-300 mt-2">Add to cart / Product views</p>
           </div>
-          <div className="bg-white border border-gray-100 p-6 lg:col-span-2">
+          <div className="bg-brand-cream border border-gray-100 p-6 lg:col-span-2">
             <p className="text-xs text-gray-400 tracking-wider uppercase mb-4">Funnel</p>
             <div className="space-y-2">
               <FunnelBar label="Page Views" value={stats.pageViews} max={stats.pageViews} color="bg-blue-500" />
@@ -161,18 +161,18 @@ export default function AnalyticsDashboard() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white border border-gray-100 p-6">
+          <div className="bg-brand-cream border border-gray-100 p-6">
             <p className="text-xs text-gray-400 tracking-wider uppercase mb-4">Page Views</p>
             <LineChart data={timeSeries.pageViews} color="#3b82f6" />
           </div>
-          <div className="bg-white border border-gray-100 p-6">
+          <div className="bg-brand-cream border border-gray-100 p-6">
             <p className="text-xs text-gray-400 tracking-wider uppercase mb-4">Engagement</p>
             <LineChart data={timeSeries.productViews} color="#9333ea" />
           </div>
         </div>
 
         {/* Top Products */}
-        <div className="bg-white border border-gray-100 p-6">
+        <div className="bg-brand-cream border border-gray-100 p-6">
           <p className="text-xs text-gray-400 tracking-wider uppercase mb-4">Top Products</p>
           {topProducts.length === 0 ? (
             <p className="text-gray-300 text-sm py-4 text-center">No data yet</p>

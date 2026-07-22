@@ -16,7 +16,7 @@ export default function ProductCard({ product, onAddToCart, isFavorite, onToggle
         {onToggleFavorite && (
           <button
             onClick={(e) => { e.preventDefault(); onToggleFavorite(product); }}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/80 hover:bg-white rounded-full transition-colors"
+            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-brand-cream/80 hover:bg-brand-cream rounded-full transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth={2}>
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
@@ -37,7 +37,7 @@ export default function ProductCard({ product, onAddToCart, isFavorite, onToggle
                 onMouseEnter={() => setSelectedImage(img)}
                 className={`w-8 h-8 rounded overflow-hidden border transition-all ${
                   selectedImage === img
-                    ? "border-brand-dark"
+                    ? "border-brand-walnut"
                     : "border-gray-200 hover:border-gray-400"
                 }`}
               >
@@ -59,7 +59,7 @@ export default function ProductCard({ product, onAddToCart, isFavorite, onToggle
         </div>
         <button
           onClick={() => onAddToCart(product)}
-          className="shrink-0 w-9 h-9 flex items-center justify-center border border-gray-200 rounded-full hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all"
+          className="shrink-0 w-9 h-9 flex items-center justify-center border border-gray-200 rounded-full hover:bg-brand-walnut hover:text-brand-cream hover:border-brand-walnut transition-all"
           title="Add to cart"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

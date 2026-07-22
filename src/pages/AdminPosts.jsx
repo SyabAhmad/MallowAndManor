@@ -124,25 +124,25 @@ export default function AdminPosts() {
             <p className="text-sm text-gray-400 mt-1">{posts.length} total</p>
           </div>
           <button onClick={() => { resetForm(); setShowForm(!showForm); }}
-            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-brand-dark text-white hover:bg-brand-gold"}`}>
+            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-brand-walnut text-brand-cream hover:bg-brand-champagne"}`}>
             {showForm ? "Cancel" : "New Post"}
           </button>
         </div>
 
         {showForm && (
-          <div className="bg-white border border-gray-100 p-6 mb-8">
+          <div className="bg-brand-cream border border-gray-100 p-6 mb-8">
             <h3 className="text-lg font-semibold mb-5">{editing ? "Edit Post" : "New Post"}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Title</label>
                   <input type="text" value={form.title} onChange={e => setForm({ ...form, title: e.target.value, slug: editing ? form.slug : slugify(e.target.value) })}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" required />
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Slug</label>
                   <input type="text" value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" required />
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Author</label>
@@ -153,7 +153,7 @@ export default function AdminPosts() {
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Featured Image</label>
                   <div className="flex gap-2">
                     <input type="text" value={form.featuredImage} onChange={e => setForm({ ...form, featuredImage: e.target.value })}
-                      className="flex-1 px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" placeholder="Paste URL or upload" />
+                      className="flex-1 px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-champagne" placeholder="Paste URL or upload" />
                     <label className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors ${uploadingFeatured ? 'bg-gray-100 text-gray-400' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
                       {uploadingFeatured ? 'Uploading...' : 'Upload'}
                       <input type="file" accept="image/*" onChange={handleFeaturedUpload} className="hidden" disabled={uploadingFeatured} />
@@ -190,7 +190,7 @@ export default function AdminPosts() {
                   <span className="text-sm text-gray-600">Published</span>
                 </label>
                 <button type="submit" disabled={loading}
-                  className="px-6 py-2.5 bg-brand-dark text-white text-xs font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors disabled:opacity-50 ml-auto">
+                  className="px-6 py-2.5 bg-brand-walnut text-brand-cream text-xs font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors disabled:opacity-50 ml-auto">
                   {loading ? "Saving..." : editing ? "Update" : "Create"}
                 </button>
               </div>
@@ -200,10 +200,10 @@ export default function AdminPosts() {
 
         {loading ? (
           <div className="text-center py-16">
-            <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-walnut rounded-full animate-spin mx-auto" />
           </div>
         ) : (
-          <div className="bg-white border border-gray-100 overflow-hidden">
+          <div className="bg-brand-cream border border-gray-100 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -229,7 +229,7 @@ export default function AdminPosts() {
                           className={`text-xs font-medium mr-3 transition-colors ${post.published ? 'text-blue-500 hover:text-blue-700' : 'text-gray-300 pointer-events-none'}`}>
                           View
                         </a>
-                        <button onClick={() => handleEdit(post)} className="text-xs text-gray-500 hover:text-brand-dark transition-colors mr-3 font-medium">Edit</button>
+                        <button onClick={() => handleEdit(post)} className="text-xs text-gray-500 hover:text-brand-walnut transition-colors mr-3 font-medium">Edit</button>
                         <button onClick={() => handleDelete(post._id)} className="text-xs text-gray-400 hover:text-red-600 transition-colors font-medium">Delete</button>
                       </td>
                     </tr>

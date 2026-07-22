@@ -161,7 +161,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-brand-cream">
         <Navigation
           cartCount={cart.length}
           favCount={favorites.length}

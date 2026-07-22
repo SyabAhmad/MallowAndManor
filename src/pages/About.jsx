@@ -6,9 +6,9 @@ export default function About() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541339907198-e08759df9a13?w=1920&q=80')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center px-6">
-          <span className="text-xs font-medium tracking-[0.3em] uppercase text-white/60 mb-4 block">Our Story</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Gulwarena by M</h1>
-          <p className="text-white/70 text-sm max-w-lg mx-auto">
+          <span className="text-xs font-medium tracking-[0.3em] uppercase text-brand-cream/60 mb-4 block">Our Story</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-brand-cream mb-4">Gulwarena by M</h1>
+          <p className="text-brand-cream/70 text-sm max-w-lg mx-auto">
             Born from a simple desire to make luxury accessible, personal, and profoundly simple.
           </p>
         </div>
@@ -84,14 +84,14 @@ export default function About() {
 
       {/* CTA */}
       <section className="py-20 px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="bg-brand-dark text-white py-16 px-8 text-center">
+        <div className="bg-brand-walnut text-brand-cream py-16 px-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Join the Inner Circle</h2>
-          <p className="text-white/50 text-sm max-w-md mx-auto mb-8">
+          <p className="text-brand-cream/50 text-sm max-w-md mx-auto mb-8">
             Experience luxury redefined. Every order handled with personal care.
           </p>
           <button
             onClick={() => (window.location.href = "/products")}
-            className="px-8 py-3 bg-white text-brand-dark text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-white transition-all duration-300"
+            className="px-8 py-3 bg-brand-cream text-brand-walnut text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne hover:text-brand-cream transition-all duration-300"
           >
             Explore Collections
           </button>

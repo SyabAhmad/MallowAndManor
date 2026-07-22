@@ -21,7 +21,7 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
         <p className="text-gray-400 text-sm mb-6">Discover our curated collection.</p>
         <button
           onClick={() => navigate("/products")}
-          className="bg-brand-dark text-white px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors"
+          className="bg-brand-walnut text-brand-cream px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne transition-colors"
         >
           Browse Products
         </button>
@@ -90,7 +90,7 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
           </div>
           <button
             onClick={handleCheckout}
-            className="w-full bg-[#25D366] text-white py-3.5 text-sm font-semibold tracking-wider uppercase hover:bg-[#128C7E] transition-colors"
+            className="w-full bg-[#25D366] text-brand-cream py-3.5 text-sm font-semibold tracking-wider uppercase hover:bg-[#128C7E] transition-colors"
           >
             Order via WhatsApp
           </button>

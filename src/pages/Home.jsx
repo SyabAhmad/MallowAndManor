@@ -63,22 +63,22 @@ export default function Home({ products, categories, handleAddToCart, productSta
             </div>
 
             {/* Info */}
-            <div className="bg-brand-dark text-white p-10 lg:p-14 flex flex-col justify-center">
-              <span className="text-xs font-medium tracking-[0.3em] uppercase text-white/40 mb-4 block">
+            <div className="bg-brand-walnut text-brand-cream p-10 lg:p-14 flex flex-col justify-center">
+              <span className="text-xs font-medium tracking-[0.3em] uppercase text-brand-cream/40 mb-4 block">
                 Nationwide Reach
               </span>
               <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-tight">
                 Delivering Elegance<br />All Over Pakistan
               </h2>
-              <p className="text-white/50 text-sm leading-relaxed mb-8">
+              <p className="text-brand-cream/50 text-sm leading-relaxed mb-8">
                 From the vibrant streets of Karachi to the serene valleys of the North,
                 we ensure your luxury treasures reach you with care.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
                 {["Karachi", "Lahore", "Islamabad", "Faisalabad", "Multan", "Peshawar", "Quetta", "Sialkot"].map((city) => (
-                  <div key={city} className="flex items-center gap-2 text-sm text-white/70">
-                    <svg className="w-3 h-3 text-brand-gold shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <div key={city} className="flex items-center gap-2 text-sm text-brand-cream/70">
+                    <svg className="w-3 h-3 text-brand-champagne shrink-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                     </svg>
                     {city}
@@ -86,7 +86,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
                 ))}
               </div>
 
-              <div className="flex items-center gap-6 text-sm text-white/50 border-t border-white/10 pt-6">
+              <div className="flex items-center gap-6 text-sm text-brand-cream/50 border-t border-brand-cream/10 pt-6">
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
@@ -106,7 +106,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
       </section>
 
       {/* Material callout */}
-      <section className="py-20 bg-brand-light">
+      <section className="py-20 bg-brand-cream">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-xs font-medium tracking-[0.3em] uppercase text-gray-400 mb-4 block">
@@ -134,23 +134,23 @@ export default function Home({ products, categories, handleAddToCart, productSta
 
       {/* Newsletter CTA */}
       <section className="py-24 px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="bg-brand-dark py-16 px-8 md:px-16 text-center text-white">
-          <span className="text-xs font-medium tracking-[0.3em] uppercase text-white/50 mb-4 block">
+        <div className="bg-brand-walnut py-16 px-8 md:px-16 text-center text-brand-cream">
+          <span className="text-xs font-medium tracking-[0.3em] uppercase text-brand-cream/50 mb-4 block">
             Stay Connected
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Join the Inner Circle
           </h2>
-          <p className="text-white/50 text-sm max-w-md mx-auto mb-8">
+          <p className="text-brand-cream/50 text-sm max-w-md mx-auto mb-8">
             Sign up for early access to exclusive drops and seasonal events.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-white/50 transition-colors"
+              className="flex-1 px-6 py-3 bg-brand-cream/10 border border-brand-cream/20 text-brand-cream text-sm placeholder:text-brand-cream/40 focus:outline-none focus:border-brand-cream/50 transition-colors"
             />
-            <button className="px-8 py-3 bg-white text-brand-dark text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-white transition-all duration-300">
+            <button className="px-8 py-3 bg-brand-cream text-brand-walnut text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne hover:text-brand-cream transition-all duration-300">
               Subscribe
             </button>
           </div>

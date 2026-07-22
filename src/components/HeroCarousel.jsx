@@ -55,18 +55,18 @@ export default function HeroCarousel() {
       <div className="absolute inset-0 flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
           <div className="max-w-xl">
-            <span className="inline-block text-white/80 text-[10px] md:text-xs font-medium tracking-[0.3em] uppercase mb-4 md:mb-6">
+            <span className="inline-block text-brand-cream/80 text-[10px] md:text-xs font-medium tracking-[0.3em] uppercase mb-4 md:mb-6">
               New Arrivals
             </span>
-            <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 leading-[1.1] whitespace-pre-line">
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold text-brand-cream mb-4 md:mb-6 leading-[1.1] whitespace-pre-line">
               {slides[currentSlide].title}
             </h1>
-            <p className="text-white/80 text-sm md:text-lg mb-6 md:mb-8 max-w-md leading-relaxed">
+            <p className="text-brand-cream/80 text-sm md:text-lg mb-6 md:mb-8 max-w-md leading-relaxed">
               {slides[currentSlide].subtitle}
             </p>
             <button
               onClick={() => navigate("/products")}
-              className="bg-white text-brand-dark px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-white transition-all duration-300"
+              className="bg-brand-cream text-brand-walnut px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-brand-champagne hover:text-brand-cream transition-all duration-300"
             >
               {slides[currentSlide].cta}
             </button>
@@ -82,8 +82,8 @@ export default function HeroCarousel() {
             onClick={() => setCurrentSlide(idx)}
             className={`transition-all duration-300 ${
               idx === currentSlide
-                ? "w-8 h-0.5 bg-white"
-                : "w-4 h-0.5 bg-white/40 hover:bg-white/60"
+                ? "w-8 h-0.5 bg-brand-cream"
+                : "w-4 h-0.5 bg-brand-cream/40 hover:bg-brand-cream/60"
             }`}
           />
         ))}

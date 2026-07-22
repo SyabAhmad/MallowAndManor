@@ -1,6 +1,6 @@
 export default function Philosophy() {
   return (
-    <section className="py-20 bg-brand-light">
+    <section className="py-20 bg-brand-cream">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text */}
@@ -24,7 +24,7 @@ export default function Philosophy() {
             </p>
             <button
               onClick={() => (window.location.href = "/about")}
-              className="text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-dark pb-1 hover:text-brand-gold hover:border-brand-gold transition-colors"
+              className="text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-walnut pb-1 hover:text-brand-champagne hover:border-brand-champagne transition-colors"
             >
               Read Our Story
             </button>
