@@ -3,19 +3,19 @@ const collections = [
     id: "nails",
     name: "Nails",
     tagline: "Precision artistry",
-    image: "/image.webp",
+    image: "/nails-art.webp",
   },
   {
     id: "abayas",
     name: "Abayas",
     tagline: "Silk & sobriety",
-    image: "/image_1.webp",
+    image: "/earrings-stud.webp",
   },
   {
     id: "necklaces",
     name: "Necklaces",
     tagline: "Royal adornments",
-    image: "/image_2.webp",
+    image: "/earrings-portrait.webp",
   },
   {
     id: "bangles",

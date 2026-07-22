@@ -1,8 +1,24 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+const tagColors = {
+  sale: { bg: "#7f1d1d", text: "#ffffff" },
+  new: { bg: "#0A0A0A", text: "#C9A84C" },
+  bestseller: { bg: "#C9A84C", text: "#0A0A0A" },
+  hot: { bg: "#991b1b", text: "#ffffff" },
+};
+
+function getTag(product) {
+  const name = product.name?.toLowerCase() || "";
+  if (name.includes("gold") || name.includes("premium")) return { label: "Bestseller", key: "bestseller" };
+  if (product.price > 1000) return { label: "Premium", key: "new" };
+  if (product.price < 500) return { label: "Sale", key: "sale" };
+  return null;
+}
+
 export default function ProductCard({ product, onAddToCart, isFavorite, onToggleFavorite }) {
   const [selectedImage, setSelectedImage] = useState(product.mainImage);
+  const tag = getTag(product);
 
   return (
     <div className="group">
@@ -13,6 +29,15 @@ export default function ProductCard({ product, onAddToCart, isFavorite, onToggle
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
+        {/* Tag Badge */}
+        {tag && (
+          <span
+            className="absolute top-3 left-3 px-3 py-1 text-[10px] font-bold tracking-wider uppercase"
+            style={{ backgroundColor: tagColors[tag.key].bg, color: tagColors[tag.key].text }}
+          >
+            {tag.label}
+          </span>
+        )}
         {onToggleFavorite && (
           <button
             onClick={(e) => { e.preventDefault(); onToggleFavorite(product); }}
