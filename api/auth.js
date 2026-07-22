@@ -2,6 +2,7 @@ import connectDB from './_lib/db.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { verifyToken } from './_lib/auth.js';
+import { checkRateLimit, resetRateLimit } from './_lib/rateLimit.js';
 import User from './_lib/models/User.js';
 
 export default async function handler(req, res) {
@@ -10,14 +11,39 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const { refreshToken } = req.body;
-      
+
       // POST /api/auth/login
       if (req.body?.email && req.body?.password) {
+        // Rate limiting
+        const rateLimit = checkRateLimit(req);
+        if (rateLimit.blocked) {
+          return res.status(429).json({
+            error: `Too many login attempts. Try again in ${rateLimit.remainingMin} minutes.`,
+            retryAfter: rateLimit.remainingMin * 60,
+          });
+        }
+
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
+
+        // Input validation
+        if (!email || typeof email !== 'string' || email.length > 254) {
+          return res.status(400).json({ error: 'Invalid email format' });
+        }
+        if (!password || typeof password !== 'string' || password.length < 6) {
+          return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        }
+
+        // Sanitize email
+        const cleanEmail = email.toLowerCase().trim();
+
+        const user = await User.findOne({ email: cleanEmail });
         if (!user || !(await bcrypt.compare(password, user.password))) {
+          console.log(`Failed login attempt for ${cleanEmail} from IP: ${rateLimit.ip}`);
           return res.status(401).json({ error: 'Invalid credentials' });
         }
+
+        // Successful login - reset rate limit
+        resetRateLimit(rateLimit.ip);
 
         const accessToken = jwt.sign(
           { userId: user._id, email: user.email, role: user.role },
@@ -35,6 +61,10 @@ export default async function handler(req, res) {
 
       // POST /api/auth/refresh
       if (refreshToken) {
+        if (typeof refreshToken !== 'string' || refreshToken.length > 1000) {
+          return res.status(400).json({ error: 'Invalid refresh token' });
+        }
+
         try {
           const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
           const user = await User.findById(decoded.userId);

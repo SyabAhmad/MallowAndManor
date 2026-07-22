@@ -66,8 +66,15 @@ const safeJson = async (res) => {
 };
 
 // Public API
-export const fetchProducts = async () => {
-  const res = await request('/products');
+export const fetchProducts = async (params = {}) => {
+  const query = new URLSearchParams();
+  if (params.page) query.set('page', params.page);
+  if (params.limit) query.set('limit', params.limit);
+  if (params.category && params.category !== 'all') query.set('category', params.category);
+  if (params.search) query.set('search', params.search);
+  if (params.sort) query.set('sort', params.sort);
+  const qs = query.toString();
+  const res = await request(`/products${qs ? '?' + qs : ''}`);
   return safeJson(res);
 };
 
