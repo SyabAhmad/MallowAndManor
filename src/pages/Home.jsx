@@ -10,7 +10,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
   return (
     <div>
       {/* Offer Banner */}
-      <OfferHeadline text="✦ SALE SALE SALE ✦ Flat 30% Off on All Abayas ✦ Use Code: GULW30 ✦ Flat 20% Off on Bangles ✦ Use Code: BANGLE20" />
+      <OfferHeadline text="✦ SALE SALE SALE ✦ Flat 30% Off on All Abayas ✦ Limited Time Only ✦ Shop Now Before Stock Runs Out" />
 
       {/* Hero */}
       <HeroCarousel />
@@ -76,7 +76,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
                     className="w-2 h-2 rotate-45 shrink-0"
                     style={{ backgroundColor: "#C9A84C" }}
                   />
-                  ✨ Sale is Live ✨ Free Delivery on Orders Over Rs.5000 ✨ Use Code: FREESHIP ✨
+                  ✨ Sale is Live ✨ Free Delivery on Orders Over Rs.5000 ✨ Nationwide Shipping ✨
                 </span>
               ))}
             </div>
