@@ -77,7 +77,7 @@ export default function AllProducts({ handleAddToCart, toggleFavorite, favorites
 
       {/* SALE Banner */}
       <div className="-mx-6 lg:-mx-8 mb-10">
-        <OfferHeadline text="✦ SALE SALE SALE ✦ Flat 30% Off on All Abayas ✦ Limited Time Only ✦ Shop Now Before Stock Runs Out" />
+        <OfferHeadline text="SALE SALE SALE" />
       </div>
 
       {/* Offer Banner */}
