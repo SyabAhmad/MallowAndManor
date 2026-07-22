@@ -437,10 +437,10 @@ export default function Home({ products, categories, handleAddToCart, productSta
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { img: "/image.webp", handle: "@elegance.pk" },
-              { img: "/image_1.webp", handle: "@luxury.lifestyle" },
-              { img: "/image_2.webp", handle: "@style.queen" },
-              { img: "/image_3.webp", handle: "@glow.up" },
+              { img: "/nails-art.webp", handle: "@glow.up" },
+              { img: "/earrings-stud.webp", handle: "@elegance.pk" },
+              { img: "/earrings-portrait.webp", handle: "@luxury.lifestyle" },
+              { img: "/image_3.webp", handle: "@style.queen" },
             ].map((item, i) => (
               <div key={i} className="relative aspect-square bg-gray-100 overflow-hidden group cursor-pointer">
                 <img
