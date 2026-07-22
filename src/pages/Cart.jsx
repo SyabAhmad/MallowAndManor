@@ -8,9 +8,24 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
   const handleCheckout = () => {
     trackCheckout(total, cart.length);
     const itemsList = cart
-      .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}\n${window.location.origin}/product/${item.id}`)
+      .map((item, i) => `${i + 1}. ${item.name} (Qty: ${item.quantity || 1}) - Rs.${item.price * item.quantity}`)
       .join("\n");
-    const message = `Hello Gulwarena! I'd like to place an order:\n\n${itemsList}\n\nTotal: Rs.${total}\nPlease confirm my order.`;
+    const message = `Hello Gulwarena! 👑
+
+I am confirming this order. Please send it to me.
+
+📦 *Order Details:*
+${itemsList}
+
+💰 *Total Amount:* Rs.${total}
+
+📍 *Delivery Location:*
+I will share my delivery location in the next message.
+
+💳 *Payment:*
+Please let me know the available payment methods and delivery charges.
+
+Looking forward to receiving my order!`;
     window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
   };
 

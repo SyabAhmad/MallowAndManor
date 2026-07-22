@@ -30,7 +30,25 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
   const handleWhatsAppOrder = () => {
     const rawNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
     const cleanNumber = rawNumber.replace(/\D/g, "");
-    const message = `Hello Gulwarena!\n\nI'm interested in:\n${product.name}\nPrice: Rs. ${product.price}\nQuantity: ${quantity}\n\nLink: ${window.location.href}`;
+    const message = `Hello Gulwarena! 👑
+
+I am confirming this order. Please send it to me.
+
+📦 *Product Details:*
+Name: ${product.name}
+Price: Rs. ${product.price}
+Quantity: ${quantity}
+Total: Rs. ${product.price * quantity}
+
+🔗 ${window.location.href}
+
+📍 *Delivery Location:*
+I will share my delivery location in the next message.
+
+💳 *Payment:*
+Please let me know the available payment methods and delivery charges.
+
+Looking forward to receiving my order!`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${cleanNumber}?text=${encodedMessage}`, "_blank");
   };
