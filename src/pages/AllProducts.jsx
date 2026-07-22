@@ -77,7 +77,7 @@ export default function AllProducts({ handleAddToCart, toggleFavorite, favorites
 
       {/* SALE Banner */}
       <div className="-mx-6 lg:-mx-8 mb-10">
-        <OfferHeadline text="SALE SALE SALE" />
+        <OfferHeadline text="SALE SALE SALE" big showDot={false} glow speed={280} />
       </div>
 
       {/* Filters bar */}
