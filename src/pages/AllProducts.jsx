@@ -68,8 +68,13 @@ export default function AllProducts({ handleAddToCart, toggleFavorite, favorites
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">All Products</h1>
+      <div className="mb-6">
+        <h1
+          className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none mb-4"
+          style={{ color: "#C9A84C" }}
+        >
+          SALE SALE SALE
+        </h1>
         <p className="text-gray-400 text-sm">
           {total} {total === 1 ? "item" : "items"}
         </p>

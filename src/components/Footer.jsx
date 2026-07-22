@@ -68,7 +68,15 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-brand-cream/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brand-cream/40">
           <p>&copy; 2026 Gulwarena. All rights reserved.</p>
-          <div className="flex gap-6">
+          <div className="flex items-center gap-6">
+            <a
+              href="https://syab.tech/mentee"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-gold transition-colors"
+            >
+              Made with Love by Mentee
+            </a>
             <Link to="#" className="hover:text-brand-cream transition-colors">Privacy</Link>
             <Link to="#" className="hover:text-brand-cream transition-colors">Terms</Link>
           </div>
