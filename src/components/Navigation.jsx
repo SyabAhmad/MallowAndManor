@@ -21,7 +21,8 @@ export default function Navigation({ cartCount, favCount, categories }) {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 -ml-2 text-brand-cream"
+            className="md:hidden p-2 -ml-2"
+            style={{color: '#F9F6F0'}}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMobileMenuOpen ? (
@@ -34,13 +35,13 @@ export default function Navigation({ cartCount, favCount, categories }) {
 
           {/* Left nav links - desktop */}
           <div className="hidden md:flex items-center gap-8">
-            <Link to="/products" className="text-xs font-medium tracking-widest uppercase text-brand-cream/80 hover:text-brand-cream transition-colors">
+            <Link to="/products" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity" style={{color: '#F9F6F0'}}>
               Shop
             </Link>
-            <Link to="/blog" className="text-xs font-medium tracking-widest uppercase text-brand-cream/80 hover:text-brand-cream transition-colors">
+            <Link to="/blog" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity" style={{color: '#F9F6F0'}}>
               Journal
             </Link>
-            <Link to="/about" className="text-xs font-medium tracking-widest uppercase text-brand-cream/80 hover:text-brand-cream transition-colors">
+            <Link to="/about" className="text-xs font-medium tracking-widest uppercase hover:opacity-70 transition-opacity" style={{color: '#F9F6F0'}}>
               Story
             </Link>
           </div>
@@ -60,14 +61,15 @@ export default function Navigation({ cartCount, favCount, categories }) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleSearch}
-                className="w-32 lg:w-48 px-3 py-1.5 bg-brand-cream/10 border border-brand-cream/20 rounded-full text-xs text-brand-cream focus:outline-none focus:border-brand-champagne transition-colors"
+                className="w-32 lg:w-48 px-3 py-1.5 rounded-full text-xs focus:outline-none transition-colors"
+                style={{backgroundColor: 'rgba(249,246,240,0.1)', borderColor: 'rgba(249,246,240,0.2)', color: '#F9F6F0', borderWidth: '1px'}}
               />
               <svg className="absolute right-3 w-3.5 h-3.5 text-brand-cream/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
 
-            <Link to="/favorites" className="relative p-1 text-brand-cream/80 hover:text-brand-cream transition-colors">
+            <Link to="/favorites" className="relative p-1 hover:opacity-70 transition-opacity" style={{color: '#F9F6F0'}}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
@@ -78,7 +80,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
               )}
             </Link>
 
-            <Link to="/cart" className="relative p-1 text-brand-cream/80 hover:text-brand-cream transition-colors">
+            <Link to="/cart" className="relative p-1 hover:opacity-70 transition-opacity" style={{color: '#F9F6F0'}}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
@@ -106,19 +108,20 @@ export default function Navigation({ cartCount, favCount, categories }) {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleSearch}
-              className="w-full px-4 py-2.5 bg-brand-cream/10 border border-brand-cream/20 rounded-lg text-sm text-brand-cream placeholder:text-brand-cream/40 focus:outline-none focus:border-brand-champagne"
+              className="w-full px-4 py-2.5 rounded-lg text-sm focus:outline-none"
+              style={{backgroundColor: 'rgba(249,246,240,0.1)', borderColor: 'rgba(249,246,240,0.2)', color: '#F9F6F0', borderWidth: '1px'}}
             />
           </div>
-          <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase text-brand-cream/80">
+          <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase" style={{color: '#F9F6F0'}}>
             Shop
           </Link>
-          <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase text-brand-cream/80">
+          <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase" style={{color: '#F9F6F0'}}>
             Journal
           </Link>
-          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase text-brand-cream/80">
+          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase" style={{color: '#F9F6F0'}}>
             Story
           </Link>
-          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase text-brand-cream/80">
+          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium tracking-wider uppercase" style={{color: '#F9F6F0'}}>
             Contact
           </Link>
         </div>
