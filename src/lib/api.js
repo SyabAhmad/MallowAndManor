@@ -61,7 +61,8 @@ const safeJson = async (res) => {
   try {
     return JSON.parse(text);
   } catch {
-    throw new Error(`Server returned ${res.status}: ${text.slice(0, 200)}`);
+    if (res.ok) throw new Error(`Invalid JSON: ${text.slice(0, 200)}`);
+    throw new Error(`Server ${res.status}: ${text.slice(0, 200)}`);
   }
 };
 

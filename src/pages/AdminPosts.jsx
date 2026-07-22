@@ -75,7 +75,10 @@ export default function AdminPosts() {
 
   const loadPosts = async () => {
     setLoading(true);
-    try { setPosts(await fetchAdminPosts() || []); } catch (err) { console.error(err); }
+    try {
+      const data = await fetchAdminPosts();
+      setPosts(Array.isArray(data) ? data : []);
+    } catch (err) { console.error(err); setPosts([]); }
     setLoading(false);
   };
 
