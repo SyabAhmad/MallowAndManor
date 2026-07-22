@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        luxury: {
-          green: "#2D5016",
-          light: "#E8F3DF",
-          gold: "#D4AF37",
+        brand: {
+          gold: "#C9A84C",
           dark: "#1A1A1A",
+          light: "#FAFAF8",
+          cream: "#F5F0E8",
         },
       },
       fontFamily: {
-        luxury: ["Poppins", "sans-serif"],
+        brand: ["Poppins", "sans-serif"],
       },
     },
   },

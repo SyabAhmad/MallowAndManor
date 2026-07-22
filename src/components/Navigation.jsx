@@ -47,9 +47,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
 
           {/* Logo - center */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-            <h1 className="text-sm md:text-base font-bold tracking-wider uppercase whitespace-nowrap">
-              Mallow & Manor
-            </h1>
+            <img src="/GULWARENA.png" alt="Gulwarena" className="h-8 md:h-10 w-auto" />
           </Link>
 
           {/* Right icons */}
@@ -62,7 +60,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleSearch}
-                className="w-32 lg:w-48 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-full text-xs focus:outline-none focus:border-luxury-green transition-colors"
+                className="w-32 lg:w-48 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-full text-xs focus:outline-none focus:border-brand-gold transition-colors"
               />
               <svg className="absolute right-3 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -74,7 +72,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               {favCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-luxury-green text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-brand-gold text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                   {favCount}
                 </span>
               )}
@@ -85,7 +83,7 @@ export default function Navigation({ cartCount, favCount, categories }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-luxury-dark text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-brand-dark text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                   {cartCount}
                 </span>
               )}

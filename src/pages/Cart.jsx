@@ -10,7 +10,7 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
     const itemsList = cart
       .map((item) => `- ${item.name} (${item.quantity}x) - Rs.${item.price * item.quantity}\n${window.location.origin}/product/${item.id}`)
       .join("\n");
-    const message = `Hello Mallow & Manor! I'd like to place an order:\n\n${itemsList}\n\nTotal: Rs.${total}\nPlease confirm my order.`;
+    const message = `Hello Gulwarena! I'd like to place an order:\n\n${itemsList}\n\nTotal: Rs.${total}\nPlease confirm my order.`;
     window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
@@ -21,7 +21,7 @@ export default function Cart({ cart, removeFromCart, updateQuantity }) {
         <p className="text-gray-400 text-sm mb-6">Discover our curated collection.</p>
         <button
           onClick={() => navigate("/products")}
-          className="bg-luxury-dark text-white px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors"
+          className="bg-brand-dark text-white px-8 py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors"
         >
           Browse Products
         </button>

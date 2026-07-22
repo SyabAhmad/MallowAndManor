@@ -118,13 +118,13 @@ export default function Reports() {
         <div className="flex bg-white border border-gray-200">
           {[7, 30, 90].map(d => (
             <button key={d} onClick={() => setDays(d)}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${days === d ? "bg-luxury-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${days === d ? "bg-brand-dark text-white" : "text-gray-400 hover:text-gray-600"}`}>
               {d}D
             </button>
           ))}
         </div>
         <button onClick={handleExport} disabled={loading}
-          className="px-4 py-1.5 bg-luxury-dark text-white text-xs font-medium hover:bg-luxury-green transition-colors disabled:opacity-50">
+          className="px-4 py-1.5 bg-brand-dark text-white text-xs font-medium hover:bg-brand-gold transition-colors disabled:opacity-50">
           Export
         </button>
       </div>
@@ -132,7 +132,7 @@ export default function Reports() {
       <main className="max-w-6xl mx-auto px-6 py-8">
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-6 h-6 border-2 border-gray-300 border-t-luxury-dark rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin" />
           </div>
         ) : (
           <>

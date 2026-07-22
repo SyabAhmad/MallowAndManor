@@ -20,7 +20,7 @@ export default function Contact() {
           <div className="space-y-5">
             {[
               { label: "Phone", value: "+92 344 4778119", icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" },
-              { label: "Email", value: "hello@mallowandmanor.com", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+              { label: "Email", value: "hello@gulwarena.com", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
               { label: "Address", value: "DHA Phase 6, Karachi, Pakistan", icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-4">
@@ -40,8 +40,8 @@ export default function Contact() {
           <div className="mt-8 p-6 bg-gray-50">
             <h3 className="text-sm font-semibold mb-3">Business Hours</h3>
             <div className="space-y-2 text-sm text-gray-500">
-              <div className="flex justify-between"><span>Mon - Fri</span><span className="font-medium text-luxury-dark">9:00 AM - 6:00 PM</span></div>
-              <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-luxury-dark">10:00 AM - 4:00 PM</span></div>
+              <div className="flex justify-between"><span>Mon - Fri</span><span className="font-medium text-brand-dark">9:00 AM - 6:00 PM</span></div>
+              <div className="flex justify-between"><span>Saturday</span><span className="font-medium text-brand-dark">10:00 AM - 4:00 PM</span></div>
               <div className="flex justify-between"><span>Sunday</span><span className="font-medium text-gray-400">Closed</span></div>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function Contact() {
       </div>
 
       {/* Delivery */}
-      <div className="bg-luxury-dark text-white py-12 px-8 text-center">
+      <div className="bg-brand-dark text-white py-12 px-8 text-center">
         <h2 className="text-xl font-bold mb-6">Where We Deliver</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-white/70 mb-6">
           {["Karachi", "Lahore", "Islamabad", "Faisalabad", "Multan", "Peshawar", "Quetta", "Sialkot"].map((city) => (

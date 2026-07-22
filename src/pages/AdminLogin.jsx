@@ -28,8 +28,9 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-white px-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
+          <img src="/GULWARENA.png" alt="Gulwarena" className="h-12 w-auto mx-auto mb-4" />
           <h1 className="text-xl font-bold tracking-wider uppercase mb-2">Admin</h1>
-          <p className="text-sm text-gray-400">Mallow & Manor</p>
+          <p className="text-sm text-gray-400">Gulwarena</p>
         </div>
 
         {error && (
@@ -45,8 +46,8 @@ export default function AdminLogin() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green transition-colors"
-              placeholder="admin@mallowandmanor.com"
+              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold transition-colors"
+              placeholder="admin@gulwarena.com"
               required
             />
           </div>
@@ -56,7 +57,7 @@ export default function AdminLogin() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green transition-colors"
+              className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold transition-colors"
               placeholder="Enter password"
               required
             />
@@ -64,7 +65,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-luxury-dark text-white py-3 text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors disabled:opacity-50"
+            className="w-full bg-brand-dark text-white py-3 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -72,7 +73,7 @@ export default function AdminLogin() {
 
         <button
           onClick={() => navigate("/")}
-          className="w-full mt-6 text-gray-400 text-xs hover:text-luxury-dark transition-colors text-center"
+          className="w-full mt-6 text-gray-400 text-xs hover:text-brand-dark transition-colors text-center"
         >
           Back to Store
         </button>

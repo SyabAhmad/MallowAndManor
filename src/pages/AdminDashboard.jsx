@@ -181,7 +181,7 @@ export default function AdminDashboard() {
             setFormData({ name: "", price: "", category: "bangles", description: "", mainImage: "", thumbnails: [] });
             setMainImageFile(null); setThumbnailFiles([]);
           }}
-            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-luxury-dark text-white hover:bg-luxury-green"}`}>
+            className={`px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-colors ${showForm ? "bg-gray-100 text-gray-600" : "bg-brand-dark text-white hover:bg-brand-gold"}`}>
             {showForm ? "Cancel" : "Add Product"}
           </button>
         </div>
@@ -195,12 +195,12 @@ export default function AdminDashboard() {
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Name</label>
                   <input type="text" name="name" value={formData.name} onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" required />
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Price (Rs.)</label>
                   <input type="number" name="price" value={formData.price} onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" required />
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" required />
                 </div>
                 <div>
                   <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Category</label>
@@ -249,10 +249,10 @@ export default function AdminDashboard() {
               <div>
                 <label className="block text-xs font-medium tracking-wider uppercase text-gray-400 mb-2">Description</label>
                 <textarea name="description" value={formData.description} onChange={handleInputChange} rows="3"
-                  className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-luxury-green" />
+                  className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold" />
               </div>
               <button type="submit" disabled={loading || uploading}
-                className="px-6 py-2.5 bg-luxury-dark text-white text-xs font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors disabled:opacity-50">
+                className="px-6 py-2.5 bg-brand-dark text-white text-xs font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors disabled:opacity-50">
                 {loading ? "Saving..." : uploading ? "Uploading..." : editingProduct ? "Update" : "Create"}
               </button>
             </form>
@@ -275,7 +275,7 @@ export default function AdminDashboard() {
         {/* Products table */}
         {loading ? (
           <div className="text-center py-16">
-            <div className="w-6 h-6 border-2 border-gray-300 border-t-luxury-dark rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin mx-auto" />
           </div>
         ) : (
           <div className="bg-white border border-gray-100 overflow-hidden">
@@ -305,7 +305,7 @@ export default function AdminDashboard() {
                       <td className="p-4 text-right">
                         <a href={`/product/${product.id}`} target="_blank" rel="noopener noreferrer"
                           className="text-xs text-blue-500 hover:text-blue-700 transition-colors mr-3 font-medium">View</a>
-                        <button onClick={() => handleEdit(product)} className="text-xs text-gray-500 hover:text-luxury-dark transition-colors mr-3 font-medium">Edit</button>
+                        <button onClick={() => handleEdit(product)} className="text-xs text-gray-500 hover:text-brand-dark transition-colors mr-3 font-medium">Edit</button>
                         <button onClick={() => handleDelete(product.id)} className="text-xs text-gray-400 hover:text-red-600 transition-colors font-medium">Delete</button>
                       </td>
                     </tr>

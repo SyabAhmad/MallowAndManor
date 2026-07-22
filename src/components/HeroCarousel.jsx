@@ -9,7 +9,7 @@ export default function HeroCarousel() {
     {
       title: "Good for your style.\nGood for the Earth.",
       subtitle: "Handcrafted luxury accessories made with intention.",
-      image: "MallowAndManor.jpeg",
+      image: "GULWARENA.png",
       cta: "Shop Now",
     },
     {
@@ -66,7 +66,7 @@ export default function HeroCarousel() {
             </p>
             <button
               onClick={() => navigate("/products")}
-              className="bg-white text-luxury-dark px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green hover:text-white transition-all duration-300"
+              className="bg-white text-brand-dark px-6 md:px-10 py-3 md:py-4 text-xs md:text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-white transition-all duration-300"
             >
               {slides[currentSlide].cta}
             </button>

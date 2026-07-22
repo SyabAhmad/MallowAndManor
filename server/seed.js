@@ -23,7 +23,7 @@ console.log('Categories seeded');
 
 // Seed admin users
 const admins = [
-  { email: 'admin@mallowandmanor.com', password: 'MallowManor2024!@#' },
+  { email: 'admin@gulwarena.com', password: 'MallowManor2024!@#' },
   { email: 'marwashahwazirkhan@gmail.com', password: 'marwashahwazirkhanbusiness@1' },
 ];
 

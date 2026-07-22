@@ -1,6 +1,6 @@
 export default function Philosophy() {
   return (
-    <section className="py-20 bg-luxury-light">
+    <section className="py-20 bg-brand-light">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text */}
@@ -13,7 +13,7 @@ export default function Philosophy() {
               designed for life.
             </h2>
             <p className="text-gray-500 leading-relaxed mb-4">
-              Mallow & Manor was born from a simple desire: to make high-end
+              Gulwarena was born from a simple desire: to make high-end
               luxury accessible, personal, and profoundly simple for the modern
               connoisseur.
             </p>
@@ -24,7 +24,7 @@ export default function Philosophy() {
             </p>
             <button
               onClick={() => (window.location.href = "/about")}
-              className="text-sm font-semibold tracking-wider uppercase border-b-2 border-luxury-dark pb-1 hover:text-luxury-green hover:border-luxury-green transition-colors"
+              className="text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-dark pb-1 hover:text-brand-gold hover:border-brand-gold transition-colors"
             >
               Read Our Story
             </button>

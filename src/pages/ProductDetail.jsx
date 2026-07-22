@@ -22,7 +22,7 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
   if (!product) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="w-8 h-8 border-2 border-gray-300 border-t-luxury-dark rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin" />
       </div>
     );
   }
@@ -30,7 +30,7 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
   const handleWhatsAppOrder = () => {
     const rawNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "923444778119";
     const cleanNumber = rawNumber.replace(/\D/g, "");
-    const message = `Hello Mallow & Manor!\n\nI'm interested in:\n${product.name}\nPrice: Rs. ${product.price}\nQuantity: ${quantity}\n\nLink: ${window.location.href}`;
+    const message = `Hello Gulwarena!\n\nI'm interested in:\n${product.name}\nPrice: Rs. ${product.price}\nQuantity: ${quantity}\n\nLink: ${window.location.href}`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${cleanNumber}?text=${encodedMessage}`, "_blank");
   };
@@ -49,7 +49,7 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
       {/* Breadcrumb */}
       <button
         onClick={() => navigate(-1)}
-        className="text-sm text-gray-400 hover:text-luxury-dark transition-colors mb-8 inline-flex items-center gap-1"
+        className="text-sm text-gray-400 hover:text-brand-dark transition-colors mb-8 inline-flex items-center gap-1"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -74,7 +74,7 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
                   key={idx}
                   onClick={() => setSelectedImage(img)}
                   className={`aspect-square overflow-hidden border-2 transition-all ${
-                    selectedImage === img ? "border-luxury-dark" : "border-transparent opacity-60 hover:opacity-100"
+                    selectedImage === img ? "border-brand-dark" : "border-transparent opacity-60 hover:opacity-100"
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -133,7 +133,7 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
           <div className="flex gap-3 mb-8">
             <button
               onClick={() => handleAddToCart(product)}
-              className="flex-1 bg-luxury-dark text-white py-3.5 text-sm font-semibold tracking-wider uppercase hover:bg-luxury-green transition-colors"
+              className="flex-1 bg-brand-dark text-white py-3.5 text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold transition-colors"
             >
               Add to Cart
             </button>
@@ -149,7 +149,7 @@ export default function ProductDetail({ products, handleAddToCart, toggleFavorit
           <div className="border-t border-gray-100 pt-6 space-y-3">
             {["Free shipping on orders over Rs. 5,000", "Handcrafted with premium materials", "Nationwide delivery across Pakistan"].map((feat, i) => (
               <div key={i} className="flex items-center gap-3 text-sm text-gray-500">
-                <svg className="w-4 h-4 text-luxury-green shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-brand-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 {feat}

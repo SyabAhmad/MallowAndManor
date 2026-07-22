@@ -22,7 +22,7 @@ export default function Blog() {
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <div className="w-6 h-6 border-2 border-gray-300 border-t-luxury-dark rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin" />
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-20">

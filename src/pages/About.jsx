@@ -7,7 +7,7 @@ export default function About() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center px-6">
           <span className="text-xs font-medium tracking-[0.3em] uppercase text-white/60 mb-4 block">Our Story</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Crafting a Legacy of Elegance</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Gulwarena by M</h1>
           <p className="text-white/70 text-sm max-w-lg mx-auto">
             Born from a simple desire to make luxury accessible, personal, and profoundly simple.
           </p>
@@ -22,7 +22,7 @@ export default function About() {
             <h2 className="text-3xl font-bold tracking-tight mb-6">Defining Luxury for a New Generation</h2>
             <div className="space-y-4 text-gray-500 text-sm leading-relaxed">
               <p>
-                In a world of mass production, we stand for the unique. Mallow & Manor is not just
+                In a world of mass production, we stand for the unique. Gulwarena by M is not just
                 an e-commerce platform — it's a curated gallery of excellence.
               </p>
               <p>
@@ -84,14 +84,14 @@ export default function About() {
 
       {/* CTA */}
       <section className="py-20 px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="bg-luxury-dark text-white py-16 px-8 text-center">
+        <div className="bg-brand-dark text-white py-16 px-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Join the Inner Circle</h2>
           <p className="text-white/50 text-sm max-w-md mx-auto mb-8">
             Experience luxury redefined. Every order handled with personal care.
           </p>
           <button
             onClick={() => (window.location.href = "/products")}
-            className="px-8 py-3 bg-white text-luxury-dark text-sm font-semibold tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-all duration-300"
+            className="px-8 py-3 bg-white text-brand-dark text-sm font-semibold tracking-wider uppercase hover:bg-brand-gold hover:text-white transition-all duration-300"
           >
             Explore Collections
           </button>

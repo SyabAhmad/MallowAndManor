@@ -7,8 +7,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="text-lg font-bold tracking-wider uppercase mb-4 block">
-              Mallow & Manor
+            <Link to="/" className="mb-4 block">
+              <img src="/GULWARENA.png" alt="Gulwarena" className="h-10 w-auto" />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-6">
               Redefining elegance for the modern soul. Curated bangles, abayas,
@@ -19,7 +19,7 @@ export default function Footer() {
                 href="https://www.instagram.com/mallowandmanor/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 border border-gray-200 flex items-center justify-center hover:bg-luxury-dark hover:text-white hover:border-luxury-dark transition-all"
+                className="w-9 h-9 border border-gray-200 flex items-center justify-center hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all"
                 aria-label="Instagram"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@ export default function Footer() {
                 href="https://www.tiktok.com/@mallowandmanor?lang=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 border border-gray-200 flex items-center justify-center hover:bg-luxury-dark hover:text-white hover:border-luxury-dark transition-all"
+                className="w-9 h-9 border border-gray-200 flex items-center justify-center hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all"
                 aria-label="TikTok"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -44,11 +44,11 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold tracking-widest uppercase mb-6">Shop</h4>
             <ul className="space-y-3 text-sm text-gray-500">
-              <li><Link to="/products" className="hover:text-luxury-dark transition-colors">All Products</Link></li>
-              <li><Link to="/products?category=bangles" className="hover:text-luxury-dark transition-colors">Bangles</Link></li>
-              <li><Link to="/products?category=nails" className="hover:text-luxury-dark transition-colors">Nails</Link></li>
-              <li><Link to="/products?category=abayas" className="hover:text-luxury-dark transition-colors">Abayas</Link></li>
-              <li><Link to="/products?category=necklaces" className="hover:text-luxury-dark transition-colors">Necklaces</Link></li>
+              <li><Link to="/products" className="hover:text-brand-dark transition-colors">All Products</Link></li>
+              <li><Link to="/products?category=bangles" className="hover:text-brand-dark transition-colors">Bangles</Link></li>
+              <li><Link to="/products?category=nails" className="hover:text-brand-dark transition-colors">Nails</Link></li>
+              <li><Link to="/products?category=abayas" className="hover:text-brand-dark transition-colors">Abayas</Link></li>
+              <li><Link to="/products?category=necklaces" className="hover:text-brand-dark transition-colors">Necklaces</Link></li>
             </ul>
           </div>
 
@@ -56,21 +56,21 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold tracking-widest uppercase mb-6">Company</h4>
             <ul className="space-y-3 text-sm text-gray-500">
-              <li><Link to="/about" className="hover:text-luxury-dark transition-colors">Our Story</Link></li>
-              <li><Link to="/blog" className="hover:text-luxury-dark transition-colors">Journal</Link></li>
-              <li><Link to="/contact" className="hover:text-luxury-dark transition-colors">Contact</Link></li>
-              <li><Link to="/favorites" className="hover:text-luxury-dark transition-colors">Wishlist</Link></li>
-              <li><Link to="/cart" className="hover:text-luxury-dark transition-colors">Cart</Link></li>
+              <li><Link to="/about" className="hover:text-brand-dark transition-colors">Our Story</Link></li>
+              <li><Link to="/blog" className="hover:text-brand-dark transition-colors">Journal</Link></li>
+              <li><Link to="/contact" className="hover:text-brand-dark transition-colors">Contact</Link></li>
+              <li><Link to="/favorites" className="hover:text-brand-dark transition-colors">Wishlist</Link></li>
+              <li><Link to="/cart" className="hover:text-brand-dark transition-colors">Cart</Link></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-          <p>&copy; 2026 Mallow & Manor. All rights reserved.</p>
+          <p>&copy; 2026 Gulwarena. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link to="#" className="hover:text-luxury-dark transition-colors">Privacy</Link>
-            <Link to="#" className="hover:text-luxury-dark transition-colors">Terms</Link>
+            <Link to="#" className="hover:text-brand-dark transition-colors">Privacy</Link>
+            <Link to="#" className="hover:text-brand-dark transition-colors">Terms</Link>
           </div>
         </div>
       </div>

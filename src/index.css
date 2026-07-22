@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-luxury-green: #2d5016;
-  --color-luxury-light: #f5f5f0;
-  --color-luxury-gold: #c9a96e;
-  --color-luxury-dark: #1a1a1a;
-  --font-family-luxury: "Poppins", sans-serif;
+  --color-brand-gold: #C9A84C;
+  --color-brand-dark: #1A1A1A;
+  --color-brand-light: #FAFAF8;
+  --color-brand-cream: #F5F0E8;
+  --font-family-brand: "Poppins", sans-serif;
 }
 
 body {
   background-color: #ffffff;
-  color: var(--color-luxury-dark);
-  font-family: var(--font-family-luxury);
+  color: var(--color-brand-dark);
+  font-family: var(--font-family-brand);
 }
 
 * {
-  font-family: var(--font-family-luxury);
+  font-family: var(--font-family-brand);
 }
 
 a {
@@ -31,12 +31,10 @@ button {
   transition: all 0.3s;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
