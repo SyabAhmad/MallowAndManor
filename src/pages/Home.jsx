@@ -36,9 +36,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
 
       {/* Featured Products */}
       <ProductsSection
-        products={products}
         onAddToCart={handleAddToCart}
-        productStats={productStats}
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
       />

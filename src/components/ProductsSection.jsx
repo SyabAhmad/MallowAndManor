@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchProducts } from "../lib/api";
 import ProductCard from "./ProductCard";
 
-export default function ProductsSection({ products = [], onAddToCart, productStats = {}, favorites = [], onToggleFavorite }) {
+export default function ProductsSection({ onAddToCart, favorites = [], onToggleFavorite }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const filteredProducts = (products || [])
-    .filter((product) => {
-      return selectedCategory === "all" || product.category === selectedCategory;
-    })
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 8);
+  useEffect(() => {
+    fetchProducts({ page: 1, limit: 8, sort: "latest" })
+      .then((data) => {
+        setProducts((data?.products || []).map(p => ({ ...p, id: p._id })));
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filteredProducts = (products || []).filter(
+    (p) => selectedCategory === "all" || p.category === selectedCategory
+  );
 
   return (
     <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto">
@@ -47,14 +56,17 @@ export default function ProductsSection({ products = [], onAddToCart, productSta
         </div>
       </div>
 
-      {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      {loading ? (
+        <div className="text-center py-20">
+          <div className="w-6 h-6 border-2 border-gray-300 border-t-brand-dark rounded-full animate-spin mx-auto" />
+        </div>
+      ) : filteredProducts.length > 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
               onAddToCart={() => onAddToCart(product)}
-              stats={productStats[product.id] || { views: 0, cartAdds: 0 }}
               isFavorite={favorites.some(f => f.id === product.id)}
               onToggleFavorite={onToggleFavorite}
             />
@@ -63,19 +75,19 @@ export default function ProductsSection({ products = [], onAddToCart, productSta
       ) : (
         <div className="text-center py-20">
           <p className="text-gray-400">
-            No products found. Try adjusting your filters.
+            No products found. Check back soon for new arrivals.
           </p>
         </div>
       )}
 
       {filteredProducts.length > 0 && (
         <div className="text-center mt-12">
-          <button
-            onClick={() => (window.location.href = "/products")}
-            className="text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-black pb-1 hover:text-brand-gold hover:border-brand-gold transition-colors"
+          <a
+            href="/products"
+            className="inline-block text-sm font-semibold tracking-wider uppercase border-b-2 border-brand-black pb-1 hover:text-brand-gold hover:border-brand-gold transition-colors"
           >
             View All Products
-          </button>
+          </a>
         </div>
       )}
     </section>
