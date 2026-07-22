@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 export default function OfferHeadline({
   text = "Free Delivery on Orders Over Rs. 5,000",
-  speed = 22,
+  speed = 300,
 }) {
   const [isPaused, setIsPaused] = useState(false);
-  const trackRef = useRef(null);
-  const repeats = 24;
+  const repeats = 8;
 
   return (
     <div
@@ -22,7 +21,6 @@ export default function OfferHeadline({
       aria-label="Offer banner"
     >
       <div
-        ref={trackRef}
         className="flex w-max whitespace-nowrap"
         style={{
           animationName: "marquee",
@@ -30,6 +28,7 @@ export default function OfferHeadline({
           animationIterationCount: "infinite",
           animationDuration: `${speed}s`,
           animationPlayState: isPaused ? "paused" : "running",
+          animationDirection: "reverse",
           willChange: "transform",
         }}
       >

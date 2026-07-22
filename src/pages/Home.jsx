@@ -10,7 +10,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
   return (
     <div>
       {/* Offer Banner */}
-      <OfferHeadline text="Free Delivery on Orders Over Rs. 5,000 · New Arrivals Just Dropped · Shop the Collection" speed={30} />
+      <OfferHeadline text="Free Delivery on Orders Over Rs. 5,000 · New Arrivals Just Dropped · Shop the Collection" />
 
       {/* Hero */}
       <HeroCarousel />
@@ -44,6 +44,45 @@ export default function Home({ products, categories, handleAddToCart, productSta
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
       />
+
+      {/* Second Offer Banner - Gold themed */}
+      <div
+        className="w-full overflow-hidden"
+        style={{
+          background: "linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 45%, #1a1a1a 100%)",
+          padding: "14px 0",
+        }}
+      >
+        <div
+          className="flex w-max whitespace-nowrap"
+          style={{
+            animationName: "marquee",
+            animationTimingFunction: "linear",
+            animationIterationCount: "infinite",
+            animationDuration: "280s",
+            animationDirection: "reverse",
+            willChange: "transform",
+          }}
+        >
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-3 px-10 text-xs font-bold tracking-[0.2em] uppercase select-none"
+                  style={{ color: "#C9A84C" }}
+                >
+                  <span
+                    className="w-2 h-2 rotate-45 shrink-0"
+                    style={{ backgroundColor: "#C9A84C" }}
+                  />
+                  Handcrafted with Love
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Location / Delivery Section */}
       <section className="py-20">
