@@ -285,7 +285,7 @@ export default function Home({ products, categories, handleAddToCart, productSta
             {/* Card 3 */}
             <div className="relative overflow-hidden rounded-sm h-[250px] group cursor-pointer bg-brand-black">
               <img
-                src="/image.webp"
+                src="/nails-art.webp"
                 alt="Nails"
                 className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
               />

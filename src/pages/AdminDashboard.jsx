@@ -130,8 +130,9 @@ export default function AdminDashboard() {
   const loadProducts = async () => {
     setLoading(true);
     try {
-      const data = await fetchProducts();
-      setProducts((data || []).map(p => ({ ...p, id: p._id })));
+      const data = await fetchProducts({ page: 1, limit: 100 });
+      const items = Array.isArray(data) ? data : (data?.products || []);
+      setProducts(items.map(p => ({ ...p, id: p._id })));
     } catch (err) { console.error("Error:", err); }
     setLoading(false);
   };
